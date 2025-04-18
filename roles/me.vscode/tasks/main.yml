@@ -1,0 +1,24 @@
+---
+# tasks file for me.vscode
+
+- name: Test if VS Code is installed
+  shell: command -v code || true
+  register: test_vscode
+
+- name: Download VS Code
+  when: test_vscode.stdout == ""
+  get_url:
+    url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+    dest: /tmp/vscode.deb
+
+- name: Install VS Code
+  when: test_vscode.stdout == ""
+  become: true
+  apt:
+    deb: /tmp/vscode.deb
+    state: present
+
+- name: Delete /tmp/vscode.deb
+  file:
+    path: /tmp/vscode.deb
+    state: absent

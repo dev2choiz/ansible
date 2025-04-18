@@ -1,0 +1,6 @@
+---
+roles:
+  - name: ansible.install-gcloud
+
+collections:
+  - name: community.general

@@ -1,0 +1,23 @@
+[global_config]
+  window_state = fullscreen
+[keybindings]
+  full_screen = <Super>F11
+  hide_window = <Super>a
+[profiles]
+  [[default]]
+    background_darkness = 0.7
+    background_type = transparent
+    font = JetBrainsMono Nerd Font 10
+    show_titlebar = False
+    scrollbar_position = hidden
+    use_system_font = False
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = default
+[plugins]

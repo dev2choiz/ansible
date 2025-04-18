@@ -1,0 +1,35 @@
+---
+# tasks file for me.golang
+
+- name: Test if golang is installed
+  shell: command -v go || true
+  register: test_go
+
+- name: Delete previous go installation
+  when: test_go.stdout == ""
+  become: true
+  file:
+    path: /usr/local/go
+    state: absent
+
+- name: Download golang archive
+  when: test_go.stdout == ""
+  get_url:
+    url: "https://go.dev/dl/go{{ var_golang_version }}.linux-amd64.tar.gz"
+    dest: /tmp/golang.tar.gz
+
+- name: Unarchive /tmp/golang.tar.gz
+  when: test_go.stdout == ""
+  become: true
+  unarchive:
+    src: /tmp/golang.tar.gz
+    dest: /usr/local
+
+- name: Delete /tmp/golang.tar.gz
+  when: test_go.stdout == ""
+  file:
+    path: /tmp/golang.tar.gz
+    state: absent
+
+- name: Install delve
+  shell: /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest

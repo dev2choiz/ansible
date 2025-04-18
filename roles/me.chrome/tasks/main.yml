@@ -1,0 +1,24 @@
+---
+# tasks file for me.chrome
+
+- name: Test if chrome installed
+  shell: command -v google-chrome || true
+  register: test_chrome
+
+- name: Download google-chrome-stable_current_amd64.deb
+  when: test_chrome.stdout == ""
+  get_url:
+    url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    dest: /tmp/google-chrome-stable_current_amd64.deb
+
+- name: Install google chrome
+  when: test_chrome.stdout == ""
+  become: true
+  apt:
+    deb: /tmp/google-chrome-stable_current_amd64.deb
+    state: present
+
+- name: Delete /tmp/google-chrome-stable_current_amd64.deb
+  file:
+    path: /tmp/google-chrome-stable_current_amd64.deb
+    state: absent

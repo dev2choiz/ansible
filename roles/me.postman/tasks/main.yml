@@ -1,0 +1,13 @@
+---
+# tasks file for me.postman
+
+- name: Test if postman is installed
+  shell: command -v postman || true
+  register: test_postman
+
+- name: Install postman with snap
+  become: true
+  snap:
+    name:
+      - postman
+

@@ -1,0 +1,54 @@
+---
+# tasks file for me.zsh
+
+- name: Install zsh
+  become: true
+  apt:
+    name:
+      - zsh
+    state: present
+
+- name: Install Oh My Zsh
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: ~/.oh-my-zsh
+    depth: 1
+
+- name: Read ~/.zshrc
+  shell: cat ~/.zshrc || true
+  register: zshrc_content
+
+- name: Create ~/.zshrc
+  #when: zshrc_content.stdout.find('MANAGED BY me.zsh ANSIBLE ROLE') == -1
+  template:
+    src: templates/.zshrc
+    dest: ~/.zshrc
+
+- name: Copy zshrc.d/*
+  copy:
+    src: ./files/zshrc.d/
+    dest: ~/.zshrc.d/
+
+- name: Install zsh-autosuggestions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    depth: 1
+
+- name: Install zsh-completions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-completions
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-completions
+    depth: 1
+
+- name: Install zsh-syntax-highlighting plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    depth: 1
+
+- name: Install ollama plugin
+  git:
+    repo: https://github.com/ocodo/ollama_zsh_completion/
+    dest: ~/.oh-my-zsh/custom/plugins/ollama
+    depth: 1

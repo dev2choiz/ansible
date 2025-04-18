@@ -1,0 +1,61 @@
+---
+# tasks file for me.jetbrains_toolbox
+
+- name: Test if jetbrains-toolbox is installed
+  shell: command -v jetbrains-toolbox || true
+  register: test_jbtoolbox
+
+- name: Download jetbrains-toolbox.tar.gz
+  when: test_jbtoolbox.stdout == ""
+  get_url:
+    url: https://data.services.jetbrains.com/products/download?platform=linux&code=TBA
+    dest: /tmp/jetbrains-toolbox.tar.gz
+
+- name: Create /tmp/jetbrains-toolbox/
+  when: test_jbtoolbox.stdout == ""
+  become: true
+  file:
+    name: /tmp/jetbrains-toolbox/
+    state: directory
+
+- name: Unarchive /tmp/jetbrains-toolbox.tag.gz
+  when: test_jbtoolbox.stdout == ""
+  become: true
+  unarchive:
+    src: /tmp/jetbrains-toolbox.tar.gz
+    dest: /tmp/jetbrains-toolbox/
+
+- name: Find 'jetbrains-toolbox' binary
+  when: test_jbtoolbox.stdout == ""
+  find:
+    paths: /tmp/jetbrains-toolbox
+    file_type: file
+    recurse: true
+    use_regex: true
+    patterns: ['jetbrains-toolbox']
+  register: binary_file
+
+- name: Copy the binary in /usr/local/bin/
+  when: test_jbtoolbox.stdout == ""
+  become: true
+  copy:
+    src: "{{item.path}}"
+    dest: "/usr/local/bin/"
+    owner: "root"
+    mode: 0775
+  with_items: "{{binary_file.files}}"
+
+
+- name: Delete /tmp/jetbrains-toolbox.tag.gz
+  when: test_jbtoolbox.stdout == ""
+  become: true
+  file:
+    name: /tmp/jetbrains-toolbox.tar.gz
+    state: absent
+
+- name: Delete /tmp/jetbrains-toolbox
+  when: test_jbtoolbox.stdout == ""
+  become: true
+  file:
+    name: /tmp/jetbrains-toolbox
+    state: absent

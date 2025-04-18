@@ -1,0 +1,24 @@
+---
+# tasks file for me.gotop
+
+- name: Test if gotop installed
+  shell: command -v gotop || true
+  register: test_gotop
+
+- name: Clone gotop
+  when: test_gotop.stdout == ""
+  git:
+    repo: https://github.com/cjbassi/gotop
+    dest: /tmp/gotop
+    depth: 1
+
+- name: Download gotop
+  when: test_gotop.stdout == ""
+  command:
+    cmd: /tmp/gotop/scripts/download.sh
+
+- name: Move gotop to /usr/local/bin
+  when: test_gotop.stdout == ""
+  become: true
+  command:
+    cmd: mv gotop /usr/local/bin/gotop

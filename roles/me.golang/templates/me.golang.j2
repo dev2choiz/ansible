@@ -1,0 +1,9 @@
+#!/bin/sh
+
+### MANAGED BY me.golang ANSIBLE ROLE
+
+export GOROOT='/usr/local/go'
+export PATH=$GOROOT/bin:$PATH
+
+export GOPATH="/home/{{ lookup('env', 'USER') }}/go"
+export PATH=$GOPATH/bin:$PATH

@@ -1,0 +1,18 @@
+---
+# tasks file for me.terminator
+- name: Install terminator
+  become: true
+  apt:
+    name:
+      - terminator
+    state: present
+
+- name: Create ~/.config/terminator if not exists
+  file:
+    path: ~/.config/terminator
+    state: directory
+
+- name: Copy ./files/terminator/config to ~/.config/terminator/config
+  copy:
+    src: ./files/terminator/config
+    dest: ~/.config/terminator/config

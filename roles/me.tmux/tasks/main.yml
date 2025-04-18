@@ -1,0 +1,28 @@
+---
+# tasks file for me.tmux
+
+- name: Install tmux
+  become: true
+  apt:
+    name:
+      - tmux
+      #- fonts-jetbrains-mono
+    state: present
+
+- name: Install Tmux Plugin Manager
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: ~/.tmux/plugins/tpm
+
+- name: Configure tmux
+  copy:
+    src: ./files/tmux/.tmux.conf
+    dest: ~/.tmux.conf
+
+- name: Install tmux plugins
+  shell: ~/.tmux/plugins/tpm/bin/install_plugins
+
+- name: Copy setup folder in ~/
+  copy:
+    src: ./files/setup
+    dest: ~/

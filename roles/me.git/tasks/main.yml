@@ -1,0 +1,58 @@
+---
+# tasks file for me.git
+
+- name: Git global .gitignore
+  community.general.git_config:
+    name: core.excludesfile
+    value: "{{ ansible_env.HOME }}/setup/.gitignore"
+    scope: global
+
+- name: Git text editor
+  community.general.git_config:
+    name: core.editor
+    scope: global
+    value: vim
+
+- name: Git pull rebase
+  community.general.git_config:
+    name: pull.rebase
+    scope: global
+    value: true
+
+- name: Git configure email
+  when: var_git_email is defined and var_git_email != ''
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "{{ var_git_email }}"
+
+- name: Git configure username
+  when: var_git_username is defined and var_git_username != ''
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: "{{ var_git_username }}"
+
+- name: Install lazygit
+  shell: /usr/local/go/bin/go install github.com/jesseduffield/lazygit@latest
+
+- name: Test if git-lfs is installed
+  shell: command -v git-lfs || true
+  register: test_git_lsf
+
+- name: Install git-lfs repository
+  become: true
+  when: test_git_lsf.stdout == ""
+  shell: curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+
+- name: Install git-lfs
+  become: true
+  when: test_git_lsf.stdout == ""
+  apt:
+    name:
+      - git-lfs
+    update_cache: true
+    state: present
+
+- name: Install git lfs
+  shell: git lfs install

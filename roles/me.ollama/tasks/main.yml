@@ -1,0 +1,13 @@
+---
+# tasks file for me.ollama
+
+- name: Test if ollama is installed
+  shell: command -v ollama || true
+  register: test_ollama
+
+- name: Install ollama
+  when: test_ollama.stdout == ""
+  shell: curl -fsSL https://ollama.com/install.sh | sh
+
+- name: Install huggingface-cli
+  shell: pip install -U "huggingface_hub[cli]" --break-system-packages

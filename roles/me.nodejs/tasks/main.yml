@@ -1,0 +1,21 @@
+---
+# tasks file for me.nodejs
+
+- name: Test if node is installed
+  shell: command -v node || true
+  register: test_node
+
+
+- name: Run nodejs setup script
+  when: test_node.stdout == ""
+  become: true
+  shell: |
+    curl -fsSL https://deb.nodesource.com/setup_{{ var_nodejs_version }}.x | sudo -E bash -
+
+- name: Install nodejs
+  when: test_node.stdout == ""
+  become: true
+  apt:
+    name:
+      - nodejs
+    state: latest

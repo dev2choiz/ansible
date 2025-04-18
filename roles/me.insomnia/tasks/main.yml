@@ -1,0 +1,12 @@
+---
+# tasks file for me.insomnia
+
+- name: Test if insomnia is installed
+  shell: command -v insomnia || true
+  register: test_insomnia
+
+- name: Install insomnia with snap
+  become: true
+  snap:
+    name:
+      - insomnia

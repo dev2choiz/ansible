@@ -1,0 +1,25 @@
+---
+# tasks file for me.fzf
+#https://github.com/junegunn/fzf/releases/download/v0.60.3/fzf-0.60.3-linux_arm64.tar.gz
+
+- name: Test if golang is installed
+  shell: command -v fzf || true
+  register: test_fzf
+
+- name: Download fzf binary
+  when: test_fzf.stdout == ""
+  get_url:
+    url: https://github.com/junegunn/fzf/releases/download/v0.60.3/fzf-0.60.3-linux_amd64.tar.gz
+    dest: /tmp/fzf.tar.gz
+
+- name: Unarchive /tmp/fzf.tar.gz
+  when: test_fzf.stdout == ""
+  become: true
+  unarchive:
+    src: /tmp/fzf.tar.gz
+    dest: /usr/local/bin
+
+- name: Delete /tmp/fzf.tar.gz
+  file:
+    path: /tmp/fzf.tar.gz
+    state: absent

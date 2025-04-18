@@ -1,0 +1,61 @@
+- hosts: localhost
+  vars_files: vars/main.yml
+
+  pre_tasks:
+    - name: install dependencies
+      become: true
+      apt:
+        name:
+          - git
+          - vim
+          - curl
+          - snapd
+          - wget
+          - lsof
+          # for gcloud
+          - python3
+          # for terraform
+          - gnupg
+          - software-properties-common
+          #- apt-transport-https
+          - fonts-jetbrains-mono
+          # for neovim
+          - build-essential
+          - ripgrep
+          - fd-find
+          - sqlite3
+          # other
+          - python3-pip
+          - python3-full
+          - pipx
+        update_cache: true
+        state: present
+
+    - name: Create ~/sources
+      file:
+        path: ~/sources
+        state: directory
+
+  roles:
+    - role: me.golang
+    - role: me.git
+    - role: me.docker
+    - role: me.font
+    - role: me.terminator
+    - role: me.nvim
+    - role: me.tmux
+    - role: me.fzf
+    - role: me.zsh
+    - role: me.chrome
+    - role: me.jetbrains_toolbox
+    - role: me.terraform
+    - role: me.devtoys
+    - role: me.postman
+    - role: me.insomnia
+    - role: me.dbeaver
+    - role: me.samba
+    - role: me.gotop
+    - role: me.nodejs
+    - role: me.gcloud
+    - role: me.vscode
+    - role: me.ollama

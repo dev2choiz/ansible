@@ -1,0 +1,9 @@
+var_golang_version: '1.24.2'
+var_golang_gopath: '{{ ansible_env.HOME }}/go'
+var_nodejs_version: '22'
+
+var_samba_user: 'john'
+var_samba_password: 'secret'
+
+var_git_email: 'john@gmail.com'
+var_git_username: 'john'

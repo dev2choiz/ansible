@@ -1,0 +1,35 @@
+---
+# tasks file for me.font
+- name: Test if jetbrains-mono-nerd installed
+  stat:
+    path: /usr/share/fonts/truetype/jetbrains-mono-nerd
+  register: stat_fontdir
+
+- name: Download font
+  when: not stat_fontdir.stat.exists
+  get_url:
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip
+    dest: /tmp/jetbrains-mono-nerd.zip
+- name: Create /tmp/jetbrains-mono-nerd/
+  when: not stat_fontdir.stat.exists
+  become: true
+  file:
+    path: /tmp/jetbrains-mono-nerd/
+    state: directory
+- name: Unarchive /tmp/jetbrains-mono-nerd.zip
+  when: not stat_fontdir.stat.exists
+  become: true
+  unarchive:
+    src: /tmp/jetbrains-mono-nerd.zip
+    dest: /tmp/jetbrains-mono-nerd/
+- name: Copy /tmp/jetbrains-mono-nerd to /usr/share/fonts/truetype/
+  when: not stat_fontdir.stat.exists
+  become: true
+  copy:
+    src: /tmp/jetbrains-mono-nerd
+    dest: /usr/share/fonts/truetype/
+- name: Delete /tmp/jetbrains-mono-nerd
+  become: true
+  file:
+    path: /tmp/jetbrains-mono-nerd
+    state: absent
