@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+STARTTIME=$(date +%s)
 
 if [ "$USER" == "root" ]; then
     echo "This script should not be ran as root."
@@ -16,3 +18,6 @@ make start
 if [ -f ./custom/install.sh ]; then
   ./custom/install.sh
 fi
+
+ENDTIME=$(date +%s)
+echo "Execution duration: $(($ENDTIME - $STARTTIME))s"

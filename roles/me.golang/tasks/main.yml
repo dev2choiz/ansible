@@ -2,7 +2,7 @@
 # tasks file for me.golang
 
 - name: Test if golang is installed
-  shell: command -v go || true
+  shell: command -v /usr/local/go/bin/go || true
   register: test_go
 
 - name: Delete previous go installation

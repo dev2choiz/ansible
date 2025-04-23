@@ -12,12 +12,13 @@
           - snapd
           - wget
           - lsof
+          - libfuse2
           # for gcloud
           - python3
           # for terraform
           - gnupg
           - software-properties-common
-          #- apt-transport-https
+          - apt-transport-https
           - fonts-jetbrains-mono
           # for neovim
           - build-essential
