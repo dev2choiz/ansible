@@ -38,6 +38,7 @@
         state: directory
 
   roles:
+    - role: me.ollama
     - role: me.golang
     - role: me.git
     - role: me.docker
@@ -59,4 +60,4 @@
     - role: me.nodejs
     - role: me.gcloud
     - role: me.vscode
-    - role: me.ollama
+    - role: me.libreoffice

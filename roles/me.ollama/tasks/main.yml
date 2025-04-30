@@ -1,6 +1,9 @@
 ---
 # tasks file for me.ollama
 
+- name: Install huggingface-cli
+  shell: pip install -U "huggingface_hub[cli]" --break-system-packages
+
 - name: Test if ollama is installed
   shell: command -v ollama || true
   register: test_ollama
@@ -9,5 +12,14 @@
   when: test_ollama.stdout == ""
   shell: curl -fsSL https://ollama.com/install.sh | sh
 
-- name: Install huggingface-cli
-  shell: pip install -U "huggingface_hub[cli]" --break-system-packages
+- name: Creates ollama config override directory
+  become: true
+  file:
+    path: /etc/systemd/system/ollama.service.d
+    state: directory
+
+- name: Configure ollama
+  become: true
+  copy:
+    src: ollama/config.conf
+    dest: /etc/systemd/system/ollama.service.d/config.conf

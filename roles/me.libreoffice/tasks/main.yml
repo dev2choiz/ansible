@@ -1,0 +1,9 @@
+---
+# tasks file for me.libreoffice
+
+- name: Install libre office
+  apt:
+    name:
+      - libreoffice
+    update_cache: true
+    state: present
