@@ -6,15 +6,16 @@
 
 ---@type LazySpec
 return {
-  "AstroNvim/astrocommunity",
-  { import = "astrocommunity.pack.lua" },
-  -- import/override with your plugins folder
-  { import = "astrocommunity.colorscheme.dracula-nvim" },
-  --{ import = "astrocommunity.colorscheme.catppuccin" },
-  { import = "astrocommunity.pack.go" },
-  { import = "astrocommunity.pack.typescript" },
-  { import = "astrocommunity.pack.docker" },
-  { import = "astrocommunity.utility.noice-nvim" },
-  --- https://github.com/mg979/vim-visual-multi/blob/a6975e7c1ee157615bbc80fc25e4392f71c344d4/doc/visual-multi.txt
-  { import = "astrocommunity.editing-support.vim-visual-multi" },
+	"AstroNvim/astrocommunity",
+	{ import = "astrocommunity.pack.lua" },
+	-- import/override with your plugins folder
+	{ import = "astrocommunity.colorscheme.dracula-nvim" },
+	{ import = "astrocommunity.colorscheme.gruvbox-nvim" },
+	{ import = "astrocommunity.colorscheme.catppuccin" },
+	{ import = "astrocommunity.pack.go" },
+	{ import = "astrocommunity.pack.typescript" },
+	{ import = "astrocommunity.pack.docker" },
+	{ import = "astrocommunity.utility.noice-nvim" },
+	--- https://github.com/mg979/vim-visual-multi/blob/a6975e7c1ee157615bbc80fc25e4392f71c344d4/doc/visual-multi.txt
+	{ import = "astrocommunity.editing-support.vim-visual-multi" },
 }

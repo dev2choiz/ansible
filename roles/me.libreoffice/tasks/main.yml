@@ -2,6 +2,7 @@
 # tasks file for me.libreoffice
 
 - name: Install libre office
+  become: true
   apt:
     name:
       - libreoffice
