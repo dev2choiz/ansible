@@ -5,6 +5,8 @@
     - name: install dependencies
       become: true
       apt:
+        update_cache: true
+        state: present
         name:
           - git
           - vim
@@ -20,17 +22,10 @@
           - software-properties-common
           - apt-transport-https
           - fonts-jetbrains-mono
-          # for neovim
-          - build-essential
-          - ripgrep
-          - fd-find
-          - sqlite3
           # other
           - python3-pip
           - python3-full
           - pipx
-        update_cache: true
-        state: present
 
     - name: Create ~/sources
       file:
@@ -45,6 +40,7 @@
     - role: me.font
     - role: me.terminator
     - role: me.nvim
+      tags: nvim
     - role: me.tmux
     - role: me.fzf
     - role: me.zsh

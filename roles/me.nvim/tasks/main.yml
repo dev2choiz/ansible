@@ -3,6 +3,18 @@
 
 # Install neovim and astronvim
 
+- name: install nvim dependencies
+  become: true
+  apt:
+    update_cache: true
+    state: present
+    name:
+      - build-essential
+      - ripgrep
+      - fd-find
+      - sqlite3
+      - xclip
+
 - name: Test if nvim is installed
   shell: command -v nvim || true
   register: test_nvim

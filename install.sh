@@ -3,7 +3,7 @@
 STARTTIME=$(date +%s)
 
 if [ "$USER" == "root" ]; then
-    echo "This script should not be ran as root."
+    echo "This script should not be run as root."
     exit 1
 fi
 
@@ -13,7 +13,8 @@ if [ ! -f ./vars/main.yml ]; then
 fi
 
 sudo apt install -y make ansible
-make start
+ansible-galaxy install -r requirements.yml
+ansible-playbook playbook.yml
 
 if [ -f ./custom/install.sh ]; then
   ./custom/install.sh
