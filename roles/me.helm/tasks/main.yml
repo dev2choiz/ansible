@@ -1,0 +1,38 @@
+---
+# tasks file for me.helm
+
+- name: Download Helm archive
+  ansible.builtin.get_url:
+    url: "{{ helm_download_url }}"
+    dest: "{{ helm_archive_path }}"
+    mode: '0644'
+  register: helm_download
+
+- name: Check if Helm binary already extracted
+  ansible.builtin.stat:
+    path: /tmp/linux-amd64/helm
+  register: helm_file_stat
+
+- name: Extract Helm binary
+  ansible.builtin.unarchive:
+    src: "{{ helm_archive_path }}"
+    dest: /tmp/
+    remote_src: yes
+  when: helm_download.changed or not helm_file_stat.stat.exists
+
+- name: Move Helm binary to /usr/local/bin
+  ansible.builtin.command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
+  become: yes
+  args:
+    creates: /usr/local/bin/helm
+
+- name: Ensure Helm binary is executable
+  ansible.builtin.file:
+    path: /usr/local/bin/helm
+    mode: '0755'
+    state: file
+
+- name: Clean extracted directory
+  ansible.builtin.file:
+    path: /tmp/linux-amd64
+    state: absent

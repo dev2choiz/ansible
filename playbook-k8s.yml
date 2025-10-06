@@ -1,0 +1,74 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  vars_files:
+    - vars/main.yml
+  vars:
+    # k3s
+    ansible_host_key_checking: false
+    k3s_become: true
+    # k9s
+    k9s_deb_url: "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb"
+    k9s_deb_path: "/tmp/k9s_linux_amd64.deb"
+
+  roles:
+    - role: me.helm
+    - role: xanmanning.k3s
+      become: true
+      vars:
+        k3s_server:
+          flannel_backend: "none"
+          disable_network_policy: true
+          #disable: ["traefik"]
+
+  tasks:
+    - name: Ensure .kube directory exists
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user_id }}/.kube"
+        state: directory
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_gid }}"
+        mode: '0755'
+
+    - name: Copy k3s kubeconfig to user home
+      ansible.builtin.copy:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: "/home/{{ ansible_user_id }}/.kube/config"
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_gid }}"
+        mode: '0600'
+        remote_src: true
+      become: true
+
+#    - name: Add Cilium Helm repository
+#      ansible.builtin.shell: >
+#        helm repo add cilium https://helm.cilium.io/
+#
+#    - name: Update Helm repositories
+#      ansible.builtin.shell: >
+#        helm repo update
+#
+#    - name: Install Cilium+Hubble via Helm
+#      ansible.builtin.shell: >
+#        helm upgrade --install cilium cilium/cilium
+#        --namespace kube-system
+#        --create-namespace
+#        --set kubeProxyReplacement=true
+#        --set enableIPv4Masquerade=true
+#        --set enableBPFMasquerade=true
+#        --set hubble.relay.enabled=true
+#        --set hubble.ui.enabled=true
+#        --set hubble.metrics.enableOpenMetrics=true
+
+    - name: Download k9s .deb package
+      ansible.builtin.get_url:
+        url: "{{ k9s_deb_url }}"
+        dest: "{{ k9s_deb_path }}"
+        mode: '0644'
+
+    - name: Install k9s package
+      ansible.builtin.apt:
+        deb: "{{ k9s_deb_path }}"
+        state: present
+        update_cache: yes
+      become: true
