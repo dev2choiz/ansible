@@ -7,3 +7,5 @@ roles:
 
 collections:
   - name: community.general
+  - name: kubernetes.core
+    version: ">=6.1.0"

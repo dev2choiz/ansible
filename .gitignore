@@ -2,3 +2,4 @@
 ai
 custom
 vars/main.yml
+vars/k8s.secrets.yml

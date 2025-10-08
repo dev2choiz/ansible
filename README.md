@@ -8,5 +8,6 @@ This script works for debian and ubuntu.
 ### Run
 
 ```bash
-./install.sh
+# by being at the root of the project
+./scripts/install.sh
 ```

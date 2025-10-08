@@ -1,0 +1,61 @@
+---
+- name: Ensure namespace exists
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: "{{ grafana_namespace }}"
+    state: present
+
+- name: Add Loki datasource ConfigMap for Grafana
+  kubernetes.core.k8s:
+    state: present
+    namespace: "{{ grafana_namespace }}"
+    definition:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: grafana-datasources
+        labels:
+          grafana_datasource: "1"
+      data:
+        loki.yaml: |
+          apiVersion: 1
+          datasources:
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki:3100
+              isDefault: false
+              version: 1
+              jsonData: {}
+
+- name: Add Grafana Helm repo
+  kubernetes.core.helm_repository:
+    name: grafana
+    repo_url: https://grafana.github.io/helm-charts
+
+- name: Update Helm repos
+  ansible.builtin.command: helm repo update
+  changed_when: false
+
+- name: Deploy Loki
+  kubernetes.core.helm:
+    name: loki
+    chart_ref: grafana/loki
+    namespace: "{{ grafana_namespace }}"
+    values: "{{ loki_values }}"
+    state: present
+
+- name: Deploy Promtail
+  kubernetes.core.helm:
+    name: promtail
+    chart_ref: grafana/promtail
+    namespace: "{{ grafana_namespace }}"
+    values: "{{ promtail_values }}"
+
+- name: Deploy Grafana
+  kubernetes.core.helm:
+    name: grafana
+    chart_ref: grafana/grafana
+    namespace: "{{ grafana_namespace }}"
+    values: "{{ grafana_values }}"
