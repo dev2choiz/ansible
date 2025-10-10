@@ -3,18 +3,18 @@
   kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
-    name: "{{ grafana_namespace }}"
+    name: "{{ monitoring_namespace }}"
     state: present
 
 - name: Add Loki datasource ConfigMap for Grafana
   kubernetes.core.k8s:
     state: present
-    namespace: "{{ grafana_namespace }}"
+    namespace: "{{ monitoring_namespace }}"
     definition:
       apiVersion: v1
       kind: ConfigMap
       metadata:
-        name: grafana-datasources
+        name: grafana-datasources-loki
         labels:
           grafana_datasource: "1"
       data:
@@ -29,33 +29,40 @@
               version: 1
               jsonData: {}
 
+- name: Add Prometheus Helm repo
+  kubernetes.core.helm_repository:
+    name: prometheus-community
+    repo_url: https://prometheus-community.github.io/helm-charts
+    state: present
+
 - name: Add Grafana Helm repo
   kubernetes.core.helm_repository:
     name: grafana
     repo_url: https://grafana.github.io/helm-charts
 
-- name: Update Helm repos
+- name: Update all Helm repos
   ansible.builtin.command: helm repo update
   changed_when: false
+
+- name: Deploy kube-prometheus-stack
+  kubernetes.core.helm:
+    name: kube-prometheus-stack
+    chart_ref: prometheus-community/kube-prometheus-stack
+    namespace: "{{ monitoring_namespace }}"
+    values: "{{ lookup('template', 'values-kps.yml.j2') | from_yaml }}"
+    #wait: true
 
 - name: Deploy Loki
   kubernetes.core.helm:
     name: loki
     chart_ref: grafana/loki
-    namespace: "{{ grafana_namespace }}"
-    values: "{{ loki_values }}"
+    namespace: "{{ monitoring_namespace }}"
+    values: "{{ lookup('template', 'values-loki.yml.j2') | from_yaml }}"
     state: present
 
 - name: Deploy Promtail
   kubernetes.core.helm:
     name: promtail
     chart_ref: grafana/promtail
-    namespace: "{{ grafana_namespace }}"
-    values: "{{ promtail_values }}"
-
-- name: Deploy Grafana
-  kubernetes.core.helm:
-    name: grafana
-    chart_ref: grafana/grafana
-    namespace: "{{ grafana_namespace }}"
-    values: "{{ grafana_values }}"
+    namespace: "{{ monitoring_namespace }}"
+    values: "{{ lookup('template', 'values-promtail.yml.j2') | from_yaml }}"

@@ -1,0 +1,10 @@
+grafana:
+  adminPassword: "{{ grafana_password }}"
+  service:
+    type: NodePort
+    nodePort: 30300
+
+prometheus:
+  service:
+    type: NodePort
+    nodePort: 30900

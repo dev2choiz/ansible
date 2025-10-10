@@ -1,4 +1,4 @@
-grafana_namespace: monitoring
+monitoring_namespace: monitoring
 
 # https://grafana.com/docs/loki/latest/setup/install/helm/install-monolithic/#single-replica
 loki_values:
@@ -52,22 +52,6 @@ loki_values:
   bloomGateway:
     replicas: 0
 
-grafana_values:
-  adminUser: admin
-  adminPassword: "{{ grafana_password }}"
-  persistence:
-    enabled: true
-    storageClassName: local-path
-    size: 5Gi
-  service:
-    type: NodePort
-    nodePort: 30300
-  sidecar:
-    datasources:
-      enabled: true
-      label: "grafana_datasource"
-      labelValue: "1"
-
 promtail_values:
   loki:
     serviceName: loki
@@ -84,3 +68,11 @@ promtail_values:
             level:
             method:
             url:
+
+prometheus_values:
+  alertmanager:
+    enabled: false
+  server:
+    service:
+      type: ClusterIP
+      servicePort: 9090

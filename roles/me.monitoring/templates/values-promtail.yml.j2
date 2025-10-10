@@ -1,0 +1,15 @@
+loki:
+  serviceName: loki
+config:
+  snippets:
+    pipelineStages:
+      - cri: {}
+      - json:
+          expressions:
+            level: level
+            method: method
+            url: url
+      - labels:
+          level:
+          method:
+          url:

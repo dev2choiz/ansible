@@ -38,11 +38,13 @@
     - role: me.git
     - role: me.docker
     - role: me.font
+      tags: nvim
     - role: me.terminator
     - role: me.nvim
       tags: nvim
     - role: me.tmux
     - role: me.fzf
+      tags: nvim
     - role: me.zsh
     - role: me.chrome
     - role: me.jetbrains_toolbox
