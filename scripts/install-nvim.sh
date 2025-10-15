@@ -12,4 +12,5 @@ ansible-galaxy install -r requirements.yml
 ansible-playbook playbook.yml --tags nvim
 
 ENDTIME=$(date +%s)
-echo "Execution duration: $(($ENDTIME - $STARTTIME))s"
+DURATION=$((ENDTIME - STARTTIME))
+echo "Execution duration: ${DURATION}s"

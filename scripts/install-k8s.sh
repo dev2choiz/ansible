@@ -8,8 +8,10 @@ if [ "$USER" == "root" ]; then
 fi
 
 sudo apt install -y ansible
+sudo apt install -y python3-kubernetes
 ansible-galaxy install -r requirements.yml
 ansible-playbook playbook-k8s.yml
 
 ENDTIME=$(date +%s)
-echo "Execution duration: $(($ENDTIME - $STARTTIME))s"
+DURATION=$((ENDTIME - STARTTIME))
+echo "Execution duration: ${DURATION}s"

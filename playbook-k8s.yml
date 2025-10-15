@@ -13,39 +13,45 @@
     k9s_deb_url: "https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb"
     k9s_deb_path: "/tmp/k9s_linux_amd64.deb"
 
-  roles:
-    - role: me.helm
-    - role: xanmanning.k3s
+  pre_tasks:
+    # Local registry
+    - name: Ensure K3s config directory exists
       become: true
-      vars:
-        k3s_server:
-          flannel_backend: "none"
-          disable_network_policy: true
-          #disable: ["traefik"]
-    - role: me.kubeconfig
+      file:
+        path: /etc/rancher/k3s
+        state: directory
+        mode: '0755'
+    - name: Create registries.yaml for K3s
+      become: true
+      copy:
+        dest: /etc/rancher/k3s/registries.yaml
+        content: |
+          mirrors:
+            "localregistry:5000":
+              endpoint:
+                - "http://localregistry:5000"
+        owner: root
+        group: root
+        mode: '0644'
+
+  roles:
+#    - role: me.helm
+#    - role: xanmanning.k3s
+#      become: true
+#      vars:
+#        k3s_server:
+#          #flannel_backend: "none"
+#          #disable_network_policy: true
+#          #cluster_cidr: "{{ cluster_cidr }}"
+#          #disable: ["traefik"]
+#
+#          flannel_backend: "vxlan"
+#          disable_network_policy: true
+#          #disable: ["traefik"]
+#    - role: me.kubeconfig
     - role: me.monitoring
 
   tasks:
-#    - name: Add Cilium Helm repository
-#      ansible.builtin.shell: >
-#        helm repo add cilium https://helm.cilium.io/
-#
-#    - name: Update Helm repositories
-#      ansible.builtin.shell: >
-#        helm repo update
-#
-#    - name: Install Cilium+Hubble via Helm
-#      ansible.builtin.shell: >
-#        helm upgrade --install cilium cilium/cilium
-#        --namespace kube-system
-#        --create-namespace
-#        --set kubeProxyReplacement=true
-#        --set enableIPv4Masquerade=true
-#        --set enableBPFMasquerade=true
-#        --set hubble.relay.enabled=true
-#        --set hubble.ui.enabled=true
-#        --set hubble.metrics.enableOpenMetrics=true
-
     - name: Download k9s .deb package
       ansible.builtin.get_url:
         url: "{{ k9s_deb_url }}"
@@ -58,3 +64,70 @@
         state: present
         update_cache: yes
       become: true
+
+    - name: Add the official k6 GPG key
+      ansible.builtin.apt_key:
+        url: https://dl.k6.io/key.gpg
+        state: present
+      become: true
+    - name: Add the official k6 APT repository
+      ansible.builtin.apt_repository:
+        repo: "deb https://dl.k6.io/deb stable main"
+        state: present
+      become: true
+    - name: Update APT packages
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      become: true
+    - name: Install k6
+      ansible.builtin.apt:
+        name: k6
+        state: present
+      become: true
+
+
+    # https://github.com/kubernetes/dashboard/
+    # https://github.com/kubernetes/dashboard/blob/master/docs/user/accessing-dashboard/README.md
+    - name: Add Kubernetes Dashboard Helm repo
+      kubernetes.core.helm_repository:
+        name: kubernetes-dashboard
+        repo_url: "https://kubernetes.github.io/dashboard/"
+        state: present
+    - name: Update all Helm repos
+      ansible.builtin.command: helm repo update
+      changed_when: false
+    - name: Install/Upgrade Kubernetes Dashboard
+      kubernetes.core.helm:
+        name: "kubernetes-dashboard"
+        chart_ref: "kubernetes-dashboard/kubernetes-dashboard"
+        namespace: "kubernetes-dashboard"
+        create_namespace: true
+        state: present
+        values:
+          metricsScraper:
+            enabled: true
+    - name: Create admin-user ServiceAccount and ClusterRoleBinding
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: List
+          items:
+            - apiVersion: v1
+              kind: ServiceAccount
+              metadata:
+                name: admin-user
+                namespace: kubernetes-dashboard
+            - apiVersion: rbac.authorization.k8s.io/v1
+              kind: ClusterRoleBinding
+              metadata:
+                name: admin-user
+              roleRef:
+                apiGroup: rbac.authorization.k8s.io
+                kind: ClusterRole
+                name: cluster-admin
+              subjects:
+                - kind: ServiceAccount
+                  name: admin-user
+                  namespace: kubernetes-dashboard

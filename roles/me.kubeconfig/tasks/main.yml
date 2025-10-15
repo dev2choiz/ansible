@@ -16,3 +16,55 @@
     mode: '0600'
     remote_src: true
   become: true
+
+- name: Ensure cluster.local is in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 cluster.local"
+    state: present
+    create: yes
+  become: true
+- name: Ensure localregistry is in /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 localregistry"
+    state: present
+    create: yes
+  become: true
+- name: Ensure /etc/docker exists
+  file:
+    path: /etc/docker
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Configure Docker insecure registry
+  copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+        "insecure-registries": ["localregistry:5000"]
+      }
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Ensure /etc/rancher/k3s exists
+  file:
+    path: /etc/rancher/k3s
+    state: directory
+    mode: '0755'
+  become: true
+- name: Configure k3s registry mirror
+  copy:
+    dest: /etc/rancher/k3s/registries.yaml
+    content: |
+      mirrors:
+        "localregistry:5000":
+          endpoint:
+            - "http://localregistry:5000"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true

@@ -1,10 +1,12 @@
 ---
 - name: Ensure namespace exists
   kubernetes.core.k8s:
-    api_version: v1
-    kind: Namespace
-    name: "{{ monitoring_namespace }}"
     state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ monitoring_namespace }}"
 
 - name: Add Loki datasource ConfigMap for Grafana
   kubernetes.core.k8s:
@@ -50,7 +52,6 @@
     chart_ref: prometheus-community/kube-prometheus-stack
     namespace: "{{ monitoring_namespace }}"
     values: "{{ lookup('template', 'values-kps.yml.j2') | from_yaml }}"
-    #wait: true
 
 - name: Deploy Loki
   kubernetes.core.helm:

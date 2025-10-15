@@ -21,4 +21,5 @@ if [ -f ./custom/install.sh ]; then
 fi
 
 ENDTIME=$(date +%s)
-echo "Execution duration: $(($ENDTIME - $STARTTIME))s"
+DURATION=$((ENDTIME - STARTTIME))
+echo "Execution duration: ${DURATION}s"
