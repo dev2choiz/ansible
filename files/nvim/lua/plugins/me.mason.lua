@@ -19,6 +19,8 @@ return {
           "iferr",
           "impl",
           "goimports",
+          -- yaml
+          "yaml-language-server",
         }
       )
     end,
