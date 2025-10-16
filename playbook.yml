@@ -13,6 +13,7 @@
           - curl
           - snapd
           - wget
+          - openssh-server
           - lsof
           - libfuse2
           # for gcloud
@@ -26,7 +27,11 @@
           - python3-pip
           - python3-full
           - pipx
-
+    - name: Enable and start SSH service
+      systemd:
+        name: ssh
+        enabled: yes
+        state: started
     - name: Create ~/sources
       file:
         path: ~/sources
