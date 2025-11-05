@@ -1,7 +1,15 @@
 ---
 # tasks file for me.nvim
 
+- name: Set default nvim config name
+  set_fact:
+    nvim_appname: "{{ lookup('env', 'NVIM_APPNAME') | default('nvim', true) }}"
+
 # Install neovim and astronvim
+
+- name: Show the nvim config name
+  debug:
+    msg: "Installing Neovim config: {{ nvim_appname }}"
 
 - name: install nvim dependencies
   become: true
@@ -26,6 +34,7 @@
     path: /opt/nvim
     state: absent
 
+# Install nvim
 - name: Download neovim archive
   when: test_nvim.stdout == ""
   get_url:
@@ -42,27 +51,30 @@
   become: true
   shell: mv /opt/nvim-linux-x86_64 /opt/nvim
 
-- name: Delete previous nvim config
+# Delete nvim config
+- name: Delete previous nvim config ({{ nvim_appname }})
   file:
     path: "{{item}}"
     state: absent
-  with_items:
-    - ~/.config/nvim
-    - ~/.local/share/nvim
-    - ~/.local/state/nvim
-    - ~/.cache/nvim
+  loop:
+    - "~/.config/{{ nvim_appname }}"
+    - "~/.local/share/{{ nvim_appname }}"
+    - "~/.local/state/{{ nvim_appname }}"
+    - "~/.cache/{{ nvim_appname }}"
 
+
+# Install astronvim
 - name: clone astronvim
   git:
     repo: https://github.com/astronvim/template
-    dest: ~/.config/nvim
+    dest: "~/.config/{{ nvim_appname }}"
     depth: 1
-- name: Delete ~/.config/nvim/.git
+- name: Delete .git folder
   file:
-    path: ~/.config/nvim/.git
+    path: "~/.config/{{ nvim_appname }}/.git"
     state: absent
 
 - name: Copy
   copy:
-    src: ./files/nvim
-    dest: ~/.config
+    src: ./files/nvim/
+    dest: "~/.config/{{ nvim_appname }}/"

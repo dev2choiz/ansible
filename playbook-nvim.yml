@@ -1,0 +1,5 @@
+- hosts: localhost
+  roles:
+    - role: me.font
+    - role: me.fzf
+    - role: me.nvim
