@@ -126,8 +126,6 @@ source $ZSH/oh-my-zsh.sh
 source <(fzf --zsh)
 
 ############ PATH ##################
-## NVIM
-export PATH="$PATH:/opt/nvim/bin"
 ## GOLANG
 export GOPATH="$HOME/go"
 export GOROOT='/usr/local/go'

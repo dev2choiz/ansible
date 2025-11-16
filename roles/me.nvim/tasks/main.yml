@@ -76,5 +76,14 @@
 
 - name: Copy
   copy:
-    src: ./files/nvim/
+    src: ./files/nvim/config/
     dest: "~/.config/{{ nvim_appname }}/"
+
+- name: Create /etc/profile.d/nvim.sh
+  become: true
+  copy:
+    src: ./files/nvim/nvim.sh
+    dest: /etc/profile.d/nvim.sh
+    owner: root
+    group: root
+    mode: '0755'
