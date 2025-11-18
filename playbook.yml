@@ -54,6 +54,7 @@
     - role: me.zsh
     - role: me.chrome
     - role: me.jetbrains_toolbox
+      tags: jetbrains
     - role: me.terraform
     - role: me.devtoys
     - role: me.postman

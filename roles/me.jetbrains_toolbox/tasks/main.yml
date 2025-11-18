@@ -2,8 +2,9 @@
 # tasks file for me.jetbrains_toolbox
 
 - name: Test if jetbrains-toolbox is installed
-  shell: command -v jetbrains-toolbox || true
+  shell: test -x /opt/jetbrains-toolbox/bin/jetbrains-toolbox && echo "found" || true
   register: test_jbtoolbox
+  changed_when: false
 
 - name: Download jetbrains-toolbox.tar.gz
   when: test_jbtoolbox.stdout == ""
@@ -11,51 +12,55 @@
     url: https://data.services.jetbrains.com/products/download?platform=linux&code=TBA
     dest: /tmp/jetbrains-toolbox.tar.gz
 
-- name: Create /tmp/jetbrains-toolbox/
+- name: Create /opt/jetbrains-toolbox directory
   when: test_jbtoolbox.stdout == ""
   become: true
   file:
-    name: /tmp/jetbrains-toolbox/
+    path: /opt/jetbrains-toolbox
     state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
-- name: Unarchive /tmp/jetbrains-toolbox.tag.gz
+- name: Unarchive jetbrains-toolbox
   when: test_jbtoolbox.stdout == ""
   become: true
   unarchive:
     src: /tmp/jetbrains-toolbox.tar.gz
-    dest: /tmp/jetbrains-toolbox/
+    dest: /opt/jetbrains-toolbox
+    remote_src: yes
+    extra_opts: [--strip-components=1]  # <-- important !
 
-- name: Find 'jetbrains-toolbox' binary
+- name: Ensure jetbrains-toolbox binary is executable
   when: test_jbtoolbox.stdout == ""
-  find:
-    paths: /tmp/jetbrains-toolbox
-    file_type: file
-    recurse: true
-    use_regex: true
-    patterns: ['jetbrains-toolbox']
-  register: binary_file
+  become: true
+  file:
+    path: /opt/jetbrains-toolbox/bin/jetbrains-toolbox
+    mode: '0755'
+    state: file
 
-- name: Copy the binary in /usr/local/bin/
+- name: Create corrected .desktop for menu
   when: test_jbtoolbox.stdout == ""
   become: true
   copy:
-    src: "{{item.path}}"
-    dest: "/usr/local/bin/"
-    owner: "root"
-    mode: 0775
-  with_items: "{{binary_file.files}}"
+    dest: /usr/share/applications/jetbrains-toolbox.desktop
+    content: |
+      [Desktop Entry]
+      Type=Application
+      Name=JetBrains Toolbox
+      Exec=/opt/jetbrains-toolbox/bin/jetbrains-toolbox
+      Icon=/opt/jetbrains-toolbox/bin/toolbox-tray-color.png
+      StartupNotify=false
+      Terminal=false
+      MimeType=x-scheme-handler/jetbrains;
+      X-AppImage-Integrate=false
+    owner: root
+    group: root
+    mode: '0644'
 
-
-- name: Delete /tmp/jetbrains-toolbox.tag.gz
+- name: Delete temporary tar.gz
   when: test_jbtoolbox.stdout == ""
   become: true
   file:
-    name: /tmp/jetbrains-toolbox.tar.gz
-    state: absent
-
-- name: Delete /tmp/jetbrains-toolbox
-  when: test_jbtoolbox.stdout == ""
-  become: true
-  file:
-    name: /tmp/jetbrains-toolbox
+    path: /tmp/jetbrains-toolbox.tar.gz
     state: absent
