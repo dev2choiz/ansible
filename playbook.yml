@@ -40,6 +40,7 @@
   roles:
     - role: me.ollama
     - role: me.golang
+      tags: golang
     - role: me.git
     - role: me.docker
     - role: me.font
