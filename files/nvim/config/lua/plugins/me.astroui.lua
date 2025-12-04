@@ -67,7 +67,7 @@ return {
         IncSearch = { fg = "red" },
         -- Pmenu
         Pmenu = { bg = "none" },
-        PmenuSel = { bg = "none" },
+        PmenuSel = { bg = "#3c3836" },
         PmenuSbar = { bg = "none" },
         PmenuThumb = { bg = "none" },
         -- Notifications

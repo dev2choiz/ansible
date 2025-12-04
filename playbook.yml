@@ -2,6 +2,11 @@
   vars_files: vars/main.yml
 
   pre_tasks:
+    - name: Enable and start SSH service
+      systemd:
+        name: ssh
+        enabled: yes
+        state: started
     - name: install dependencies
       become: true
       apt:
@@ -27,11 +32,6 @@
           - python3-pip
           - python3-full
           - pipx
-    - name: Enable and start SSH service
-      systemd:
-        name: ssh
-        enabled: yes
-        state: started
     - name: Create ~/sources
       file:
         path: ~/sources
