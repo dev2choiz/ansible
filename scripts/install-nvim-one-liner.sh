@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ "$USER" == "root" ]; then
     echo "This script should not be run as root."

@@ -2,12 +2,15 @@
   vars_files: vars/main.yml
 
   pre_tasks:
-    - name: Enable and start SSH service
-      systemd:
-        name: ssh
-        enabled: yes
-        state: started
-    - name: install dependencies
+#    - name: Install openssh-server
+#      become: true
+#      apt:
+#        update_cache: true
+#        state: present
+#        name:
+#          - openssh-server
+
+    - name: Install base packages
       become: true
       apt:
         update_cache: true
@@ -32,9 +35,20 @@
           - python3-pip
           - python3-full
           - pipx
-    - name: Create ~/sources
+
+    - name: Gather service facts
+      service_facts:
+    - name: Enable and start SSH service
+      become: true
+      systemd:
+        name: ssh
+        enabled: yes
+        state: started
+      when: "'ssh.service' in ansible_facts.services"
+
+    - name: "Create {{ ansible_env.HOME }}/sources"
       file:
-        path: ~/sources
+        path: "{{ ansible_env.HOME }}/sources"
         state: directory
 
   roles:
