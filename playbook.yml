@@ -2,13 +2,13 @@
   vars_files: vars/main.yml
 
   pre_tasks:
-#    - name: Install openssh-server
-#      become: true
-#      apt:
-#        update_cache: true
-#        state: present
-#        name:
-#          - openssh-server
+    #    - name: Install openssh-server
+    #      become: true
+    #      apt:
+    #        update_cache: true
+    #        state: present
+    #        name:
+    #          - openssh-server
 
     - name: Install base packages
       become: true
@@ -58,7 +58,9 @@
     - role: me.git
     - role: me.docker
     - role: me.font
-      tags: nvim
+      tags: [font, nvim]
+    - role: me.lazygit
+      tags: [lazygit, nvim]
     - role: me.terminator
     - role: me.nvim
       tags: nvim

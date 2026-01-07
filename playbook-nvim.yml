@@ -2,4 +2,5 @@
   roles:
     - role: me.font
     - role: me.fzf
+    - role: me.lazygit
     - role: me.nvim

@@ -1,0 +1,37 @@
+---
+- name: Ensure curl and tar are installed
+  become: true
+  apt:
+    name:
+      - curl
+      - tar
+    state: present
+    update_cache: yes
+
+- name: Get latest lazygit version
+  shell: |
+    curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": *"v\K[^"]*'
+  register: lazygit_version
+  changed_when: false
+
+- name: Download lazygit tar.gz
+  get_url:
+    url: "https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version.stdout }}/lazygit_{{ lazygit_version.stdout }}_Linux_x86_64.tar.gz"
+    dest: /tmp/lazygit.tar.gz
+    mode: '0644'
+
+- name: Extract lazygit binary
+  shell: tar xf /tmp/lazygit.tar.gz -C /tmp lazygit
+  args:
+    creates: /tmp/lazygit
+
+- name: Install lazygit binary to /usr/local/bin
+  become: true
+  shell: install /tmp/lazygit -D -t /usr/local/bin/
+  args:
+    creates: /usr/local/bin/lazygit
+
+- name: Verify lazygit installation
+  shell: lazygit --version
+  register: lazygit_check
+  changed_when: false
