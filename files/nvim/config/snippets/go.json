@@ -1,7 +1,22 @@
 {
   "if err != nil": {
     "prefix": "err",
-    "body": "if err != nil {\n\treturn ${1:err}\n}",
-    "description": "Snippet for if err != nil"
+    "body": [
+      "if err != nil {",
+      "\treturn ${1:err}",
+      "}"
+    ],
+    "description": "if err != nil"
+  },
+  "select ctx": {
+    "prefix": "selctx",
+    "body": [
+      "select {",
+      "case <- ctx.Done():",
+      "\treturn",
+      "case  ${0}:",
+      "}"
+    ],
+    "description": "select {\n\tcase <- ctx.Done():\n\treturn\ncase :}"
   }
 }
