@@ -26,7 +26,7 @@ done
 
 ansible-playbook playbook.yml $TAGS_ARG
 
-if [ -f ./custom/install.sh ]; then
+if [ -z "$TAGS_ARG" ] && [ -f ./custom/install.sh ]; then
   ./custom/install.sh
 fi
 

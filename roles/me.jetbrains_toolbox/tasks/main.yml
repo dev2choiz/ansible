@@ -29,7 +29,7 @@
     src: /tmp/jetbrains-toolbox.tar.gz
     dest: /opt/jetbrains-toolbox
     remote_src: yes
-    extra_opts: [--strip-components=1]  # <-- important !
+    extra_opts: [--strip-components=1]
 
 - name: Ensure jetbrains-toolbox binary is executable
   when: test_jbtoolbox.stdout == ""

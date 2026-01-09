@@ -1,21 +1,35 @@
 ---
 # tasks file for me.nodejs
 
-- name: Test if node is installed
-  shell: command -v node || true
-  register: test_node
+- name: Check installed Node.js version
+  command: node -v
+  register: node_version
+  failed_when: false
+  changed_when: false
 
+- name: Determine if Node.js installation/update is required
+  set_fact:
+    nodejs_needs_install: >-
+      {{ node_version.stdout == "" or
+         (node_version.stdout is not search('^v' ~ var_nodejs_version ~ '\.')) }}
 
-- name: Run nodejs setup script
-  when: test_node.stdout == ""
+- name: Setup NodeSource repository
   become: true
   shell: |
-    curl -fsSL https://deb.nodesource.com/setup_{{ var_nodejs_version }}.x | sudo -E bash -
+    curl -fsSL https://deb.nodesource.com/setup_{{ var_nodejs_version }}.x | bash -
+  when: nodejs_needs_install
 
-- name: Install nodejs
-  when: test_node.stdout == ""
+- name: Remove old Node.js if needed
   become: true
   apt:
-    name:
-      - nodejs
-    state: latest
+    name: nodejs
+    state: absent
+  when: nodejs_needs_install
+
+- name: Install Node.js
+  become: true
+  apt:
+    name: nodejs
+    state: present
+    update_cache: true
+  when: nodejs_needs_install

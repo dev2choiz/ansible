@@ -45,6 +45,10 @@ Run the full setup from the root of the project:
 - vscode
 - libreoffice
 
+### Install only a few tools:
+```
+./scripts/install.sh --tags=golang,docker
+```
 
 ## Install Neovim
 

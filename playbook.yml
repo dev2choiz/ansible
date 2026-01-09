@@ -2,14 +2,6 @@
   vars_files: vars/main.yml
 
   pre_tasks:
-    #    - name: Install openssh-server
-    #      become: true
-    #      apt:
-    #        update_cache: true
-    #        state: present
-    #        name:
-    #          - openssh-server
-
     - name: Install base packages
       become: true
       apt:
@@ -35,6 +27,7 @@
           - python3-pip
           - python3-full
           - pipx
+      when: ansible_run_tags | length == 0
 
     - name: Gather service facts
       service_facts:
@@ -44,41 +37,62 @@
         name: ssh
         enabled: yes
         state: started
-      when: "'ssh.service' in ansible_facts.services"
+      when:
+        - ansible_run_tags | length == 0
+        - "'ssh.service' in ansible_facts.services"
 
     - name: "Create {{ ansible_env.HOME }}/sources"
       file:
         path: "{{ ansible_env.HOME }}/sources"
         state: directory
+      when: ansible_run_tags | length == 0
 
   roles:
     - role: me.ollama
+      tags: ollama
     - role: me.golang
       tags: golang
     - role: me.git
+      tags: git
     - role: me.docker
+      tags: docker
     - role: me.font
       tags: [font, nvim]
     - role: me.lazygit
       tags: [lazygit, nvim]
     - role: me.terminator
+      tags: terminator
     - role: me.nvim
       tags: nvim
     - role: me.tmux
+      tags: tmux
     - role: me.fzf
-      tags: nvim
+      tags: [fzf, nvim]
     - role: me.zsh
+      tags: zsh
     - role: me.chrome
+      tags: chrome
     - role: me.jetbrains_toolbox
-      tags: jetbrains
+      tags: jetbrains_toolbox
     - role: me.terraform
+      tags: terraform
     - role: me.devtoys
+      tags: devtoys
     - role: me.postman
+      tags: postman
     - role: me.insomnia
+      tags: insomnia
     - role: me.dbeaver
+      tags: dbeaver
     - role: me.samba
+      tags: samba
     - role: me.gotop
+      tags: gotop
     - role: me.nodejs
+      tags: nodejs
     - role: me.gcloud
+      tags: gcloud
     - role: me.vscode
+      tags: vscode
     - role: me.libreoffice
+      tags: libreoffice
