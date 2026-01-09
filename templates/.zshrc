@@ -135,7 +135,7 @@ export PATH=$HOME/.local/bin:$PATH
 
 export PATH="/opt/nvim/bin:$PATH"
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
 
 alias ws="cd ~/sources"
 alias d="git diff"

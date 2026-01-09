@@ -1,5 +1,7 @@
 [global_config]
   window_state = maximise
+  #window_state = fullscreen
+  #window_state = normal
   borderless = True
 [keybindings]
   full_screen = <Super>F11
