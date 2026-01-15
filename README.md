@@ -65,7 +65,7 @@ Defaults to nvim if not set.
 
 Or to customize the config name
 ```bash
-NVIM_APPNAME=nvim-custom ./scripts/install-nvim.sh
+NVIM_APPNAME=nvim-custom NVIM_CONFIG=astronvim ./scripts/install-nvim.sh
 # then run with
 NVIM_APPNAME=nvim-custom nvim .
 ```
@@ -82,7 +82,10 @@ nvim .
 
 Or with a custom config name:
 ```bash
-NVIM_APPNAME=nvim-custom sh -c "$(wget -O- https://raw.githubusercontent.com/dev2choiz/ansible/main/scripts/install-nvim-one-liner.sh)"
+NVIM_APPNAME=nvim-custom NVIM_CONFIG=astronvim sh -c "$(wget -O- https://raw.githubusercontent.com/dev2choiz/ansible/main/scripts/install-nvim-one-liner.sh)"
 # then run with
 NVIM_APPNAME=nvim-custom nvim .
 ```
+
+possible values for NVIM_CONFIG: `astronvim`  
+default value: `astronvim`

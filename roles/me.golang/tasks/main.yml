@@ -48,5 +48,7 @@
     path: /tmp/golang.tar.gz
     state: absent
 
+- name: Install golangci-lint
+  shell: /usr/local/go/bin/go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 - name: Install delve
   shell: /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest

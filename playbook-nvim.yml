@@ -1,6 +1,13 @@
 - hosts: localhost
   roles:
     - role: me.font
+      tags: [nvim]
     - role: me.fzf
+      tags: [nvim]
     - role: me.lazygit
-    - role: me.nvim
+      tags: [nvim]
+    - role: me.nvim/core
+      tags: [nvim]
+    - role: me.nvim/astronvim
+      tags: [astronvim]
+

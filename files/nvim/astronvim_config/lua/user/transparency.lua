@@ -1,6 +1,6 @@
 local M = {}
 
-M.enabled = true -- default value
+M.enabled = false -- default value
 M.floatLvl = 15
 
 M.highlights = {

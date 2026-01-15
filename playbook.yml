@@ -56,18 +56,22 @@
       tags: git
     - role: me.docker
       tags: docker
+    - role: me.kitty
+      tags: kitty
+    - role: me.terminator
+      tags: terminator
     - role: me.font
       tags: [font, nvim]
     - role: me.lazygit
       tags: [lazygit, nvim]
-    - role: me.terminator
-      tags: terminator
-    - role: me.nvim
-      tags: nvim
-    - role: me.tmux
-      tags: tmux
     - role: me.fzf
       tags: [fzf, nvim]
+    - role: me.nvim/core
+      tags: [nvim]
+    - role: me.nvim/astronvim
+      tags: [astronvim]
+    - role: me.tmux
+      tags: tmux
     - role: me.zsh
       tags: zsh
     - role: me.chrome

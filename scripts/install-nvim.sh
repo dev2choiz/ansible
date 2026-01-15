@@ -10,13 +10,17 @@ fi
 
 sudo apt install -y ansible make
 
-echo "NVIM_APPNAME is set to '${NVIM_APPNAME:-nvim}'"
+NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
+NVIM_CONFIG="${NVIM_CONFIG:-astronvim}"
 
-ansible-playbook playbook-nvim.yml
+echo "NVIM_APPNAME is set to '${NVIM_APPNAME}'"
+echo "NVIM_CONFIG is set to '${NVIM_CONFIG}'"
 
-echo "Neovim has been installed with the configuration '${NVIM_APPNAME:-nvim}'."
+ansible-playbook playbook-nvim.yml --tags "nvim,$NVIM_CONFIG"
+
+echo "Neovim has been installed with the configuration '${NVIM_APPNAME}'."
 echo "You can launch it with:"
-if [ "${NVIM_APPNAME:-nvim}" = "nvim" ]; then
+if [ "$NVIM_APPNAME" = "nvim" ]; then
   echo "  nvim ."
 else
   echo "  NVIM_APPNAME=${NVIM_APPNAME} nvim ."
