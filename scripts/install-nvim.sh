@@ -11,7 +11,7 @@ fi
 sudo apt install -y ansible make
 
 NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
-NVIM_CONFIG="${NVIM_CONFIG:-astronvim}"
+NVIM_CONFIG="${NVIM_CONFIG:-lazyvim}"
 
 echo "NVIM_APPNAME is set to '${NVIM_APPNAME}'"
 echo "NVIM_CONFIG is set to '${NVIM_CONFIG}'"

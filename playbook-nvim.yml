@@ -10,4 +10,6 @@
       tags: [nvim]
     - role: me.nvim/astronvim
       tags: [astronvim]
+    - role: me.nvim/lazyvim
+      tags: [lazyvim]
 

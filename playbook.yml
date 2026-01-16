@@ -68,8 +68,8 @@
       tags: [fzf, nvim]
     - role: me.nvim/core
       tags: [nvim]
-    - role: me.nvim/astronvim
-      tags: [astronvim]
+    - role: me.nvim/lazyvim
+      tags: [lazyvim]
     - role: me.tmux
       tags: tmux
     - role: me.zsh
