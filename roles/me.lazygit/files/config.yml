@@ -1,0 +1,4 @@
+gui:
+  skipDiscardChangeWarning: true
+  expandFocusedSidePanel: true
+  expandedSidePanelWeight: 3

@@ -13,3 +13,12 @@ vim.api.nvim_create_autocmd("User", {
     require("user.transparency").init()
   end,
 })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.fileformat = "unix"
+    vim.opt_local.eol = true
+    vim.opt_local.fixeol = true
+  end,
+})

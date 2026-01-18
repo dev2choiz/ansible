@@ -1,0 +1,10 @@
+---
+- name: Install PostgreSQL client
+  apt:
+    name:
+      - postgresql-client
+      - redis-tools
+      - mysql-client
+    state: present
+    update_cache: true
+  become: true

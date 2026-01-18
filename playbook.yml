@@ -60,16 +60,18 @@
       tags: kitty
     - role: me.terminator
       tags: terminator
+    - role: me.nvim/core
+      tags: [nvim]
+    - role: me.nvim/lazyvim
+      tags: [lazyvim]
     - role: me.font
       tags: [font, nvim]
     - role: me.lazygit
       tags: [lazygit, nvim]
     - role: me.fzf
       tags: [fzf, nvim]
-    - role: me.nvim/core
+    - role: me.dbclient
       tags: [nvim]
-    - role: me.nvim/lazyvim
-      tags: [lazyvim]
     - role: me.tmux
       tags: tmux
     - role: me.zsh

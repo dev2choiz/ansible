@@ -52,8 +52,8 @@
     creates: /usr/local/bin/lazygit
   when: lazygit_needs_install
 
-- name: Verify lazygit installation
-  shell: lazygit --version
-  register: lazygit_check
-  changed_when: false
-  when: lazygit_needs_install
+- name: Copy config file
+  ansible.builtin.copy:
+    src: ./files/config.yml
+    dest: "{{ ansible_env.HOME }}/.config/lazygit/"
+    mode: '0644'
