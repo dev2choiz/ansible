@@ -1,24 +1,43 @@
-if true then return {} end
+local common_exclude = { ".git", ".idea", ".vscode" }
+
+local grep_exclude = vim.list_extend(vim.deepcopy(common_exclude), { "node_modules", "dist", "build" })
 
 return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  ---@type snacks.Config
   opts = {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-    bigfile = { enabled = true },
-    dashboard = { enabled = true },
-    explorer = { enabled = true },
-    indent = { enabled = true },
-    input = { enabled = true },
-    picker = { enabled = true },
-    notifier = { enabled = true },
-    quickfile = { enabled = true },
-    scope = { enabled = true },
-    scroll = { enabled = true },
-    statuscolumn = { enabled = true },
-    words = { enabled = true },
+    explorer = {
+      trash = true,
+    },
+    picker = {
+      hidden = true,
+      ignored = true,
+      exclude = common_exclude,
+      sources = {
+        files = { hidden = true, ignored = true },
+        grep = {
+          hidden = true,
+          ignored = true,
+          exclude = grep_exclude,
+        },
+      },
+    },
+    keys = {
+      {
+        "<leader>e",
+        function()
+          Snacks.explorer({ cwd = Snacks.explorer() })
+        end,
+      },
+    },
   },
+  --[[init = function()
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+          require("snacks").explorer()
+        end,
+      })
+    end,]]
 }

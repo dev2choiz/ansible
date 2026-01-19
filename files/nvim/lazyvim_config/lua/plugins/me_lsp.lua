@@ -3,7 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        yamlls = {  -- todo: https://www.lazyvim.org/extras/lang/yaml
+        yamlls = { -- todo: https://www.lazyvim.org/extras/lang/yaml
           settings = {
             yaml = {
               schemas = {
@@ -21,8 +21,12 @@ return {
             },
           },
         },
-      }
+        luals = {
+          init_options = {
+            provideFormatter = false,
+          },
+        },
+      },
     },
   },
 }
-

@@ -1,14 +1,14 @@
 return {
   {
     "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    lazy = false,
+    lazy = true,
     opts = {
       --transparent_mode = true,
     },
   },
   {
     "folke/tokyonight.nvim",
+    lazy = true,
     opts = {
       --transparent = true,
       styles = {
@@ -21,11 +21,14 @@ return {
     "catppuccin/nvim",
     lazy = true,
     name = "catppuccin",
+    opts = {
+      flavour = "mocha",
+    },
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      --colorscheme = "catppuccin",
+      colorscheme = "catppuccin",
     },
   },
 }
