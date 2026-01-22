@@ -1,23 +1,12 @@
+---@class CoreKeymaps
+local keymaps = require("core.keymaps")
+
 return {
   {
     "folke/which-key.nvim",
     opts = {
-      spec = {
-        {
-          mode = { "n", "x" },
-          { "<leader>a", group = "ai" },
-          { "<leader>gv", group = "diffview" },
-        },
-      },
+      spec = keymaps.which_key.spec,
     },
-    keys = {
-      {
-        "<Leader>ut",
-        function()
-          require("user.transparency").toggle()
-        end,
-        desc = "Toggle transparency",
-      },
-    },
+    keys = keymaps.which_key.keys,
   },
 }

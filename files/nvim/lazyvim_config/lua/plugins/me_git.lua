@@ -1,11 +1,10 @@
+---@class CoreKeymaps
+local keymaps = require("core.keymaps")
+
 return {
-	{ "lewis6991/gitsigns.nvim" },
-	{
-		"sindrets/diffview.nvim",
-		keys = {
-			{ "<leader>gvd", "<cmd>DiffviewOpen<CR>", desc = "Open Diffview" },
-			{ "<leader>gvc", "<cmd>DiffviewClose<CR>", desc = "Close Diffview" },
-			{ "<leader>gvh", "<cmd>DiffviewFileHistory %<CR>", desc = "File git history" },
-		},
-	},
+  { "lewis6991/gitsigns.nvim" },
+  {
+    "sindrets/diffview.nvim",
+    keys = keymaps.diffview,
+  },
 }

@@ -1,3 +1,6 @@
+---@class CoreKeymaps
+local keymaps = require("core.keymaps")
+
 return {
   {
     "leoluz/nvim-dap-go",
@@ -25,49 +28,6 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    keys = {
-      {
-        "<F5>",
-        function()
-          require("dap").continue()
-        end,
-        desc = "DAP Continue",
-      },
-      {
-        "<F8>",
-        function()
-          require("dap").step_over()
-        end,
-        desc = "DAP Step Over",
-      },
-      {
-        "<F9>",
-        function()
-          require("dap").toggle_breakpoint()
-        end,
-        desc = "DAP Toggle Breakpoint",
-      },
-      {
-        "<S-F9>",
-        function()
-          require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-        end,
-        desc = "DAP Conditional Breakpoint",
-      },
-      {
-        "<F11>",
-        function()
-          require("dap").step_into()
-        end,
-        desc = "DAP Step Into",
-      },
-      {
-        "<F12>",
-        function()
-          require("dap").step_out()
-        end,
-        desc = "DAP Step Out",
-      },
-    },
+    keys = keymaps.dap,
   },
 }
