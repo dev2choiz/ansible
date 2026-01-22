@@ -6,7 +6,7 @@ local utils = require("core.utils")
 function M.setup(dap)
   local paths = {}
 
-  local global = utils.getenv_dir("MYNVIM_GLOBAL_CONFIG")
+  local global = utils.get_global_config_dir()
   if global then
     table.insert(paths, global .. "/dap.lua")
   end

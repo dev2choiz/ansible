@@ -25,7 +25,7 @@
     path: "~/.config/{{ nvim_appname }}/.git"
     state: absent
 
-- name: Copy
-  copy:
+- name: Copy Lazyvim confing
+  synchronize:
     src: ./files/nvim/lazyvim_config/
     dest: "~/.config/{{ nvim_appname }}/"

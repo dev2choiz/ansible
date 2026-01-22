@@ -9,7 +9,7 @@ local function load_user_configs()
   local paths = {}
 
   -- Global config
-  local global = utils.getenv_dir("MYNVIM_GLOBAL_CONFIG")
+  local global = utils.get_global_config_dir()
   if global then
     table.insert(paths, global .. "/neotest.lua")
   end

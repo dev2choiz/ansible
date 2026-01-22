@@ -15,5 +15,9 @@ return {
   { import = "lazyvim.plugins.extras.linting.eslint" },
   { import = "lazyvim.plugins.extras.lang.markdown" },
   { import = "lazyvim.plugins.extras.lang.sql" },
+  { import = "lazyvim.plugins.extras.lang.ansible" },
+  { import = "lazyvim.plugins.extras.lang.terraform" },
   { import = "lazyvim.plugins.extras.lang.docker" },
+  { import = "lazyvim.plugins.extras.editor.overseer" },
+  { import = "lazyvim.plugins.extras.util.rest" },
 }

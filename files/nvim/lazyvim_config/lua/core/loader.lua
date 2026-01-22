@@ -9,7 +9,7 @@ local utils = require("core.utils")
 local function get_config_dirs()
   local dirs = {}
 
-  local global_conf = utils.getenv_dir("MYNVIM_GLOBAL_CONFIG")
+  local global_conf = utils.get_global_config_dir()
   if global_conf and utils.is_dir(global_conf) then
     table.insert(dirs, global_conf)
   end

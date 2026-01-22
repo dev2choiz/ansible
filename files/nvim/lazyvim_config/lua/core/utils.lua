@@ -54,11 +54,8 @@ function M.merge(tbl1, tbl2)
   return combined
 end
 
-function M.getenv_dir(name)
-  local val = os.getenv(name)
-  if val and val ~= "" then
-    return val
-  end
+function M.get_global_config_dir()
+  return os.getenv("MYNVIM_GLOBAL_CONFIG")
 end
 
 function M.is_dir(path)
