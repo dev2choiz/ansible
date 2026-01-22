@@ -1,5 +1,5 @@
 ansible_become_password: "secret" # the sudo password
-var_golang_version: "1.25.5"
+var_golang_version: "1.25.6"
 var_golang_gopath: '{{ ansible_env.HOME }}/go'
 var_nodejs_version: '24'
 

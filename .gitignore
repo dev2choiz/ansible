@@ -1,4 +1,5 @@
 .idea
+.nvim
 ai
 custom
 vars/main.yml
