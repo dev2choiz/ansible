@@ -8,6 +8,7 @@ M.which_key = {
       { "<leader>a", group = "ai" },
       { "<leader>gv", group = "diffview" },
       { "<leader>sr", group = "search & replace" },
+      { "<leader>ft", group = "terminal" },
     },
   },
   keys = {
@@ -73,18 +74,45 @@ M.diffview = {
 }
 
 M.snacks = {
+  -- snacks.terminal
   {
-    "<leader>e",
+    "<leader>ftT",
     function()
-      Snacks.explorer({ cwd = Snacks.explorer() })
+      Snacks.terminal()
     end,
+    desc = "Terminal (cwd)",
+    mode = { "n" },
+  },
+  {
+    "<leader>ftt",
+    function()
+      Snacks.terminal(nil, { cwd = LazyVim.root() })
+    end,
+    desc = "Terminal (Root Dir)",
+    mode = { "n" },
+  },
+  {
+    "<leader>ftF",
+    function()
+      Snacks.terminal(nil, { win = { position = "float" } })
+    end,
+    desc = "floatting terminal",
+    mode = { "n" },
+  },
+  {
+    "<leader>ftf",
+    function()
+      Snacks.terminal(nil, { win = { position = "float" }, cwd = LazyVim.root() })
+    end,
+    desc = "floatting terminal (Root Dir)",
+    mode = { "n" },
   },
 }
 
 M.grug_far = {
   {
     "<leader>srr",
-    -- copied from https://www.lazyvim.org/plugins/editor#grug-farnvim
+    -- function copied from https://www.lazyvim.org/plugins/editor#grug-farnvim
     function()
       local grug = require("grug-far")
       local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")

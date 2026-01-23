@@ -27,8 +27,8 @@ return {
         },
       },
     },
-    keys = keymaps.snacks,
   },
+  keys = keymaps.snacks,
   --[[init = function()
       vim.api.nvim_create_autocmd("VimEnter", {
         callback = function()
