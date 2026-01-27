@@ -9,7 +9,7 @@ function M.before_setup()
 end
 
 function M.before_plugins()
-  return utils.deduplicate(utils.merge(extras, loader.extras()))
+  return utils.merge_extras(extras, loader.extras())
 end
 
 function M.after_plugins()

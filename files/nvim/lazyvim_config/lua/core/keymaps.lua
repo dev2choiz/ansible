@@ -128,5 +128,4 @@ M.grug_far = {
   },
 }
 
----@class CoreKeymaps
 return M

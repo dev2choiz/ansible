@@ -1,6 +1,5 @@
 local M = {}
 
----@type CoreUtils
 local utils = require("core.utils")
 
 -- Collect neotest configs (global + project)

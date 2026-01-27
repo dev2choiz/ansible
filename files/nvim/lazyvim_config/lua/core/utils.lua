@@ -1,3 +1,5 @@
+local uv = vim.uv or vim.loop
+
 ---@alias CoreLogLevel
 ---| "DEBUG"
 ---| "INFO"
@@ -6,19 +8,9 @@
 ---| "NONE"
 
 ---@class CoreUtils
----@field getRoot fun(): string
----@field deduplicate fun(tbl: table): table
----@field merge fun(tbl1: table, tbl2: table): table
----@field getenv_dir fun(name: string): string|nil
----@field is_dir fun(path: string): boolean
----@field log fun(level: CoreLogLevel, msg: string, use_notify?: boolean)
----@field safe_dotfile fun(path: string, must_return_table?: boolean): (boolean, any)
----@field file_exists fun(path: string): boolean
-
-local uv = vim.uv or vim.loop
-
 local M = {}
 
+---@return string
 function M.getRoot()
   local ok, result = pcall(vim.fn.systemlist, "git rev-parse --show-toplevel")
   if ok and result[1] and result[1] ~= "" and not result[1]:match("^fatal:") then
@@ -27,37 +19,12 @@ function M.getRoot()
   return vim.fn.getcwd()
 end
 
-function M.deduplicate(tbl)
-  local seen = {}
-  local result = {}
-
-  for _, e in ipairs(tbl) do
-    local key = e.import or e[1] or tostring(e)
-    if not seen[key] then
-      table.insert(result, e)
-      seen[key] = true
-    end
-  end
-
-  return result
-end
-
-function M.merge(tbl1, tbl2)
-  local combined = {}
-  for _, e in ipairs(tbl1) do
-    table.insert(combined, e)
-  end
-  for _, e in ipairs(tbl2) do
-    table.insert(combined, e)
-  end
-
-  return combined
-end
-
+---@return string
 function M.get_global_config_dir()
   return os.getenv("MYNVIM_GLOBAL_CONFIG")
 end
 
+---@return boolean
 function M.is_dir(path)
   local stat = uv.fs_stat(path)
   return stat and stat.type == "directory"
@@ -120,5 +87,40 @@ function M.file_exists(path)
   return stat ~= nil and stat.type == "file"
 end
 
----@type CoreUtils
+---@param extras1 table|nil
+---@param extras2 table|nil
+---@return table
+function M.merge_extras(extras1, extras2)
+  local result = {}
+  local index = {}
+
+  local function add(entry)
+    if type(entry) ~= "table" or not entry.import then
+      M.log("WARN", "extras entry must define `import`")
+      return
+    end
+
+    local key = entry.import
+
+    if index[key] then
+      -- last one wins
+      result[index[key]] = entry
+      M.log("DEBUG", "the extras " .. key .. " has been override")
+    else
+      table.insert(result, entry)
+      index[key] = #result
+    end
+  end
+
+  for _, e in ipairs(extras1 or {}) do
+    add(e)
+  end
+
+  for _, e in ipairs(extras2 or {}) do
+    add(e)
+  end
+
+  return result
+end
+
 return M

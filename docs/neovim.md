@@ -122,7 +122,45 @@ return {
 }
 ```
 
-## 6. Global Configuration
+## 6. Overseer (overseer.lua)
+
+```lua
+return {
+  {
+    name = "Start stack",
+    builder = function()
+      local root_dir = vim.fn.getcwd()
+
+      return {
+        cmd = {},
+        components = { { "open_output", direction = "dock", on_start = "always", focus = true }, "default" },
+        strategy = {
+          "orchestrator",
+          tasks = {
+            {
+              cwd = root_dir,
+              cmd = { "docker" },
+              args = { "compose", "down", "--remove-orphans" },
+            },
+            {
+              cwd = root_dir,
+              cmd = { "docker" },
+              args = {
+                "compose",
+                "up",
+                "--build",
+                "-d",
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
+}
+```
+
+## 7. Global Configuration
 
 While `.nvim` customizes LazyVim per project, the `MYNVIM_GLOBAL_CONFIG` environment variable can be used to define a **global configuration directory**.  
 Settings in this directory apply to all projects, unless they are overridden by a project-specific `.nvim` folder.

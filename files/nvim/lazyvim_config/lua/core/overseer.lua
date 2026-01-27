@@ -1,8 +1,8 @@
----@type CoreUtils
 local utils = require("core.utils")
 
 local M = {}
 
+---@return overseer.TemplateDefinition[]|overseer.TemplateProvider[]
 local function loadTemplates()
   local templates = {}
   local paths = {}

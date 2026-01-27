@@ -1,6 +1,5 @@
 local M = {}
 
----@type CoreUtils
 local utils = require("core.utils")
 
 function M.setup(dap)

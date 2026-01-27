@@ -1,3 +1,5 @@
+local utils = require("core.utils")
+
 local M = {}
 
 M.enabled = false -- default value
@@ -101,7 +103,7 @@ function M.apply()
   vim.o.pumblend = M.floatLvl
   vim.o.winblend = M.floatLvl
 
-  vim.notify("Transparency ON", vim.log.levels.INFO)
+  utils.log("INFO", "Transparency ON", true)
 end
 
 function M.toggle()
@@ -113,7 +115,7 @@ function M.toggle()
     vim.o.pumblend = 0
     vim.o.winblend = 0
 
-    vim.notify("Transparency OFF", vim.log.levels.INFO)
+    utils.log("INFO", "Transparency OFF", true)
   end
 end
 

@@ -2,7 +2,6 @@ local M = {}
 
 local uv = vim.uv or vim.loop
 
----@type CoreUtils
 local utils = require("core.utils")
 
 -- Get config directories
@@ -84,7 +83,9 @@ function M.extras()
     local ok, data = utils.safe_dotfile(file, true)
     if ok and data then
       utils.log("DEBUG", file .. " loaded")
-      vim.tbl_extend("force", extras, data)
+      for _, entry in ipairs(data) do
+        table.insert(extras, entry)
+      end
     end
 
     ::continue::
