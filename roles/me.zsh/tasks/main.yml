@@ -14,12 +14,7 @@
     dest: ~/.oh-my-zsh
     depth: 1
 
-- name: Read ~/.zshrc
-  shell: cat ~/.zshrc || true
-  register: zshrc_content
-
 - name: Create ~/.zshrc
-  #when: zshrc_content.stdout.find('MANAGED BY me.zsh ANSIBLE ROLE') == -1
   template:
     src: templates/.zshrc
     dest: ~/.zshrc

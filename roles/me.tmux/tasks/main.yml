@@ -1,28 +1,42 @@
 ---
-# tasks file for me.tmux
+- name: Set tpm directory
+  set_fact:
+    tpm_directory: "{{ ansible_env.HOME }}/.config/tmux/plugins/tpm"
 
-- name: Install tmux
+- name: Install tmux and dependencies
   become: true
   apt:
     name:
+      - cmake
       - tmux
-      #- fonts-jetbrains-mono
     state: present
 
 - name: Install Tmux Plugin Manager
   git:
     repo: https://github.com/tmux-plugins/tpm
-    dest: ~/.tmux/plugins/tpm
+    dest: "{{ tpm_directory }}"
+    update: true
 
-- name: Configure tmux
-  copy:
-    src: ./files/tmux/.tmux.conf
-    dest: ~/.tmux.conf
+- name: Ensure {{ ansible_env.HOME }}/.config/tmux/ exists
+  file:
+    path: "{{ ansible_env.HOME }}/.config/tmux"
+    state: directory
+    mode: '0755'
+
+- name: Copy tmux configuration
+  synchronize:
+    src: ./files/tmux/
+    dest: "{{ ansible_env.HOME }}/.config/tmux/"
+    recursive: true
 
 - name: Install tmux plugins
-  shell: ~/.tmux/plugins/tpm/bin/install_plugins
+  shell: "{{ tpm_directory }}/bin/install_plugins"
+
+- name: Clean tmux plugins
+  shell: "{{ tpm_directory }}/bin/clean_plugins"
 
 - name: Copy setup folder in ~/
-  copy:
+  synchronize:
     src: ./files/setup
-    dest: ~/
+    dest: "{{ ansible_env.HOME }}"
+    recursive: true
