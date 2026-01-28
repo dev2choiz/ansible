@@ -10,6 +10,7 @@ return {
         "goimports",
         -- yaml
         "yaml-language-server",
+        "vue-language-server",
       })
     end,
   },

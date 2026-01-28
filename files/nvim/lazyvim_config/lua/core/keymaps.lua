@@ -73,6 +73,20 @@ M.diffview = {
   { "<leader>gvh", "<cmd>DiffviewFileHistory %<CR>", desc = "File git history" },
 }
 
+local function explorer_open(opts)
+  local picker = Snacks.picker.get({ source = "explorer" })
+  local explorer = picker and picker[1]
+
+  if not explorer then
+    Snacks.picker.explorer(opts)
+    return
+  end
+
+  if not explorer:is_focused() then
+    explorer:focus()
+  end
+end
+
 M.snacks = {
   -- snacks.terminal
   {
@@ -106,6 +120,22 @@ M.snacks = {
     end,
     desc = "floatting terminal (Root Dir)",
     mode = { "n" },
+  },
+  {
+    "<leader>e",
+    function()
+      explorer_open({ root = true })
+    end,
+    desc = "Explorer Snacks (root dir)",
+    mode = { "n", "x" },
+  },
+  {
+    "<leader>E",
+    function()
+      explorer_open({ cwd = vim.fn.expand("%:p:h") })
+    end,
+    desc = "Explorer Snacks (cwd dir)",
+    mode = { "n", "x" },
   },
 }
 
