@@ -10,7 +10,7 @@
   [[default]]
     background_darkness = 0.7
     background_type = transparent
-    font = JetBrainsMono Nerd Font 10
+    font = JetBrainsMono Nerd Font Mono Medium 10
     show_titlebar = False
     scrollbar_position = hidden
     use_system_font = False
