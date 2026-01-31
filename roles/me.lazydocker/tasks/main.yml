@@ -1,0 +1,8 @@
+---
+- name: Install lazydocker
+  shell: |
+    set -o pipefail
+    curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/.local/bin/lazydocker"

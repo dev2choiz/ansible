@@ -35,7 +35,7 @@
       become: true
       systemd:
         name: ssh
-        enabled: yes
+        enabled: true
         state: started
       when:
         - ansible_run_tags | length == 0
@@ -45,6 +45,7 @@
       file:
         path: "{{ ansible_env.HOME }}/sources"
         state: directory
+        mode: "0755"
       when: ansible_run_tags | length == 0
 
   roles:
@@ -76,6 +77,8 @@
       tags: tmux
     - role: me.zsh
       tags: zsh
+    - role: me.lazydocker
+      tags: lazydocker
     - role: me.chrome
       tags: chrome
     - role: me.jetbrains_toolbox
