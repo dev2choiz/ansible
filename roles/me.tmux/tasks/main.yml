@@ -16,6 +16,7 @@
     repo: https://github.com/tmux-plugins/tpm
     dest: "{{ tpm_directory }}"
     update: true
+    version: master
 
 - name: Ensure {{ ansible_env.HOME }}/.config/tmux/ exists
   file:
@@ -30,10 +31,12 @@
     recursive: true
 
 - name: Install tmux plugins
-  shell: "{{ tpm_directory }}/bin/install_plugins"
+  command: "{{ tpm_directory }}/bin/install_plugins"
+  changed_when: false
 
 - name: Clean tmux plugins
-  shell: "{{ tpm_directory }}/bin/clean_plugins"
+  command: "{{ tpm_directory }}/bin/clean_plugins"
+  changed_when: false
 
 - name: Copy setup folder in ~/
   synchronize:
