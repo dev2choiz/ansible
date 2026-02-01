@@ -1,6 +1,4 @@
 ---
-# tasks file for me.zsh
-
 - name: Install zsh
   become: true
   apt:
@@ -13,37 +11,57 @@
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: ~/.oh-my-zsh
     depth: 1
+    version: master
 
 - name: Create ~/.zshrc
   template:
     src: templates/.zshrc
     dest: ~/.zshrc
+    mode: '0644'
 
 - name: Copy zshrc.d/*
-  copy:
+  synchronize:
     src: ./files/zshrc.d/
     dest: ~/.zshrc.d/
+    recursive: true
 
 - name: Install zsh-autosuggestions plugin
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     depth: 1
+    version: master
 
 - name: Install zsh-completions plugin
   git:
     repo: https://github.com/zsh-users/zsh-completions
     dest: ~/.oh-my-zsh/custom/plugins/zsh-completions
     depth: 1
+    version: master
 
 - name: Install zsh-syntax-highlighting plugin
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     depth: 1
+    version: master
 
 - name: Install ollama plugin
   git:
-    repo: https://github.com/ocodo/ollama_zsh_completion/
+    repo: https://github.com/ocodo/ollama_zsh_completion.git
     dest: ~/.oh-my-zsh/custom/plugins/ollama
     depth: 1
+    version: main
+
+- name: Install powerlevel10k theme
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: ~/.oh-my-zsh/custom/themes/powerlevel10k
+    depth: 1
+    version: master
+
+- name: Copy ~/.p10k.zsh
+  copy:
+    src: files/.p10k.zsh
+    dest: ~/.p10k.zsh
+    mode: '0644'
