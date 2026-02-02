@@ -6,7 +6,7 @@
       - curl
       - tar
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: Check installed lazygit version
   command: lazygit --version

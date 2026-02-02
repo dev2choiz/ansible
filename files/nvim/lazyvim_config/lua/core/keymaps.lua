@@ -92,18 +92,18 @@ M.snacks = {
   {
     "<leader>ftT",
     function()
-      Snacks.terminal()
+      Snacks.terminal(nil, { esc_esc = true, ctrl_hjkl = true })
     end,
     desc = "Terminal (cwd)",
-    mode = { "n" },
+    mode = { "n", "t" },
   },
   {
     "<leader>ftt",
     function()
-      Snacks.terminal(nil, { cwd = LazyVim.root() })
+      Snacks.terminal(nil, { cwd = LazyVim.root(), esc_esc = true, ctrl_hjkl = true })
     end,
     desc = "Terminal (Root Dir)",
-    mode = { "n" },
+    mode = { "n", "t" },
   },
   {
     "<leader>ftF",
@@ -138,6 +138,21 @@ M.snacks = {
     mode = { "n", "x" },
   },
 }
+
+if vim.fn.executable("lazydocker") == 1 then
+  table.insert(M.snacks, {
+    "<leader>ftd",
+    function()
+      Snacks.terminal.toggle("lazydocker", {
+        cwd = vim.fn.expand("%:p:h"),
+        auto_close = true,
+        interactive = true,
+      })
+    end,
+    desc = "Lazydocker",
+    mode = { "n", "x" },
+  })
+end
 
 M.grug_far = {
   {
