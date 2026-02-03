@@ -1,0 +1,9 @@
+---
+github_repo: ""
+binary_src_name: ""
+binary_dest_name: ""
+github_asset_name: ""
+github_release_tag: "latest"
+install_dir: "/usr/local/bin"
+tmp_dir: "/tmp/github_asset"
+delete_tmp_dir: true

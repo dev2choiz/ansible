@@ -1,0 +1,26 @@
+---
+- name: Assert required variables
+  assert:
+    that:
+      - download_dir | length > 0
+      - download_url | length > 0
+      - archive_filename | length > 0
+
+- name: Ensure temp dir exists
+  file:
+    path: "{{ download_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download archive
+  get_url:
+    url: "{{ download_url }}"
+    dest: "{{ download_dir }}/{{ archive_filename }}"
+    mode: '0644'
+    force: false
+
+- name: Extract archive
+  unarchive:
+    src: "{{ download_dir }}/{{ archive_filename }}"
+    dest: "{{ download_dir }}"
+    remote_src: true

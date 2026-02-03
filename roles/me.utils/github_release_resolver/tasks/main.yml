@@ -1,0 +1,27 @@
+---
+- name: Assert required variables
+  assert:
+    that:
+      - github_repo | length > 0
+      - github_asset_name | length > 0
+      - github_release_tag | length > 0
+
+- name: Get GitHub release
+  uri:
+    url: >-
+      {% if github_release_tag == "latest" %}
+        https://api.github.com/repos/{{ github_repo }}/releases/latest
+      {% else %}
+        https://api.github.com/repos/{{ github_repo }}/releases/tags/{{ github_release_tag }}
+      {% endif %}
+    return_content: true
+  register: github_release
+  failed_when: github_release.status != 200
+
+- name: Expose release tag
+  set_fact:
+    github_latest_tag: "{{ github_release.json.tag_name }}"
+
+- name: Build asset URL
+  set_fact:
+    github_download_url: "https://github.com/{{ github_repo }}/releases/download/{{ github_latest_tag }}/{{ github_asset_name }}"

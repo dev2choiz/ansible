@@ -1,5 +1,7 @@
 - hosts: localhost
-  vars_files: vars/main.yml
+  vars_files:
+    - vars/main.yml
+    - vars/vars.yml
 
   pre_tasks:
     - name: Install base packages
@@ -31,6 +33,11 @@
 
     - name: Gather service facts
       service_facts:
+      tags: always
+    - name: Set facts
+      set_fact:
+        github_arch: "{{ arch_map[ansible_architecture] }}"
+      tags: always
     - name: Enable and start SSH service
       become: true
       systemd:

@@ -1,0 +1,26 @@
+---
+- name: Assert required variables
+  assert:
+    that:
+      - github_repo | length > 0
+      - binary_src_name | length > 0
+      - binary_dest_name | length > 0
+      - github_asset_name | length > 0
+
+- name: Resolve github release and download
+  include_role:
+    name: me.utils/fetch_github_asset
+
+- name: Install binary
+  copy:
+    src: "{{ tmp_dir }}/{{ binary_src_name }}"
+    dest: "{{ install_dir }}/{{ binary_dest_name }}"
+    mode: '0755'
+    remote_src: true
+  become: true
+
+- name: Cleanup
+  file:
+    path: "{{ tmp_dir }}"
+    state: absent
+  when: delete_tmp_dir
