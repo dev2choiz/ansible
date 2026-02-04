@@ -1,21 +1,20 @@
 ---
-# tasks file for me.golang
-
 - name: Check if golang is installed
-  shell: "command -v go || true"
+  command: which go
   register: go_in_path
   changed_when: false
+  failed_when: false
 
 - name: Get installed golang version if present
-  shell: "go version"
+  command: "go version"
   register: go_version
   changed_when: false
-  when: go_in_path.stdout != ""
+  when: go_in_path.rc == 0
 
 - name: Set installed_go_version fact
   set_fact:
     installed_go_version: "{{ go_version.stdout.split(' ')[2] | regex_replace('^go','') }}"
-  when: go_in_path.stdout != ""
+  when: go_in_path.rc == 0
 
 - name: Determine if Go installation is needed
   set_fact:
@@ -33,6 +32,7 @@
   get_url:
     url: "https://go.dev/dl/go{{ var_golang_version }}.linux-amd64.tar.gz"
     dest: /tmp/golang.tar.gz
+    mode: '0644'
 
 - name: Unarchive /tmp/golang.tar.gz
   when: need_install_go
@@ -40,7 +40,7 @@
   unarchive:
     src: /tmp/golang.tar.gz
     dest: /usr/local
-    remote_src: yes
+    remote_src: true
 
 - name: Delete /tmp/golang.tar.gz
   when: need_install_go
@@ -49,6 +49,8 @@
     state: absent
 
 - name: Install golangci-lint
-  shell: /usr/local/go/bin/go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+  # noqa no-changed-when
+  command: /usr/local/go/bin/go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 - name: Install delve
-  shell: /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest
+  # noqa no-changed-when
+  command: /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest

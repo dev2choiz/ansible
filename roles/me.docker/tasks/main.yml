@@ -1,11 +1,4 @@
 ---
-# tasks file for me.docker
-
-- name: Test if docker is installed
-  shell: command -v docker || true
-  register: test_docker
-
-
 - name: Uninstall docker before install
   apt:
     name:
@@ -20,18 +13,22 @@
 
 
 - name: Install docker repository
-  become:
+  # noqa no-changed-when
+  become: true
   shell: |
-    sudo apt-get update
-    sudo apt-get install -y ca-certificates curl
-    sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL "https://download.docker.com/linux/$(. /etc/os-release && echo $ID)/gpg" -o /etc/apt/keyrings/docker.asc
-    sudo chmod a+r /etc/apt/keyrings/docker.asc
+    set -o pipefail
+    apt-get update
+    apt-get install -y ca-certificates curl
+    install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL "https://download.docker.com/linux/$(. /etc/os-release && echo $ID)/gpg" -o /etc/apt/keyrings/docker.asc
+    chmod a+r /etc/apt/keyrings/docker.asc
     echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$(. /etc/os-release && echo "$ID") \
     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
+    tee /etc/apt/sources.list.d/docker.list > /dev/null
+    apt-get update
+  args:
+    executable: /bin/bash
 
 - name: Install docker
   become: true
@@ -44,8 +41,15 @@
       - docker-compose-plugin
     state: present
 
-- name: Add {{ lookup('env', 'USER') }} to docker group
-  become:
-  shell: |
-    sudo groupadd docker | true
-    sudo usermod -aG docker {{ lookup('env', 'USER') }}
+- name: Ensure docker group exists
+  group:
+    name: docker
+    state: present
+  become: true
+
+- name: Add current user to docker group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: true
+  become: true

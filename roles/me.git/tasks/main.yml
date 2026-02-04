@@ -1,6 +1,4 @@
 ---
-# tasks file for me.git
-
 - name: Git global .gitignore
   community.general.git_config:
     name: core.excludesfile
@@ -34,20 +32,28 @@
     value: "{{ var_git_username }}"
 
 - name: Install lazygit
-  shell: /usr/local/go/bin/go install github.com/jesseduffield/lazygit@latest
+  # noqa no-changed-when
+  command: /usr/local/go/bin/go install github.com/jesseduffield/lazygit@latest
 
 - name: Test if git-lfs is installed
-  shell: command -v git-lfs || true
+  command: which git-lfs
   register: test_git_lsf
+  changed_when: false
+  failed_when: false
 
 - name: Install git-lfs repository
   become: true
-  when: test_git_lsf.stdout == ""
-  shell: curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+  when: test_git_lsf.rc != 0
+  # noqa no-changed-when
+  shell: |
+    set -o pipefail
+    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+  args:
+    executable: /bin/bash
 
 - name: Install git-lfs
   become: true
-  when: test_git_lsf.stdout == ""
+  when: test_git_lsf.rc != 0
   apt:
     name:
       - git-lfs
@@ -55,4 +61,5 @@
     state: present
 
 - name: Install git lfs
-  shell: git lfs install
+  # noqa no-changed-when
+  command: git lfs install

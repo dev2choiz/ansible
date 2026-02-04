@@ -1,7 +1,6 @@
 ---
-# tasks file for me.samba
-
 - name: Test is samba is already configured
+  # noqa no-changed-when
   shell: grep -c "BEGIN CONFIG FOR SOURCES" /etc/samba/smb.conf || true
   register: test_conf_grep
 
@@ -15,12 +14,14 @@
 - name: Fetch current smbpasswd users
   become: true
   when: test_conf_grep.stdout == "0"
+  # noqa no-changed-when
   command: /usr/bin/pdbedit -L
   register: pdb_users
 
 - name: Create samba user with a password
   become: true
   when: test_conf_grep.stdout == "0" and pdb_users.stdout.find(var_samba_user) == -1
+  # noqa no-changed-when
   command:
     cmd: "/usr/bin/smbpasswd -s -a {{ var_samba_user }}"
     stdin: |

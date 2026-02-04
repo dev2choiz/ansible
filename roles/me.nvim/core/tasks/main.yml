@@ -1,5 +1,4 @@
 ---
-
 - name: install nvim dependencies
   become: true
   apt:
@@ -13,11 +12,13 @@
       - xclip
 
 - name: Test if nvim is installed
-  shell: command -v nvim || true
+  command: which nvim
   register: test_nvim
+  changed_when: false
+  failed_when: false
 
 - name: Delete previous nvim
-  when: test_nvim.stdout == ""
+  when: test_nvim.rc != 0
   become: true
   file:
     path: /opt/nvim
@@ -25,20 +26,24 @@
 
 # Install nvim
 - name: Download neovim archive
-  when: test_nvim.stdout == ""
+  when: test_nvim.rc != 0
   get_url:
     url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
     dest: /tmp/nvim.tar.gz
+    mode: '0644'
+
 - name: Unarchive /tmp/nvim.tar.gz
-  when: test_nvim.stdout == ""
+  when: test_nvim.rc != 0
   become: true
   unarchive:
     src: /tmp/nvim.tar.gz
     dest: /opt/
+
 - name: Rename the archive to nvim
-  when: test_nvim.stdout == ""
+  # noqa no-changed-when
+  when: test_nvim.rc != 0
   become: true
-  shell: mv /opt/nvim-linux-x86_64 /opt/nvim
+  command: mv /opt/nvim-linux-x86_64 /opt/nvim
 
 # configure PATH
 - name: Create /etc/profile.d/nvim.sh

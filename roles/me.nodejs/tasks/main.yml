@@ -1,6 +1,4 @@
 ---
-# tasks file for me.nodejs
-
 - name: Check installed Node.js version
   command: node -v
   register: node_version
@@ -10,14 +8,18 @@
 - name: Determine if Node.js installation/update is required
   set_fact:
     nodejs_needs_install: >-
-      {{ node_version.stdout == "" or
+      {{ node_version.rc != 0 or
          (node_version.stdout is not search('^v' ~ var_nodejs_version ~ '\.')) }}
 
 - name: Setup NodeSource repository
+  # noqa no-changed-when
   become: true
-  shell: |
+  shell: >
+    set -o pipefail
     curl -fsSL https://deb.nodesource.com/setup_{{ var_nodejs_version }}.x | bash -
   when: nodejs_needs_install
+  args:
+    executable: /bin/bash
 
 - name: Remove old Node.js if needed
   become: true

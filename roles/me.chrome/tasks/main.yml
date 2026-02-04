@@ -1,18 +1,19 @@
 ---
-# tasks file for me.chrome
-
 - name: Test if chrome installed
-  shell: command -v google-chrome || true
+  command: which google-chrome
   register: test_chrome
+  changed_when: false
+  failed_when: false
 
 - name: Download google-chrome-stable_current_amd64.deb
-  when: test_chrome.stdout == ""
+  when: test_chrome.rc != 0
   get_url:
     url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     dest: /tmp/google-chrome-stable_current_amd64.deb
+    mode: '0644'
 
 - name: Install google chrome
-  when: test_chrome.stdout == ""
+  when: test_chrome.rc != 0
   become: true
   apt:
     deb: /tmp/google-chrome-stable_current_amd64.deb

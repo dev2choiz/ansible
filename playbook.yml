@@ -29,7 +29,7 @@
           - python3-pip
           - python3-full
           - pipx
-      when: ansible_run_tags | length == 0
+      when: ansible_run_tags | difference(['all']) | length == 0
 
     - name: Gather service facts
       service_facts:
@@ -45,7 +45,7 @@
         enabled: true
         state: started
       when:
-        - ansible_run_tags | length == 0
+        - ansible_run_tags | difference(['all']) | length == 0
         - "'ssh.service' in ansible_facts.services"
 
     - name: "Create {{ ansible_env.HOME }}/sources"
@@ -53,7 +53,7 @@
         path: "{{ ansible_env.HOME }}/sources"
         state: directory
         mode: "0755"
-      when: ansible_run_tags | length == 0
+      when: ansible_run_tags | difference(['all']) | length == 0
 
   roles:
     - role: me.ollama
@@ -104,8 +104,6 @@
       tags: dbeaver
     - role: me.samba
       tags: samba
-    - role: me.gotop
-      tags: gotop
     - role: me.nodejs
       tags: nodejs
     - role: me.gcloud

@@ -47,6 +47,7 @@
   ansible.builtin.git:
     repo: https://github.com/dexpota/kitty-themes.git
     dest: "{{ ansible_env.HOME }}/.config/kitty/kitty-themes"
+    version: master
     depth: 1
     update: true
 
@@ -74,4 +75,3 @@
     src: files/toggle-kitty.sh
     dest: "{{ ansible_env.HOME }}/bin/toggle-kitty.sh"
     mode: '0755'
-

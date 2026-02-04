@@ -1,19 +1,19 @@
 ---
-# tasks file for me.gcloud
-
 - name: Test if gcloud is installed
-  shell: command -v gcloud || true
+  command: which gcloud
   register: test_gcloud
+  changed_when: false
+  failed_when: false
 
 - name: Create a tmp path
-  when: test_gcloud.stdout == ""
+  when: test_gcloud.rc != 0
   file:
     path: "/tmp/install_gcloud"
     state: directory
-    mode: 0777
+    mode: '0755'
 
 - name: Install gcloud
-  when: test_gcloud.stdout == ""
+  when: test_gcloud.rc != 0
   include_role:
     name: ansible.install-gcloud
   vars:

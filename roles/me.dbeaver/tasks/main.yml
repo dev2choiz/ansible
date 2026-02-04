@@ -1,18 +1,19 @@
 ---
-# tasks file for me.dbeaver
-
 - name: Test if dbeaver is installed
-  shell: command -v dbeaver-ce || true
+  command: which dbeaver-ce
   register: test_dbeaver
+  changed_when: false
+  failed_when: false
 
 - name: Download dbeaver.deb
-  when: test_dbeaver.stdout == ""
+  when: test_dbeaver.rc != 0
   get_url:
     url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
     dest: /tmp/dbeaver-ce_latest_amd64.deb
+    mode: '0644'
 
 - name: Install dbeaver
-  when: test_dbeaver.stdout == ""
+  when: test_dbeaver.rc != 0
   become: true
   apt:
     deb: /tmp/dbeaver-ce_latest_amd64.deb

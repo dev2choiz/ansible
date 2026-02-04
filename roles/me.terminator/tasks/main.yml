@@ -1,5 +1,4 @@
 ---
-# tasks file for me.terminator
 - name: Install terminator
   become: true
   apt:
@@ -11,8 +10,10 @@
   file:
     path: ~/.config/terminator
     state: directory
+    mode: '0755'
 
 - name: Copy ./files/terminator/config to ~/.config/terminator/config
   copy:
     src: ./files/terminator/config
     dest: ~/.config/terminator/config
+    mode: '0644'

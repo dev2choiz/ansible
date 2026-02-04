@@ -17,9 +17,10 @@
 # Install LazyVim
 - name: clone LazyVim
   git:
-    repo: https://github.com/LazyVim/starter
+    repo: https://github.com/LazyVim/starter.git
     dest: "~/.config/{{ nvim_appname }}"
     depth: 1
+    version: main
 - name: Delete .git folder
   file:
     path: "~/.config/{{ nvim_appname }}/.git"

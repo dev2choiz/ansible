@@ -11,7 +11,7 @@
 - name: Check installed lazygit version
   command: lazygit --version
   register: lazygit_installed
-  ignore_errors: true
+  failed_when: false
   changed_when: false
 
 - name: Parse installed lazygit version
@@ -21,10 +21,13 @@
 
 - name: Get latest lazygit version
   shell: >
+    set -o pipefail;
     curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest
     | grep -Po '"tag_name": *"v\K[^"]*'
   register: lazygit_latest_version
   changed_when: false
+  args:
+    executable: /bin/bash
 
 - name: Decide if lazygit needs installation
   set_fact:
@@ -34,20 +37,31 @@
 
 - name: Download lazygit tar.gz
   get_url:
-    url: "https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_latest_version.stdout }}/lazygit_{{ lazygit_latest_version.stdout }}_Linux_x86_64.tar.gz"
+    url: >-
+         {{ "https://github.com/jesseduffield/lazygit/releases/download/v"
+         ~ lazygit_latest_version.stdout
+         ~ "/lazygit_"
+         ~ lazygit_latest_version.stdout
+         ~ "_Linux_x86_64.tar.gz" }}
     dest: /tmp/lazygit.tar.gz
     mode: '0644'
   when: lazygit_needs_install
 
+
 - name: Extract lazygit binary
-  shell: tar xf /tmp/lazygit.tar.gz -C /tmp lazygit
+  unarchive:
+    src: /tmp/lazygit.tar.gz
+    dest: /tmp
+    remote_src: true
+    include:
+      - lazygit
   args:
     creates: /tmp/lazygit
   when: lazygit_needs_install
 
 - name: Install lazygit binary to /usr/local/bin
   become: true
-  shell: install /tmp/lazygit -D -t /usr/local/bin/
+  command: install /tmp/lazygit -D -t /usr/local/bin/
   args:
     creates: /usr/local/bin/lazygit
   when: lazygit_needs_install

@@ -1,18 +1,19 @@
 ---
-# tasks file for me.vscode
-
 - name: Test if VS Code is installed
-  shell: command -v code || true
+  command: which code
   register: test_vscode
+  changed_when: false
+  failed_when: false
 
 - name: Download VS Code
-  when: test_vscode.stdout == ""
+  when: test_vscode.rc != 0
   get_url:
     url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
     dest: /tmp/vscode.deb
+    mode: '0644'
 
 - name: Install VS Code
-  when: test_vscode.stdout == ""
+  when: test_vscode.rc != 0
   become: true
   apt:
     deb: /tmp/vscode.deb
