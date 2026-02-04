@@ -74,6 +74,8 @@ alias dps='docker ps'
 
 alias killDelve="ps aux | grep dlv | grep 'headless=true' | awk '{print $2}' | xargs kill"
 
+alias eza="eza -a -l -g --total-size --icons=always --hyperlink"
+
 ### source sh files in .zshrc.d ###
 mkdir -p "$HOME/.zshrc.d";
 for fsh in $HOME/.zshrc.d/*.sh; do

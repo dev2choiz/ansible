@@ -1,0 +1,36 @@
+---
+- name: Install tools
+  become: true
+  apt:
+    update_cache: true
+    state: present
+    name:
+      - btop
+      - bat
+
+- name: Install eza
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "eza-community/eza"
+    github_asset_name: "eza_{{ github_arch }}-unknown-linux-gnu.tar.gz"
+    binary_src_name: eza
+    binary_dest_name: eza
+
+- name: Install yazi
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "sxyazi/yazi"
+    github_asset_name: "yazi-{{ github_arch }}-unknown-linux-gnu.zip"
+    binary_src_name: "yazi-{{ github_arch }}-unknown-linux-gnu/yazi"
+    binary_dest_name: "yazi"
+    tmp_dir: "/tmp/yazi"
+    delete_tmp_dir: false
+
+- name: Copy yazy config files
+  synchronize:
+    src: files/yazi/
+    dest: ~/.config/yazi/
+    recursive: true
+# todo: yazi completion

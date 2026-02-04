@@ -86,6 +86,8 @@
       tags: zsh
     - role: me.lazydocker
       tags: lazydocker
+    - role: me.lazysql
+      tags: lazysql
     - role: me.chrome
       tags: chrome
     - role: me.jetbrains_toolbox
@@ -112,3 +114,5 @@
       tags: vscode
     - role: me.libreoffice
       tags: libreoffice
+    - role: me.tools
+      tags: tools
