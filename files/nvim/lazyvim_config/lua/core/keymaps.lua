@@ -9,6 +9,7 @@ M.which_key = {
       { "<leader>gv", group = "diffview" },
       { "<leader>sr", group = "search & replace" },
       { "<leader>ft", group = "terminal" },
+      { "<leader>fts", group = "lazysql" },
     },
   },
   keys = {
@@ -150,6 +151,22 @@ if vim.fn.executable("lazydocker") == 1 then
       })
     end,
     desc = "Lazydocker",
+    mode = { "n", "x" },
+  })
+end
+
+if vim.fn.executable("lazysql") == 1 then
+  local lazysql = require("core.lazysql")
+  table.insert(M.snacks, {
+    "<leader>ftss",
+    lazysql.setup,
+    desc = "Lazysql",
+    mode = { "n", "x" },
+  })
+  table.insert(M.snacks, {
+    "<leader>ftsl",
+    lazysql.pick,
+    desc = "Select config",
     mode = { "n", "x" },
   })
 end
