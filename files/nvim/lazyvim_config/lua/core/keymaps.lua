@@ -194,7 +194,7 @@ M.grug_far = {
       local grug = require("grug-far")
       local is_file = vim.bo.buftype == ""
       local ext = is_file and vim.fn.expand("%:e")
-      local current_file = is_file and vim.fn.expand("%:p")
+      local current_file = is_file and vim.fn.expand("%:p") or nil
 
       grug.open({
         transient = true,

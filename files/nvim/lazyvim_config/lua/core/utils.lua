@@ -19,7 +19,7 @@ function M.getRoot()
   return vim.fn.getcwd()
 end
 
----@return string
+---@return string?
 function M.get_global_config_dir()
   return os.getenv("MYNVIM_GLOBAL_CONFIG")
 end
@@ -27,7 +27,7 @@ end
 ---@return boolean
 function M.is_dir(path)
   local stat = uv.fs_stat(path)
-  return stat and stat.type == "directory"
+  return stat and stat.type == "directory" or false
 end
 
 local log_levels = { DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, NONE = 5 }

@@ -66,8 +66,9 @@ alias ws="cd ~/sources"
 alias d="git diff"
 alias ds="git diff --staged"
 alias s="git status"
-alias delMergedBr="git branch --merged | egrep -v '(^\*|master|main|dev|develop)' | xargs git branch -d"
-alias delMergedBrTest="git branch --merged | egrep -v '(^\*|master|main|dev|develop)'"
+alias delMergedBr="git branch --merged | grep -Ev '(^\*|master$|main$|dev$|develop$)' | tee /dev/stderr | xargs -r git branch -d"
+alias delMergedBrTest="git branch --merged | grep -Ev '(^\*|master$|main$|dev$|develop$)'"
+
 
 alias dpsn="docker ps --format '{{.Names}}'"
 alias dps='docker ps'
@@ -75,6 +76,7 @@ alias dps='docker ps'
 alias killDelve="ps aux | grep dlv | grep 'headless=true' | awk '{print $2}' | xargs kill"
 
 alias eza="eza -a -l -g --total-size --icons=always --hyperlink"
+alias bat="batcat"
 
 ### source sh files in .zshrc.d ###
 mkdir -p "$HOME/.zshrc.d";
