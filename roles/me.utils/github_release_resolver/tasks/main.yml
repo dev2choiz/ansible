@@ -6,7 +6,7 @@
       - github_asset_name | length > 0
       - github_release_tag | length > 0
 
-- name: Get GitHub release
+- name: "Get GitHub release. Tag: {{ github_release_tag }}"
   uri:
     url: >-
       {% if github_release_tag == "latest" %}

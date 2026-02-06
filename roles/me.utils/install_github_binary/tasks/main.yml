@@ -11,7 +11,7 @@
   include_role:
     name: me.utils/fetch_github_asset
 
-- name: Install binary
+- name: "Install binary to: {{ install_dir }}/{{ binary_dest_name }}"
   copy:
     src: "{{ tmp_dir }}/{{ binary_src_name }}"
     dest: "{{ install_dir }}/{{ binary_dest_name }}"
@@ -19,7 +19,7 @@
     remote_src: true
   become: true
 
-- name: Cleanup
+- name: "Cleanup: {{ tmp_dir }}"
   file:
     path: "{{ tmp_dir }}"
     state: absent
