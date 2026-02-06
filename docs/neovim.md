@@ -4,7 +4,7 @@ Allows to override plugins, add extra languages, configure DAP adapters, and set
 
 ---
 
-## 1. Directory Structure
+## Directory Structure
 
 To customize for a project, create a `.nvim` directory at the root of the project:
 
@@ -22,7 +22,7 @@ It's automatically detects and loads files from `.nvim` if they exist.
 
 ---
 
-## 2. Project Initialization (`init.lua`)
+## Project Initialization (`init.lua`)
 
 Use `init.lua` to set up project-specific variables, databases, or any other configuration:
 
@@ -38,7 +38,7 @@ vim.g.dbs = {
 
 ---
 
-## 3. Adding Extra LazyVim Modules (`extras.lua`)
+## Adding Extra LazyVim Modules (`extras.lua`)
 
 Use `extras.lua` to include **additional [LazyVim](https://www.lazyvim.org/extras) extras** for the project:
 
@@ -50,7 +50,7 @@ return {
 
 ---
 
-## 4. Project-specific Plugins (`plugins/`)
+## Project-specific Plugins (`plugins/`)
 
 You can add plugins that should only load in this project:
 
@@ -79,7 +79,7 @@ return {
 
 ---
 
-## 5. Project-specific DAP Configuration (`dap.lua`)
+## Project-specific DAP Configuration (`dap.lua`)
 
 Customize debugging adapters and configurations per project:
 
@@ -122,7 +122,7 @@ return {
 }
 ```
 
-## 6. Overseer (overseer.lua)
+## Overseer (overseer.lua)
 
 ```lua
 return {
@@ -160,7 +160,83 @@ return {
 }
 ```
 
-## 7. Global Configuration
+## Lazysql
+
+lazysql can be launched directly from Neovim using:
+
+- a project-specific configuration
+- a global configuration
+- or Lazysql’s default configuration
+
+Priority order:
+
+1. `.nvim/lazysql_config/lazysql/config.toml` (project)
+2. `$MYNVIM_GLOBAL_CONFIG/lazysql_config/lazysql/config.toml` (global)
+3. `$XDG_CONFIG_HOME/lazysql/config.toml or ~/.config/lazysql/config.toml` (lazysql default)
+
+The first configuration found is automatically selected.
+
+
+### Project Lazysql config
+
+Inside your project:
+```
+my-project/
+└─ .nvim/
+   └─ lazysql_config/
+      └─ lazysql/
+         └─ config.toml
+```
+
+This file becomes the project Lazysql configuration.
+It is selected automatically on launch.
+
+### Global Lazysql config
+
+You can define a shared configuration for all projects:
+
+```bash
+export MYNVIM_GLOBAL_CONFIG=~/sources/mynvim
+```
+
+Then:
+```
+~/sources/mynvim/
+└─ lazysql_config/
+   └─ lazysql/
+      └─ config.toml
+```
+
+
+This is used only if no project config exists.
+
+### Default Lazysql config
+
+If neither project nor global configs are found, Lazysql falls back to his default behaviors:
+```bash
+$XDG_CONFIG_HOME/lazysql/config.toml
+```
+or:
+```bash
+~/.config/lazysql/config.toml
+```
+
+### Commands
+- Launch Lazysql
+`<leader>ftss`
+
+-> launches Lazysql using the current configuration.
+
+- Select configuration
+`<leader>ftsl`
+
+-> Opens a picker allowing selection of:
+project config
+global config
+Lazysql default
+
+
+## Global Configuration
 
 While `.nvim` customizes LazyVim per project, the `MYNVIM_GLOBAL_CONFIG` environment variable can be used to define a **global configuration directory**.  
 Settings in this directory apply to all projects, unless they are overridden by a project-specific `.nvim` folder.
