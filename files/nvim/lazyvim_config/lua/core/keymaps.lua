@@ -9,7 +9,9 @@ M.which_key = {
       { "<leader>gv", group = "diffview" },
       { "<leader>sr", group = "search & replace" },
       { "<leader>ft", group = "terminal" },
-      { "<leader>fts", group = "lazysql" },
+      { "<leader>T", group = "tools" },
+      { "<leader>Ts", group = "lazysql" },
+      { "<leader>Th", group = "http" },
     },
   },
   keys = {
@@ -142,7 +144,7 @@ M.snacks = {
 
 if vim.fn.executable("lazydocker") == 1 then
   table.insert(M.snacks, {
-    "<leader>ftd",
+    "<leader>Td",
     function()
       Snacks.terminal.toggle("lazydocker", {
         cwd = vim.fn.expand("%:p:h"),
@@ -158,15 +160,47 @@ end
 if vim.fn.executable("lazysql") == 1 then
   local lazysql = require("core.lazysql")
   table.insert(M.snacks, {
-    "<leader>ftss",
+    "<leader>Tss",
     lazysql.setup,
     desc = "Lazysql",
     mode = { "n", "x" },
   })
   table.insert(M.snacks, {
-    "<leader>ftsl",
+    "<leader>Tsl",
     lazysql.pick,
     desc = "Select config",
+    mode = { "n", "x" },
+  })
+end
+
+if vim.fn.executable("resterm") == 1 then
+  local resterm = require("core.http.resterm")
+  table.insert(M.snacks, {
+    "<leader>Thr",
+    resterm.run,
+    desc = "Resterm",
+    mode = { "n", "x" },
+  })
+  table.insert(M.snacks, {
+    "<leader>Thw",
+    resterm.select_workspace,
+    desc = "Resterm Select Workspace",
+    mode = { "n", "x" },
+  })
+end
+
+if vim.fn.executable("posting") == 1 then
+  local posting = require("core.http.posting")
+  table.insert(M.snacks, {
+    "<leader>Thp",
+    posting.run,
+    desc = "Posting",
+    mode = { "n", "x" },
+  })
+  table.insert(M.snacks, {
+    "<leader>Thc",
+    posting.select_collection,
+    desc = "Posting Select Collection",
     mode = { "n", "x" },
   })
 end
