@@ -1,23 +1,24 @@
 local M = {}
 
-local utils = require("core.utils")
+local helpers = require("core.utils.helpers")
+local logger = require("core.utils.logger").with_source("dap")
 
 function M.setup(dap)
   local paths = {}
 
-  local global = utils.get_global_config_dir()
+  local global = helpers.get_global_config_dir()
   if global then
     table.insert(paths, global .. "/dap.lua")
   end
 
-  table.insert(paths, utils.getRoot() .. "/.nvim/dap.lua")
+  table.insert(paths, helpers.get_root() .. "/.nvim/dap.lua")
 
   for _, file in ipairs(paths) do
-    if not utils.file_exists(file) then
+    if not helpers.file_exists(file) then
       goto continue
     end
 
-    local ok, conf = utils.safe_dotfile(file, true)
+    local ok, conf = helpers.safe_dotfile(file, true)
     if ok then
       if conf.adapters then
         for name, adapter in pairs(conf.adapters) do
@@ -31,7 +32,7 @@ function M.setup(dap)
         end
       end
 
-      utils.log("DEBUG", "[dap] file loaded: " .. file, true)
+      logger.debug("file loaded: " .. file, true)
     end
 
     ::continue::

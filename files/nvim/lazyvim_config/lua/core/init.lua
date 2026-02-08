@@ -1,4 +1,4 @@
-local utils = require("core.utils")
+local helpers = require("core.utils.helpers")
 local loader = require("core.loader")
 local extras = require("core.extras")
 
@@ -9,7 +9,7 @@ function M.before_setup()
 end
 
 function M.before_plugins()
-  return utils.merge_extras(extras, loader.extras())
+  return helpers.merge_extras(extras, loader.extras())
 end
 
 function M.after_plugins()

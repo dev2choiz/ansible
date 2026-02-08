@@ -22,14 +22,16 @@
     path: /etc/hosts
     line: "127.0.0.1 cluster.local"
     state: present
-    create: yes
+    create: true
+    mode: '0644'
   become: true
 - name: Ensure localregistry is in /etc/hosts
   lineinfile:
     path: /etc/hosts
     line: "127.0.0.1 localregistry"
     state: present
-    create: yes
+    create: true
+    mode: '0644'
   become: true
 - name: Ensure /etc/docker exists
   file:

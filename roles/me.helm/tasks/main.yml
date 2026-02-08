@@ -17,12 +17,12 @@
   ansible.builtin.unarchive:
     src: "{{ helm_archive_path }}"
     dest: /tmp/
-    remote_src: yes
+    remote_src: true
   when: helm_download.changed or not helm_file_stat.stat.exists
 
 - name: Move Helm binary to /usr/local/bin
   ansible.builtin.command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
-  become: yes
+  become: true
   args:
     creates: /usr/local/bin/helm
 

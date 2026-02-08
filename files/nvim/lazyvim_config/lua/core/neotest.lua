@@ -1,6 +1,7 @@
 local M = {}
 
-local utils = require("core.utils")
+local helpers = require("core.utils.helpers")
+local logger = require("core.utils.logger").with_source("neotest")
 
 -- Collect neotest configs (global + project)
 local function load_user_configs()
@@ -8,22 +9,22 @@ local function load_user_configs()
   local paths = {}
 
   -- Global config
-  local global = utils.get_global_config_dir()
+  local global = helpers.get_global_config_dir()
   if global then
     table.insert(paths, global .. "/neotest.lua")
   end
 
   -- Project config
-  table.insert(paths, utils.getRoot() .. "/.nvim/neotest.lua")
+  table.insert(paths, helpers.get_root() .. "/.nvim/neotest.lua")
 
   for _, file in ipairs(paths) do
-    if not utils.file_exists(file) then
+    if not helpers.file_exists(file) then
       goto continue
     end
 
-    local ok, conf = utils.safe_dotfile(file, true)
+    local ok, conf = helpers.safe_dotfile(file, true)
     if ok and conf then
-      utils.log("DEBUG", "[neotest] config loaded: " .. file)
+      logger.debug("config loaded: " .. file)
       table.insert(configs, conf)
     end
 
@@ -47,10 +48,10 @@ function M.setup(opts)
       for name, adapter_opts in pairs(conf.adapters) do
         local ok, adapter = pcall(require, name)
         if ok then
-          utils.log("DEBUG", "[neotest] load neotest adapter: " .. name)
+          logger.debug("load neotest adapter: " .. name)
           table.insert(opts.adapters, adapter(adapter_opts or {}))
         else
-          utils.log("WARN", "[neotest] adapter not found: " .. name)
+          logger.warn("adapter not found: " .. name)
         end
       end
     end
@@ -70,7 +71,7 @@ function M.setup(opts)
         for i = #opts.adapters, 1, -1 do
           local adapter = opts.adapters[i]
           if adapter.name == excluded then
-            utils.log("DEBUG", "[neotest] exclude adapter: " .. excluded)
+            logger.debug("exclude adapter: " .. excluded)
             table.remove(opts.adapters, i)
           end
         end

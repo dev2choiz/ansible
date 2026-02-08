@@ -20,6 +20,7 @@
     repo: https://github.com/astronvim/template
     dest: "~/.config/{{ nvim_appname }}"
     depth: 1
+    version: main
 - name: Delete .git folder
   file:
     path: "~/.config/{{ nvim_appname }}/.git"
@@ -29,3 +30,4 @@
   copy:
     src: ./files/nvim/astronvim_config/
     dest: "~/.config/{{ nvim_appname }}/"
+    mode: '0644'

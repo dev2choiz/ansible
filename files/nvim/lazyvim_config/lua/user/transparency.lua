@@ -1,4 +1,4 @@
-local utils = require("core.utils")
+local logger = require("core.utils.logger")
 
 local M = {}
 
@@ -103,7 +103,7 @@ function M.apply()
   vim.o.pumblend = M.floatLvl
   vim.o.winblend = M.floatLvl
 
-  utils.log("INFO", "Transparency ON", true)
+  logger.info("Transparency ON", true)
 end
 
 function M.toggle()
@@ -115,7 +115,7 @@ function M.toggle()
     vim.o.pumblend = 0
     vim.o.winblend = 0
 
-    utils.log("INFO", "Transparency OFF", true)
+    logger.info("Transparency OFF", true)
   end
 end
 

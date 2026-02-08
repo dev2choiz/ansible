@@ -1,4 +1,5 @@
-local utils = require("core.utils")
+local helpers = require("core.utils.helpers")
+local logger = require("core.utils.logger").with_source("overseer")
 
 local M = {}
 
@@ -8,25 +9,25 @@ local function loadTemplates()
   local paths = {}
 
   -- Global config
-  local global = utils.get_global_config_dir()
+  local global = helpers.get_global_config_dir()
   if global then
     table.insert(paths, global .. "/overseer.lua")
   end
 
   -- Project config
-  table.insert(paths, utils.getRoot() .. "/.nvim/overseer.lua")
+  table.insert(paths, helpers.get_root() .. "/.nvim/overseer.lua")
 
   for _, file in ipairs(paths) do
-    if not utils.file_exists(file) then
+    if not helpers.file_exists(file) then
       goto continue
     end
 
-    local ok, conf = utils.safe_dotfile(file, true)
+    local ok, conf = helpers.safe_dotfile(file, true)
     if ok and conf then
       for _, tpl in ipairs(conf) do
         table.insert(templates, tpl)
       end
-      utils.log("DEBUG", "[overseer] config loaded: " .. file)
+      logger.debug("config loaded: " .. file)
     end
 
     ::continue::

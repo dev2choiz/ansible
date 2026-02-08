@@ -1,4 +1,5 @@
-local utils = require("core.utils")
+local helpers = require("core.utils.helpers")
+local logger = require("core.utils.logger").with_source("lazysql")
 
 local config_dirname = "lazysql_config"
 local conf_rel_path = "/lazysql/config.toml"
@@ -9,16 +10,16 @@ local M = {}
 local function get_all_configs()
   local paths = {}
   local results = {}
-  local global = utils.get_global_config_dir()
+  local global = helpers.get_global_config_dir()
 
-  table.insert(paths, utils.getRoot() .. "/.nvim/" .. config_dirname)
+  table.insert(paths, helpers.get_root() .. "/.nvim/" .. config_dirname)
   if global then
     table.insert(paths, global .. "/" .. config_dirname)
   end
 
   for _, path in ipairs(paths) do
     local toml = path .. conf_rel_path
-    if utils.is_dir(path) and utils.file_exists(toml) then
+    if helpers.is_dir(path) and helpers.file_exists(toml) then
       table.insert(results, path)
     end
   end
@@ -40,7 +41,7 @@ local function init_current_config()
   table.insert(default_paths, vim.fn.expand("~/.config" .. conf_rel_path))
 
   for _, p in ipairs(default_paths) do
-    if utils.file_exists(p) then
+    if helpers.file_exists(p) then
       return "default"
     end
   end
@@ -73,7 +74,7 @@ function M.pick()
     table.insert(fallback_paths, vim.fn.expand("~/.config" .. conf_rel_path))
 
     for _, p in ipairs(fallback_paths) do
-      if utils.file_exists(p) then
+      if helpers.file_exists(p) then
         default_file = p
         break
       end
@@ -88,7 +89,7 @@ function M.pick()
   })
 
   if #picker_items == 0 then
-    utils.log("WARN", "[lazysql] no configs found")
+    logger.warn("no configs found")
     return
   end
 
@@ -104,7 +105,7 @@ function M.pick()
       else
         M.current_config = item.value
       end
-      utils.log("INFO", "[lazysql] current config set to: " .. vim.inspect(M.current_config))
+      logger.info("current config set to: " .. vim.inspect(M.current_config))
     end,
   })
 end
@@ -115,7 +116,7 @@ function M.setup()
     local cfg_path = M.current_config
     if cfg_path == "default" then
       local xdg = os.getenv("XDG_CONFIG_HOME")
-      if xdg and utils.file_exists(xdg .. conf_rel_path) then
+      if xdg and helpers.file_exists(xdg .. conf_rel_path) then
         cfg_path = xdg
       else
         cfg_path = vim.fn.expand("~/.config")
@@ -123,6 +124,8 @@ function M.setup()
     end
     cmd = string.format("XDG_CONFIG_HOME=%q lazysql", cfg_path)
   end
+
+  logger.debug(cmd)
 
   Snacks.terminal.toggle(cmd, { auto_close = true, interactive = true })
 end
