@@ -1,3 +1,4 @@
+local logger = require("core.utils.logger")
 ---@class CoreKeymaps
 local M = {}
 
@@ -21,6 +22,22 @@ M.which_key = {
         require("user.transparency").toggle()
       end,
       desc = "Toggle transparency",
+    },
+    {
+      "<leader>xp",
+      function()
+        vim.diagnostic.reset()
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        if #clients == 0 then
+          logger.debug("No LSP client attached")
+          return
+        end
+        for _, client in ipairs(clients) do
+          require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
+        end
+      end,
+      mode = { "n" },
+      desc = "Populate workspace diagnostics",
     },
   },
 }
