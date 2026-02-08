@@ -23,6 +23,14 @@ M.which_key = {
       end,
       desc = "Toggle transparency",
     },
+    { "p", '"_dP', desc = "Paste without overwriting register", mode = { "x" } },
+
+    -- delete without touching the default register
+    { "D", '"_d', mode = { "n", "x" }, desc = "Delete (blackhole)" }, -- `D` is the `d` in blackhole version
+    { "c", '"_c', mode = { "n", "x" }, desc = "Change (blackhole)" },
+    { "C", '"_C', mode = { "n" }, desc = "Change rest of line (blackhole)" },
+    { "x", '"_x', mode = { "n", "x" }, desc = "Delete char (blackhole)" },
+    { "X", '"_X', mode = { "n" }, desc = "Delete char before cursor (blackhole)" },
     {
       "<leader>xp",
       function()
