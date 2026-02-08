@@ -37,3 +37,38 @@
     dest: ~/.config/yazi/
     recursive: true
 # todo: yazi completion
+
+####### lazymake ##########
+- name: Install lazymake
+  include_role:
+    name: me.utils/install_github_deb
+  vars:
+    github_repo: "rshelekhov/lazymake"
+    github_asset_name: "lazymake_0.3.0_linux_amd64.deb"
+    github_release_tag: "v0.3.0"
+
+####### posting ##########
+- name: Install posting
+  shell: |
+    set -o pipefail
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    uv tool install --python 3.13 posting
+  args:
+    executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/.local/bin/posting"
+- name: Copy posting config files
+  synchronize:
+    src: files/posting/
+    dest: ~/.config/posting/
+    recursive: true
+
+###### resterm ##########
+- name: Install resterm
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "unkn0wn-root/resterm"
+    github_asset_name: "resterm_Linux_{{ github_arch }}"
+    binary_src_name: "resterm_Linux_{{ github_arch }}"
+    binary_dest_name: "resterm"
+    delete_tmp_dir: false
