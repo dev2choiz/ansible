@@ -8,6 +8,7 @@
       - btop
       - bat
 
+###### eza ##########
 - name: Install eza
   include_role:
     name: me.utils/install_github_binary
@@ -16,7 +17,9 @@
     github_asset_name: "eza_{{ github_arch }}-unknown-linux-gnu.tar.gz"
     binary_src_name: eza
     binary_dest_name: eza
+    extract_archive: true
 
+###### yazi ##########
 - name: Install yazi
   include_role:
     name: me.utils/install_github_binary
@@ -27,7 +30,7 @@
     binary_dest_name: "yazi"
     tmp_dir: "/tmp/yazi"
     delete_tmp_dir: false
-
+    extract_archive: true
 - name: Copy yazy config files
   synchronize:
     src: files/yazi/

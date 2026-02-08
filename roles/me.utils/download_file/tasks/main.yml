@@ -4,7 +4,7 @@
     that:
       - download_dir | length > 0
       - download_url | length > 0
-      - archive_filename | length > 0
+      - filename | length > 0
 
 - name: "Ensure temp dir exists: {{ download_dir }}"
   file:
@@ -12,16 +12,16 @@
     state: directory
     mode: '0755'
 
-- name: "Download archive in {{ download_dir }}/{{ archive_filename }}"
+- name: "Download archive in {{ download_dir }}/{{ filename }}"
   get_url:
     url: "{{ download_url }}"
-    dest: "{{ download_dir }}/{{ archive_filename }}"
+    dest: "{{ download_dir }}/{{ filename }}"
     mode: '0644'
     force: false
 
 - name: "Extract archive to {{ download_dir }}/"
   unarchive:
-    src: "{{ download_dir }}/{{ archive_filename }}"
+    src: "{{ download_dir }}/{{ filename }}"
     dest: "{{ download_dir }}"
     remote_src: true
   when: extract_archive

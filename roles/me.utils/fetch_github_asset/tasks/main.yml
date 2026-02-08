@@ -11,8 +11,9 @@
 
 - name: Download and Extract
   include_role:
-    name: me.utils/download_and_extract
+    name: me.utils/download_file
   vars:
     download_dir: "{{tmp_dir}}"
     download_url: "{{github_download_url}}"
-    archive_filename: "{{github_asset_name}}"
+    filename: "{{github_asset_name}}"
+    # extract_archive: true

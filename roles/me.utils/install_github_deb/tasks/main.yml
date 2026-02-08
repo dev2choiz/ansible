@@ -8,8 +8,6 @@
 - name: Resolve GitHub release and download asset
   include_role:
     name: me.utils/fetch_github_asset
-  vars:
-    extract_archive: false
 
 - name: "Install .deb package: {{ tmp_dir }}/{{ github_asset_name }}"
   apt:

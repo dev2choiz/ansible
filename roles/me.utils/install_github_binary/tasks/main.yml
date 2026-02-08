@@ -13,11 +13,17 @@
 
 - name: "Install binary to: {{ install_dir }}/{{ binary_dest_name }}"
   copy:
-    src: "{{ tmp_dir }}/{{ binary_src_name }}"
+    src: >-
+      {%- if extract_archive -%}
+        {{ tmp_dir }}/{{ binary_src_name }}
+      {%- else -%}
+        {{ tmp_dir }}/{{ github_asset_name }}
+      {%- endif -%}
     dest: "{{ install_dir }}/{{ binary_dest_name }}"
     mode: '0755'
     remote_src: true
   become: true
+
 
 - name: "Cleanup: {{ tmp_dir }}"
   file:

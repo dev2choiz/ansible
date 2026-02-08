@@ -3,4 +3,4 @@ github_repo: ""
 github_asset_name: ""
 github_release_tag: "latest"
 tmp_dir: "/tmp/github_asset"
-extract_archive: true
+extract_archive: false

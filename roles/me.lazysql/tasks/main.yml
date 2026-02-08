@@ -7,3 +7,4 @@
     github_asset_name: "lazysql_Linux_x86_64.tar.gz"
     binary_src_name: "lazysql"
     binary_dest_name: "lazysql"
+    extract_archive: true
