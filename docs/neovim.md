@@ -223,18 +223,48 @@ or:
 
 ### Commands
 - Launch Lazysql
-`<leader>ftss`
+`<leader>Tss`
 
 -> launches Lazysql using the current configuration.
 
 - Select configuration
-`<leader>ftsl`
+`<leader>Tsl`
 
 -> Opens a picker allowing selection of:
 project config
 global config
 Lazysql default
 
+
+## http
+
+### .nvim/posting.lua
+```lua
+return {
+  collections = {
+    "/path/to/the/posting/collection1",
+    "/path/to/the/posting/collection2",
+  },
+}
+```
+
+### .nvim/resterm.lua
+```lua
+return {
+  configs = {
+    {
+      name = "my api",
+      workspace = "/path/to/the/resterm/workspace",
+      args = {
+        "-insecure",
+      },
+      env = {
+        RESTERM_THEMES_DIR = "/path/to/the/themes/directory",
+      },
+    },
+  },
+}
+```
 
 ## Global Configuration
 
