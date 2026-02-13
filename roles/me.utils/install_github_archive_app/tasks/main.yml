@@ -1,0 +1,42 @@
+---
+- name: Assert required variables
+  assert:
+    that:
+      - github_repo | length > 0
+      - github_asset_name | length > 0
+      - binary_path_within_archive | length > 0
+      - app_name | length > 0
+
+- name: "Fetch GitHub asset"
+  include_role:
+    name: me.utils/fetch_github_asset
+  vars:
+    extract_archive: true
+
+
+- name: Determine source path for installation
+  set_fact:
+    source_path: >-
+      {%- if archive_root_dir | length > 0 -%}
+        {{ tmp_dir }}/{{ archive_root_dir }}
+      {%- else -%}
+        {{ tmp_dir }}
+      {%- endif -%}
+
+- name: "Move application to {{ install_dir }}"
+  become: "{{ install_become }}"
+  command: mv "{{ source_path }}" "{{ install_dir }}"
+
+- name: Create symlink for binary
+  become: "{{ install_become }}"
+  file:
+    src: "{{ install_dir }}/{{ binary_path_within_archive }}"
+    dest: "{{ symlink_path }}/nvim"
+    state: link
+    force: true
+
+- name: Cleanup temporary directory
+  file:
+    path: "{{ tmp_dir }}"
+    state: absent
+  when: delete_tmp_dir

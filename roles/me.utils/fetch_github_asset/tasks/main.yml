@@ -16,4 +16,3 @@
     download_dir: "{{tmp_dir}}"
     download_url: "{{github_download_url}}"
     filename: "{{github_asset_name}}"
-    # extract_archive: true

@@ -1,0 +1,16 @@
+---
+github_repo: ""
+github_asset_name: ""
+github_release_tag: "latest"
+
+app_name: ""
+install_dir: "/opt"
+binary_path_within_archive: ""
+symlink_path: "/usr/local/bin"
+
+tmp_dir: "/tmp/github_archive_app"
+delete_tmp_dir: true
+
+download_become: false
+install_become: true
+archive_root_dir: ""
