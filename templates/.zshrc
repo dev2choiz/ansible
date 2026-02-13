@@ -59,7 +59,7 @@ export PATH=$GOROOT/bin:$PATH
 export PATH=$GOPATH/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
-export PATH="/opt/nvim/bin:$PATH"
+export DOTFILES_THEME=gruvbox
 
 ############ ALIAS ##################
 alias ws="cd ~/sources"

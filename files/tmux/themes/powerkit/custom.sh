@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## based on the dark abyss theme
+## a simple copy of the abyss them
 declare -gA THEME_COLORS=(
   # =========================================================================
   # CORE (terminal background - used for transparent mode separators)
