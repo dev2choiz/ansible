@@ -3,7 +3,7 @@ set -e
 
 STARTTIME=$(date +%s)
 
-if [ "$USER" == "root" ]; then
+if [ "$USER" = "root" ]; then
   echo "This script should not be run as root."
   exit 1
 fi
@@ -26,9 +26,7 @@ done
 
 ansible-playbook playbook.yml $TAGS_ARG
 
-if [ -z "$TAGS_ARG" ] && [ -f ./custom/install.sh ]; then
-  ./custom/install.sh
-fi
+[ -z "$TAGS_ARG" ] && [ -f ./custom/install.sh ] && ./custom/install.sh
 
 ENDTIME=$(date +%s)
 DURATION=$((ENDTIME - STARTTIME))
