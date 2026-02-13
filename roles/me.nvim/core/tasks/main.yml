@@ -24,33 +24,16 @@
     path: /opt/nvim
     state: absent
 
-# Install nvim
-- name: Download neovim archive
+- name: Install Neovim
   when: test_nvim.rc != 0
-  get_url:
-    url: https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-    dest: /tmp/nvim.tar.gz
-    mode: '0644'
-
-- name: Unarchive /tmp/nvim.tar.gz
-  when: test_nvim.rc != 0
-  become: true
-  unarchive:
-    src: /tmp/nvim.tar.gz
-    dest: /opt/
-
-- name: Rename the archive to nvim
-  # noqa no-changed-when
-  when: test_nvim.rc != 0
-  become: true
-  command: mv /opt/nvim-linux-x86_64 /opt/nvim
-
-# configure PATH
-- name: Create /etc/profile.d/nvim.sh
-  become: true
-  copy:
-    src: ./files/nvim/nvim.sh
-    dest: /etc/profile.d/nvim.sh
-    owner: root
-    group: root
-    mode: '0755'
+  include_role:
+    name: me.utils/install_github_archive_app
+  vars:
+    github_repo: "neovim/neovim"
+    github_asset_name: "nvim-linux-x86_64.tar.gz"
+    binary_path_within_archive: "bin/nvim"
+    install_dir: "/opt/nvim"
+    symlink_path: "/usr/local/bin"
+    tmp_dir: "/tmp/nvim"
+    archive_root_dir: "nvim-linux-x86_64"
+    app_name: "nvim"

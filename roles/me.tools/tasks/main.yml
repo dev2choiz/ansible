@@ -48,14 +48,19 @@
     github_release_tag: "v0.3.0"
 
 ####### posting ##########
-- name: Install posting
+- name: Install uv
   shell: |
     set -o pipefail
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    uv tool install --python 3.13 posting
   args:
     executable: /bin/bash
+    creates: "{{ ansible_env.HOME }}/.local/bin/uv"
+
+- name: Install posting
+  shell: $HOME/.local/bin/uv tool install --python 3.13 posting
+  args:
     creates: "{{ ansible_env.HOME }}/.local/bin/posting"
+
 - name: Copy posting config files
   synchronize:
     src: files/posting/
