@@ -13,6 +13,7 @@ M.which_key = {
       { "<leader>T", group = "tools" },
       { "<leader>Ts", group = "lazysql" },
       { "<leader>Th", group = "http" },
+      { "<leader>wS", group = "session" },
     },
   },
   keys = {
@@ -266,6 +267,14 @@ M.grug_far = {
     end,
     desc = "Search & Replace in this file",
     mode = { "n", "x" },
+  },
+}
+
+M.auto_session = {
+  keys = {
+    { "<leader>wSr", "<cmd>AutoSession search<CR>", desc = "Session search" },
+    { "<leader>wSs", "<cmd>AutoSession save<CR>", desc = "Save session" },
+    { "<leader>wSa", "<cmd>AutoSession toggle<CR>", desc = "Toggle autosave" },
   },
 }
 
