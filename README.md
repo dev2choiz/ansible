@@ -87,5 +87,20 @@ NVIM_APPNAME=nvim-custom NVIM_CONFIG=lazyvim sh -c "$(wget -O- https://raw.githu
 NVIM_APPNAME=nvim-custom nvim .
 ```
 
-possible values for NVIM_CONFIG: `lazyvim` | `astronvim`   
+possible values for NVIM_CONFIG: `lazyvim` | `astronvim`  
 default value: `lazyvim`
+
+### Run in docker
+
+build the image
+```bash
+sh -c "$(wget -O- https://raw.githubusercontent.com/dev2choiz/ansible/main/scripts/install-nvim-in-docker.sh)"
+```
+
+then run it with your project directory as volume:
+```bash
+docker run -it --rm -v $(pwd):/app --add-host=host.docker.internal:host-gateway nvim-in-docker zsh
+
+# when you are in the container, open nvim
+nvim .
+```

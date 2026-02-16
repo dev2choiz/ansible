@@ -1,0 +1,9 @@
+.git
+.idea
+.nvim
+ai
+custom
+vars/main.yml
+vars/k8s.secrets.yml
+files/zshrc.d/aliases.sh
+files/zshrc.d/exports.sh
