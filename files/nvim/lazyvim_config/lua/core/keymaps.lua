@@ -1,6 +1,27 @@
 local logger = require("core.utils.logger")
+
+local function insert(t, ...)
+  local vals = { ... }
+  for _, v in ipairs(vals) do
+    table.insert(t, v)
+  end
+end
+
 ---@class CoreKeymaps
 local M = {}
+
+local tui_tools_prefix = { "<leader>T", "<M-a>" }
+
+local tui_tools_group = {}
+
+for _, prefix in ipairs(tui_tools_prefix) do
+  insert(
+    tui_tools_group,
+    { prefix, group = "TUI tools" },
+    { prefix .. "s", group = "lazysql" },
+    { prefix .. "h", group = "http" }
+  )
+end
 
 M.which_key = {
   spec = {
@@ -10,10 +31,8 @@ M.which_key = {
       { "<leader>gv", group = "diffview" },
       { "<leader>sr", group = "search & replace" },
       { "<leader>ft", group = "terminal" },
-      { "<leader>T", group = "tools" },
-      { "<leader>Ts", group = "lazysql" },
-      { "<leader>Th", group = "http" },
       { "<leader>wS", group = "session" },
+      unpack(tui_tools_group),
     },
   },
   keys = {
@@ -33,6 +52,8 @@ M.which_key = {
     { "C", '"_C', mode = { "n" }, desc = "Change rest of line (blackhole)" },
     { "x", '"_x', mode = { "n", "x" }, desc = "Delete char (blackhole)" },
     { "X", '"_X', mode = { "n" }, desc = "Delete char before cursor (blackhole)" },
+
+    -- workspace diagnostics
     {
       "<leader>xp",
       function()
@@ -48,6 +69,14 @@ M.which_key = {
       end,
       mode = { "n" },
       desc = "Populate workspace diagnostics",
+    },
+
+    -- terminal
+    {
+      "<F12>",
+      "<C-\\><C-n>",
+      mode = { "t" },
+      desc = "switch to normal mode",
     },
   },
 }
@@ -170,66 +199,77 @@ M.snacks = {
 }
 
 if vim.fn.executable("lazydocker") == 1 then
-  table.insert(M.snacks, {
-    "<leader>Td",
-    function()
-      Snacks.terminal.toggle("lazydocker", {
-        cwd = vim.fn.expand("%:p:h"),
-        auto_close = true,
-        interactive = true,
-      })
-    end,
-    desc = "Lazydocker",
-    mode = { "n", "x" },
-  })
+  for _, prefix in ipairs(tui_tools_prefix) do
+    table.insert(M.snacks, {
+      prefix .. "d",
+      function()
+        Snacks.terminal.toggle("lazydocker", {
+          cwd = vim.fn.expand("%:p:h"),
+          auto_close = true,
+          interactive = true,
+        })
+      end,
+      desc = "Toggle Lazydocker",
+      mode = { "n", "x" },
+    })
+  end
 end
 
 if vim.fn.executable("lazysql") == 1 then
   local lazysql = require("core.lazysql")
-  table.insert(M.snacks, {
-    "<leader>Tss",
-    lazysql.setup,
-    desc = "Lazysql",
-    mode = { "n", "x" },
-  })
-  table.insert(M.snacks, {
-    "<leader>Tsl",
-    lazysql.pick,
-    desc = "Select config",
-    mode = { "n", "x" },
-  })
+
+  for _, prefix in ipairs(tui_tools_prefix) do
+    table.insert(M.snacks, {
+      prefix .. "ss",
+      lazysql.setup,
+      desc = "Toggle Lazysql",
+      mode = { "n", "x" },
+    })
+    table.insert(M.snacks, {
+      prefix .. "sl",
+      lazysql.pick,
+      desc = "Lazysql Select config",
+      mode = { "n", "x" },
+    })
+  end
 end
 
 if vim.fn.executable("resterm") == 1 then
   local resterm = require("core.http.resterm")
-  table.insert(M.snacks, {
-    "<leader>Thr",
-    resterm.run,
-    desc = "Resterm",
-    mode = { "n", "x" },
-  })
-  table.insert(M.snacks, {
-    "<leader>Thw",
-    resterm.select_workspace,
-    desc = "Resterm Select Workspace",
-    mode = { "n", "x" },
-  })
+
+  for _, prefix in ipairs(tui_tools_prefix) do
+    table.insert(M.snacks, {
+      prefix .. "hr",
+      resterm.run,
+      desc = "Toggle Resterm",
+      mode = { "n", "x" },
+    })
+    table.insert(M.snacks, {
+      prefix .. "hw",
+      resterm.select_workspace,
+      desc = "Resterm Select Workspace",
+      mode = { "n", "x" },
+    })
+  end
 end
 
 if vim.fn.executable("posting") == 1 then
   local posting = require("core.http.posting")
-  table.insert(M.snacks, {
-    "<leader>Thp",
-    posting.run,
-    desc = "Posting",
-    mode = { "n", "x" },
-  })
-  table.insert(M.snacks, {
-    "<leader>Thc",
-    posting.select_collection,
-    desc = "Posting Select Collection",
-    mode = { "n", "x" },
-  })
+
+  for _, prefix in ipairs(tui_tools_prefix) do
+    table.insert(M.snacks, {
+      prefix .. "hp",
+      posting.run,
+      desc = "Toggle Posting",
+      mode = { "n", "x" },
+    })
+    table.insert(M.snacks, {
+      prefix .. "hc",
+      posting.select_collection,
+      desc = "Posting Select Collection",
+      mode = { "n", "x" },
+    })
+  end
 end
 
 M.grug_far = {
