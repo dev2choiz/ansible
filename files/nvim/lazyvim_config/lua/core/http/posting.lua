@@ -1,12 +1,12 @@
-local helpers = require("core.utils.helpers")
+local fs = require("core.utils.fs")
 local logger = require("core.utils.logger").with_source("posting")
 
 ---@class CoreHttpPosting
 local M = {}
 
 local function load_config(path)
-  if helpers.file_exists(path) then
-    local ok, conf = helpers.safe_dotfile(path, true)
+  if fs.file_exists(path) then
+    local ok, conf = fs.safe_dotfile(path, true)
     if ok and conf and conf.collections then
       return conf.collections
     end
@@ -36,10 +36,10 @@ local function merge_lists(list1, list2)
 end
 
 local function init_collections()
-  local global = helpers.get_global_config_dir()
+  local global = fs.get_global_config_dir()
   local global_conf = global and load_config(global .. "/posting.lua") or {}
 
-  local project_conf = load_config(helpers.get_root() .. "/.nvim/posting.lua")
+  local project_conf = load_config(fs.get_root() .. "/.nvim/posting.lua")
 
   return merge_lists(project_conf, global_conf)
 end

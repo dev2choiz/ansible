@@ -1,4 +1,4 @@
-local utils = require("core.utils.helpers")
+local fs = require("core.utils.fs")
 local logger = require("core.utils.logger").with_source("Resterm")
 
 ---@class CoreHttpResterm
@@ -20,19 +20,19 @@ local function get_all_configs()
     end
   end
 
-  local project_file = utils.get_root() .. "/.nvim/resterm.lua"
-  if utils.file_exists(project_file) then
-    local ok, conf = utils.safe_dotfile(project_file, true)
+  local project_file = fs.get_root() .. "/.nvim/resterm.lua"
+  if fs.file_exists(project_file) then
+    local ok, conf = fs.safe_dotfile(project_file, true)
     if ok and conf and conf.configs then
       add(conf.configs)
     end
   end
 
-  local global_dir = utils.get_global_config_dir()
+  local global_dir = fs.get_global_config_dir()
   if global_dir then
     local global_file = global_dir .. "/resterm.lua"
-    if utils.file_exists(global_file) then
-      local ok, conf = utils.safe_dotfile(global_file, true)
+    if fs.file_exists(global_file) then
+      local ok, conf = fs.safe_dotfile(global_file, true)
       if ok and conf and conf.configs then
         add(conf.configs)
       end

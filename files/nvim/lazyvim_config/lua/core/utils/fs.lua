@@ -54,40 +54,4 @@ function M.file_exists(path)
   return stat ~= nil and stat.type == "file"
 end
 
----@param extras1 table|nil
----@param extras2 table|nil
----@return table
-function M.merge_extras(extras1, extras2)
-  local result = {}
-  local index = {}
-
-  local function add(entry)
-    if type(entry) ~= "table" or not entry.import then
-      logger.warn("extras entry must define `import`")
-      return
-    end
-
-    local key = entry.import
-
-    if index[key] then
-      -- last one wins
-      result[index[key]] = entry
-      logger.debug("the extras " .. key .. " has been override")
-    else
-      table.insert(result, entry)
-      index[key] = #result
-    end
-  end
-
-  for _, e in ipairs(extras1 or {}) do
-    add(e)
-  end
-
-  for _, e in ipairs(extras2 or {}) do
-    add(e)
-  end
-
-  return result
-end
-
 return M
