@@ -1,0 +1,9 @@
+---
+- name: Install tools
+  become: true
+  apt:
+    update_cache: true
+    state: present
+    name:
+      - btop
+      - bat

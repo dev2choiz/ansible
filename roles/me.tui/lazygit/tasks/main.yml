@@ -67,7 +67,19 @@
   when: lazygit_needs_install
 
 - name: Copy config file
-  ansible.builtin.copy:
+  copy:
     src: ./files/config.yml
     dest: "{{ ansible_env.HOME }}/.config/lazygit/"
     mode: '0644'
+
+- name: Delete /tmp/lazygit.tar.gz
+  become: true
+  file:
+    path: /tmp/lazygit.tar.gz
+    state: absent
+
+- name: Delete /tmp/lazygit
+  become: true
+  file:
+    path: /tmp/lazygit
+    state: absent

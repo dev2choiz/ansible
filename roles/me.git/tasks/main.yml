@@ -31,10 +31,6 @@
     scope: global
     value: "{{ var_git_username }}"
 
-- name: Install lazygit
-  # noqa no-changed-when
-  command: /usr/local/go/bin/go install github.com/jesseduffield/lazygit@latest
-
 - name: Test if git-lfs is installed
   command: which git-lfs
   register: test_git_lsf

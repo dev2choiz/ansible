@@ -12,11 +12,18 @@ sudo apt install -y ansible make
 
 NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
 NVIM_CONFIG="${NVIM_CONFIG:-lazyvim}"
+EXTRA_TAGS="${EXTRA_TAGS:-}"
 
 echo "NVIM_APPNAME is set to '${NVIM_APPNAME}'"
 echo "NVIM_CONFIG is set to '${NVIM_CONFIG}'"
+echo "EXTRA_TAGS is set to '${EXTRA_TAGS}'"
 
-ansible-playbook playbook-nvim.yml --tags "nvim,$NVIM_CONFIG"
+TAGS="nvim,$NVIM_CONFIG"
+if [ -n "$EXTRA_TAGS" ]; then
+  TAGS="$TAGS,$EXTRA_TAGS"
+fi
+
+ansible-playbook playbook-nvim.yml --tags "$TAGS"
 
 echo "Neovim has been installed with the configuration '${NVIM_APPNAME}'."
 echo "You can launch it with:"

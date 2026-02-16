@@ -34,6 +34,13 @@
     dest: /usr/local/share/fonts/
     recursive: true
 
+
+- name: Delete /tmp/jetbrains-mono-nerd.zip
+  become: true
+  file:
+    path: /tmp/jetbrains-mono-nerd.zip
+    state: absent
+
 - name: Delete /tmp/jetbrains-mono-nerd
   become: true
   file:

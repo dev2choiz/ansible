@@ -1,0 +1,22 @@
+- hosts: localhost
+  vars_files:
+    - vars/vars.yml
+  roles:
+    - role: me.tui/lazygit
+      tags: [tui, nvim, lazygit]
+    - role: me.tui/lazydocker
+      tags: [tui, nvim, lazydocker]
+    - role: me.tui/lazysql
+      tags: [tui, nvim, lazysql]
+    - role: me.tui/eza
+      tags: [tui, nvim, eza]
+    - role: me.tui/lazymake
+      tags: [tui, nvim, lazymake]
+    - role: me.tui/posting
+      tags: [tui, nvim, posting]
+    - role: me.tui/resterm
+      tags: [tui, nvim, resterm]
+    - role: me.tui/yazi
+      tags: [tui, nvim, yazi]
+    - role: me.tui/tools
+      tags: [tui, nvim, tuitools]

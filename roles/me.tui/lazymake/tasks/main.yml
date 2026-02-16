@@ -1,0 +1,8 @@
+---
+- name: Install lazymake
+  include_role:
+    name: me.utils/install_github_deb
+  vars:
+    github_repo: "rshelekhov/lazymake"
+    github_asset_name: "lazymake_0.3.0_linux_amd64.deb"
+    github_release_tag: "v0.3.0"

@@ -5,11 +5,15 @@
     update_cache: true
     state: present
     name:
+      - git
       - build-essential
+      - rsync
+      - unzip
       - ripgrep
       - fd-find
       - sqlite3
       - xclip
+      - fontconfig
 
 - name: Test if nvim is installed
   command: which nvim

@@ -1,0 +1,10 @@
+---
+- name: Install eza
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "eza-community/eza"
+    github_asset_name: "eza_{{ github_arch }}-unknown-linux-gnu.tar.gz"
+    binary_src_name: eza
+    binary_dest_name: eza
+    extract_archive: true

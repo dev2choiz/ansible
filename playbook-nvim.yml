@@ -1,4 +1,16 @@
 - hosts: localhost
+  vars_files:
+    - vars/vars.yml
+
+  pre_tasks:
+    - name: Gather service facts
+      service_facts:
+      tags: always
+    - name: Set facts
+      tags: always
+      set_fact:
+        github_arch: "{{ arch_map[ansible_architecture] }}"
+
   roles:
     - role: me.nvim/core
       tags: [nvim]
@@ -10,7 +22,14 @@
       tags: [nvim]
     - role: me.fzf
       tags: [nvim]
-    - role: me.lazygit
-      tags: [nvim]
     - role: me.dbclient
       tags: [nvim]
+
+    - role: me.zsh
+      tags: [zsh]
+    - role: me.tmux
+      tags: [tmux]
+
+- import_playbook: playbook-tui.yml
+  vars:
+    github_arch: "{{ arch_map[ansible_architecture] }}"

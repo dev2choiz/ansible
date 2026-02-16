@@ -1,0 +1,9 @@
+---
+- name: Install resterm
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "unkn0wn-root/resterm"
+    github_asset_name: "resterm_Linux_{{ github_arch }}"
+    binary_src_name: "resterm_Linux_{{ github_arch }}"
+    binary_dest_name: "resterm"

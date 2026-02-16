@@ -78,4 +78,3 @@ done
 unset -v fsh
 {% endraw %}
 
-alias gituser1="git config --global user.email '{{ var_git_email }}'; git config --global user.name '{{ var_git_username }}'; git config --get user.name ; git config --get user.email"

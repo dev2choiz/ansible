@@ -71,23 +71,17 @@
     - role: me.nvim/core
       tags: [nvim]
     - role: me.nvim/lazyvim
-      tags: [lazyvim]
+      tags: [nvim]
     - role: me.font
       tags: [font, nvim]
-    - role: me.lazygit
-      tags: [lazygit, nvim]
     - role: me.fzf
       tags: [fzf, nvim]
     - role: me.dbclient
-      tags: [nvim]
+      tags: dbclient
     - role: me.tmux
       tags: tmux
     - role: me.zsh
       tags: zsh
-    - role: me.lazydocker
-      tags: lazydocker
-    - role: me.lazysql
-      tags: lazysql
     - role: me.chrome
       tags: chrome
     - role: me.jetbrains_toolbox
@@ -112,5 +106,7 @@
       tags: vscode
     - role: me.libreoffice
       tags: libreoffice
-    - role: me.tools
-      tags: tools
+
+- import_playbook: playbook-tui.yml
+  vars:
+    github_arch: "{{ arch_map[ansible_architecture] }}"
