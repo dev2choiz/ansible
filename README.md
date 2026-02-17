@@ -92,6 +92,8 @@ default value: `lazyvim`
 
 ### Run in docker
 
+#### Build the image and run
+
 build the image
 ```bash
 sh -c "$(wget -O- https://raw.githubusercontent.com/dev2choiz/ansible/main/scripts/install-nvim-in-docker.sh)"
@@ -99,8 +101,25 @@ sh -c "$(wget -O- https://raw.githubusercontent.com/dev2choiz/ansible/main/scrip
 
 then run it with your project directory as volume:
 ```bash
-docker run -it --rm -v $(pwd):/app --add-host=host.docker.internal:host-gateway nvim-in-docker zsh
+docker run -it --rm \
+  -v "$PWD":/app \
+  --add-host=host.docker.internal:host-gateway \
+  nvim-in-docker zsh
 
 # when you are in the container, open nvim
 nvim .
 ```
+
+
+#### Or pull image from docker hub and run
+```bash
+docker pull dev2choiz/nvim-in-docker:latest
+
+docker run -it --rm \
+  -v "$PWD":/app \
+  --add-host=host.docker.internal:host-gateway \
+  dev2choiz/nvim-in-docker:latest zsh
+
+nvim .
+```
+

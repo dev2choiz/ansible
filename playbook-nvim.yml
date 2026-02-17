@@ -24,11 +24,17 @@
       tags: [nvim]
     - role: me.dbclient
       tags: [nvim]
+    - role: me.treesitter
+      tags: [nvim]
 
     - role: me.zsh
       tags: [zsh]
     - role: me.tmux
       tags: [tmux]
+    - role: me.golang
+      tags: [golang]
+    - role: me.nodejs
+      tags: [nodejs]
 
 - import_playbook: playbook-tui.yml
   vars:

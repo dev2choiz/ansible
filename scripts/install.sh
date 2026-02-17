@@ -24,7 +24,7 @@ for arg in "$@"; do
   fi
 done
 
-ansible-playbook playbook.yml --ask-become-pass $TAGS_ARG
+ansible-playbook playbook.yml $TAGS_ARG
 
 [ -z "$TAGS_ARG" ] && [ -f ./custom/install.sh ] && ./custom/install.sh
 

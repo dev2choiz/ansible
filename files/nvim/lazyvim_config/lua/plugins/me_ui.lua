@@ -1,3 +1,5 @@
+local theme = require("core.utils.theme")
+
 return {
   {
     "ellisonleao/gruvbox.nvim",
@@ -28,7 +30,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = theme.get_theme(),
     },
   },
 }
