@@ -48,7 +48,6 @@
     state: absent
 
 - name: Update font cache
-  # noqa: no-changed-when
   when: not stat_fontdir.stat.exists
   become: true
   command: fc-cache -fv

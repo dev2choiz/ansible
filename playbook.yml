@@ -96,8 +96,6 @@
       tags: insomnia
     - role: me.dbeaver
       tags: dbeaver
-    - role: me.samba
-      tags: samba
     - role: me.nodejs
       tags: nodejs
     - role: me.gcloud

@@ -13,7 +13,6 @@
 
 
 - name: Install docker repository
-  # noqa no-changed-when
   become: true
   shell: |
     set -o pipefail

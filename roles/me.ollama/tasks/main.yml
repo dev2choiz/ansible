@@ -1,6 +1,5 @@
 ---
 - name: Install huggingface-cli
-  # noqa no-changed-when
   shell: pip install -U "huggingface_hub[cli]" --break-system-packages
 
 - name: Test if ollama is installed
@@ -10,7 +9,6 @@
   failed_when: false
 
 - name: Install ollama
-  # noqa no-changed-when
   when: test_ollama.rc != 0
   shell: |
     set -o pipefail

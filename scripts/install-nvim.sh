@@ -23,7 +23,7 @@ if [ -n "$EXTRA_TAGS" ]; then
   TAGS="$TAGS,$EXTRA_TAGS"
 fi
 
-ansible-playbook playbook-nvim.yml --tags "$TAGS"
+ansible-playbook playbook-nvim.yml --ask-become-pass --tags "$TAGS"
 
 echo "Neovim has been installed with the configuration '${NVIM_APPNAME}'."
 echo "You can launch it with:"

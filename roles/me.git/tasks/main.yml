@@ -40,7 +40,6 @@
 - name: Install git-lfs repository
   become: true
   when: test_git_lsf.rc != 0
-  # noqa no-changed-when
   shell: |
     set -o pipefail
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
@@ -57,5 +56,4 @@
     state: present
 
 - name: Install git lfs
-  # noqa no-changed-when
   command: git lfs install

@@ -1,10 +1,7 @@
-ansible_become_password: "secret" # the sudo password
-var_golang_version: "1.26.0"
-var_golang_gopath: '{{ ansible_env.HOME }}/go'
-var_nodejs_version: '24'
+ansible_become_password: "secret"              # Optional: sudo password. If not provided, Ansible will prompt interactively when needed.
+var_golang_version: "1.26.0"                   # Optional: Go version to install. Defaults to the latest if omitted.
+var_golang_gopath: '{{ ansible_env.HOME }}/go' # Optional: GOPATH. Default is '{{ ansible_env.HOME }}/go'.
+var_nodejs_version: '25'                       # Optional: Node.js version to install. Defaults to the latest if omitted.
 
-var_samba_user: 'johndoe'
-var_samba_password: 'secret'
-
-var_git_email: 'johndoe@gmail.com'
-var_git_username: 'johndoe'
+var_git_email: 'johndoe@gmail.com'   # Optional: Git user email (sets `git config --global user.email`)
+var_git_username: 'johndoe'          # Optional: Git username (sets `git config --global user.name`)

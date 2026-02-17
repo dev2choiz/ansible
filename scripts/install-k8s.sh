@@ -11,7 +11,7 @@ fi
 sudo apt install -y ansible
 sudo apt install -y python3-kubernetes
 ansible-galaxy install -r requirements.yml
-ansible-playbook playbook-k8s.yml
+ansible-playbook playbook-k8s.yml --ask-become-pass
 
 ENDTIME=$(date +%s)
 DURATION=$((ENDTIME - STARTTIME))

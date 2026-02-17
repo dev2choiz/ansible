@@ -16,9 +16,24 @@
     installed_go_version: "{{ go_version.stdout.split(' ')[2] | regex_replace('^go','') }}"
   when: go_in_path.rc == 0
 
+- name: Get latest golang version if var_golang_version is not defined
+  ansible.builtin.uri:
+    url: https://go.dev/VERSION?m=text
+    return_content: true
+  register: latest_go_version
+  when: var_golang_version is not defined
+
+- name: Set golang_version fact
+  set_fact:
+    golang_version: >-
+      {{
+        (var_golang_version if var_golang_version is defined
+        else (latest_go_version.content.split()[0] | regex_replace('^go','')))
+      }}
+
 - name: Determine if Go installation is needed
   set_fact:
-    need_install_go: "{{ (installed_go_version is not defined) or (installed_go_version != var_golang_version) }}"
+    need_install_go: "{{ (installed_go_version is not defined) or (installed_go_version != golang_version) }}"
 
 - name: Delete previous go installation
   when: need_install_go
@@ -27,10 +42,10 @@
     path: /usr/local/go
     state: absent
 
-- name: Download golang archive
+- name: "Download golang {{ golang_version }} archive"
   when: need_install_go
   get_url:
-    url: "https://go.dev/dl/go{{ var_golang_version }}.linux-amd64.tar.gz"
+    url: "https://go.dev/dl/go{{ golang_version }}.linux-amd64.tar.gz"
     dest: /tmp/golang.tar.gz
     mode: '0644'
 
@@ -42,6 +57,13 @@
     dest: /usr/local
     remote_src: true
 
+- name: Symlink go binary into /usr/local/bin
+  become: true
+  file:
+    src: /usr/local/go/bin/go
+    dest: /usr/local/bin/go
+    state: link
+
 - name: Delete /tmp/golang.tar.gz
   when: need_install_go
   file:
@@ -49,8 +71,7 @@
     state: absent
 
 - name: Install golangci-lint
-  # noqa no-changed-when
   command: /usr/local/go/bin/go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
 - name: Install delve
-  # noqa no-changed-when
   command: /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest

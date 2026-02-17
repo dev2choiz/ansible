@@ -1,5 +1,5 @@
 ---
-- name: Install PostgreSQL client
+- name: Install DB client
   apt:
     name:
       - postgresql-client

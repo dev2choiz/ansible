@@ -5,18 +5,31 @@
   failed_when: false
   changed_when: false
 
+- name: Set NodeSource channel
+  set_fact:
+    nodejs_channel: >-
+      {{
+        var_nodejs_version ~ '.x'
+        if var_nodejs_version is defined
+        else 'current.x'
+      }}
+
 - name: Determine if Node.js installation/update is required
   set_fact:
     nodejs_needs_install: >-
-      {{ node_version.rc != 0 or
-         (node_version.stdout is not search('^v' ~ var_nodejs_version ~ '\.')) }}
+      {{
+        node_version.rc != 0 or
+        (
+          var_nodejs_version is defined and
+          node_version.stdout is not search('^v' ~ var_nodejs_version ~ '\.')
+        )
+      }}
 
 - name: Setup NodeSource repository
-  # noqa no-changed-when
   become: true
   shell: >
-    set -o pipefail
-    curl -fsSL https://deb.nodesource.com/setup_{{ var_nodejs_version }}.x | bash -
+    set -o pipefail &&
+    curl -fsSL https://deb.nodesource.com/setup_{{ nodejs_channel }} | bash -
   when: nodejs_needs_install
   args:
     executable: /bin/bash
