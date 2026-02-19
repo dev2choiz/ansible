@@ -31,7 +31,6 @@ ENV GOROOT=/usr/local/go \
 COPY --chown=${USER_NAME}:${USER_NAME} docker/.zshrc /home/${USER_NAME}/
 
 USER root
-# RUN npm install -g tree-sitter-cli
 RUN apt-get purge -y ansible \
   && apt-get autoremove -y \
   && apt-get clean \

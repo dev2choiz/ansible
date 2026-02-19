@@ -13,7 +13,6 @@
   vars:
     extract_archive: true
 
-
 - name: Determine source path for installation
   set_fact:
     source_path: >-
@@ -22,6 +21,12 @@
       {%- else -%}
         {{ tmp_dir }}
       {%- endif -%}
+
+- name: Delete install directory before moving new files
+  become: true
+  file:
+    state: absent
+    path: install_dir
 
 - name: "Move application to {{ install_dir }}"
   become: "{{ install_become }}"

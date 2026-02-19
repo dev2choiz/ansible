@@ -78,6 +78,11 @@ M.which_key = {
       mode = { "t" },
       desc = "switch to normal mode",
     },
+    -- find (override)
+    { "<leader>/", LazyVim.pick("live_grep", { root = false }), desc = "Grep (cwd)" },
+    { "<leader><space>", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+    { "<leader>ff", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+    { "<leader>fF", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
   },
 }
 
@@ -181,7 +186,7 @@ M.snacks = {
     mode = { "n" },
   },
   {
-    "<leader>e",
+    "<leader>E",
     function()
       explorer_open({ root = true })
     end,
@@ -189,9 +194,9 @@ M.snacks = {
     mode = { "n", "x" },
   },
   {
-    "<leader>E",
+    "<leader>e",
     function()
-      explorer_open({ cwd = vim.fn.expand("%:p:h") })
+      explorer_open({ root = false })
     end,
     desc = "Explorer Snacks (cwd dir)",
     mode = { "n", "x" },

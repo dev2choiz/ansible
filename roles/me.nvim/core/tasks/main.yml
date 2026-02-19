@@ -41,3 +41,4 @@
     tmp_dir: "/tmp/nvim"
     archive_root_dir: "nvim-linux-x86_64"
     app_name: "nvim"
+    github_release_tag: "nightly"

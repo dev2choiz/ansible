@@ -8,11 +8,6 @@ if [ "$USER" = "root" ]; then
   exit 1
 fi
 
-if [ ! -f ./vars/main.yml ]; then
-  echo "./vars/main.yml file does not exists. Please create it by taking as example the file ./vars/main.yml.example"
-  exit 1
-fi
-
 sudo apt install -y make ansible
 ansible-galaxy install -r requirements.yml
 

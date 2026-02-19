@@ -71,7 +71,14 @@
     state: absent
 
 - name: Install golangci-lint
-  command: /usr/local/go/bin/go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+  shell: |
+    set -o pipefail
+    curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b {{var_golang_gopath}}/bin v2.10.1
+  args:
+    creates: "{{ var_golang_gopath }}/bin/golangci-lint"
+    executable: /bin/bash
 
 - name: Install delve
   command: /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest
+  args:
+    creates: "{{ var_golang_gopath }}/bin/dlv"

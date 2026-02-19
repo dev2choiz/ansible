@@ -76,6 +76,8 @@
       tags: [font, nvim]
     - role: me.fzf
       tags: [fzf, nvim]
+    - role: me.treesitter
+      tags: [treesitter, nvim]
     - role: me.dbclient
       tags: dbclient
     - role: me.tmux
