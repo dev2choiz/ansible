@@ -93,6 +93,27 @@ M.dap = {
     desc = "DAP Continue",
   },
   {
+    "<F7>",
+    function()
+      require("dap").step_into()
+    end,
+    desc = "DAP Step Into",
+  },
+  {
+    "<F8>",
+    function()
+      require("dap").step_over()
+    end,
+    desc = "DAP Step Over",
+  },
+  {
+    "<F12>", -- todo: try to change to <S-F8>
+    function()
+      require("dap").step_out()
+    end,
+    desc = "DAP Step Out",
+  },
+  {
     "<F9>",
     function()
       require("dap").toggle_breakpoint()
@@ -105,27 +126,6 @@ M.dap = {
       require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
     end,
     desc = "DAP Conditional Breakpoint",
-  },
-  {
-    "<F10>",
-    function()
-      require("dap").step_over()
-    end,
-    desc = "DAP Step Over",
-  },
-  {
-    "<F11>",
-    function()
-      require("dap").step_into()
-    end,
-    desc = "DAP Step Into",
-  },
-  {
-    "<F12>",
-    function()
-      require("dap").step_out()
-    end,
-    desc = "DAP Step Out",
   },
 }
 
