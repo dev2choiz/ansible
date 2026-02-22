@@ -39,6 +39,7 @@ RUN apt-get purge -y ansible \
 USER ${USER_NAME}
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV RUNNING_IN_DOCKER=true
 
 WORKDIR /app
 

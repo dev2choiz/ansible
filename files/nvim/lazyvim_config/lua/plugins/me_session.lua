@@ -1,9 +1,10 @@
-local keymaps = require("core.keymaps")
 return {
   {
     "rmagatti/auto-session",
     lazy = false,
-    keys = keymaps.auto_session.keys,
+    keys = function()
+      return require("core.keymaps").auto_session.keys
+    end,
 
     opts = {
       -- mappings on the picker:

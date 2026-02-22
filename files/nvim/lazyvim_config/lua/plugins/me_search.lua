@@ -1,6 +1,3 @@
----@class CoreKeymaps
-local keymaps = require("core.keymaps")
-
 return {
   {
     "MagicDuck/grug-far.nvim",
@@ -11,6 +8,8 @@ return {
         },
       },
     },
-    keys = keymaps.grug_far,
+    keys = function()
+      return require("core.keymaps").grug_far
+    end,
   },
 }

@@ -1,4 +1,4 @@
-local logger = require("core.utils.logger")
+local logger = require("core.utils.logger").with_source("keymaps")
 
 local function insert(t, ...)
   local vals = { ... }
@@ -17,23 +17,20 @@ local tui_tools_group = {}
 for _, prefix in ipairs(tui_tools_prefix) do
   insert(
     tui_tools_group,
-    { prefix, group = "TUI tools" },
-    { prefix .. "s", group = "lazysql" },
-    { prefix .. "h", group = "http" }
+    { prefix, group = "TUI tools", mode = { "n", "x" } },
+    { prefix .. "s", group = "lazysql", mode = { "n", "x" } },
+    { prefix .. "h", group = "http", mode = { "n", "x" } }
   )
 end
 
 M.which_key = {
   spec = {
-    {
-      mode = { "n", "x" },
-      { "<leader>a", group = "ai" },
-      { "<leader>gv", group = "diffview" },
-      { "<leader>sr", group = "search & replace" },
-      { "<leader>ft", group = "terminal" },
-      { "<leader>wS", group = "session" },
-      unpack(tui_tools_group),
-    },
+    { "<leader>a", group = "ai", mode = { "n", "x" } },
+    { "<leader>gv", group = "diffview", mode = { "n", "x" } },
+    { "<leader>sr", group = "search & replace", mode = { "n", "x" } },
+    { "<leader>ft", group = "terminal", mode = { "n", "x" } },
+    { "<leader>wS", group = "session", mode = { "n", "x" } },
+    unpack(tui_tools_group),
   },
   keys = {
     {
@@ -78,6 +75,7 @@ M.which_key = {
       mode = { "t" },
       desc = "switch to normal mode",
     },
+
     -- find (override)
     { "<leader>/", LazyVim.pick("live_grep", { root = false }), desc = "Grep (cwd)" },
     { "<leader><space>", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
@@ -95,13 +93,6 @@ M.dap = {
     desc = "DAP Continue",
   },
   {
-    "<F8>",
-    function()
-      require("dap").step_over()
-    end,
-    desc = "DAP Step Over",
-  },
-  {
     "<F9>",
     function()
       require("dap").toggle_breakpoint()
@@ -114,6 +105,13 @@ M.dap = {
       require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
     end,
     desc = "DAP Conditional Breakpoint",
+  },
+  {
+    "<F10>",
+    function()
+      require("dap").step_over()
+    end,
+    desc = "DAP Step Over",
   },
   {
     "<F11>",

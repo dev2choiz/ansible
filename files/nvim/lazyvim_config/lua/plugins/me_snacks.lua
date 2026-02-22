@@ -1,6 +1,3 @@
----@class CoreKeymaps
-local keymaps = require("core.keymaps")
-
 local common_exclude = { ".git", ".idea", ".vscode" }
 
 local grep_exclude = vim.list_extend(vim.deepcopy(common_exclude), { "node_modules", "dist", "build" })
@@ -43,5 +40,7 @@ return {
       },
     },
   },
-  keys = keymaps.snacks,
+  keys = function()
+    return require("core.keymaps").snacks
+  end,
 }

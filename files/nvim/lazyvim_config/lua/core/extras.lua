@@ -25,6 +25,7 @@ M.list = {
   { import = "lazyvim.plugins.extras.lang.terraform" },
   { import = "lazyvim.plugins.extras.lang.docker" },
   { import = "lazyvim.plugins.extras.lang.helm" },
+  { import = "lazyvim.plugins.extras.lang.python" },
   { import = "lazyvim.plugins.extras.editor.overseer" },
   { import = "lazyvim.plugins.extras.util.rest" },
   { import = "lazyvim.plugins.extras.util.dot" },

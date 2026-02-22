@@ -6,6 +6,7 @@
       - github_asset_name | length > 0
       - binary_path_within_archive | length > 0
       - app_name | length > 0
+      - install_dir | length > 0
 
 - name: "Fetch GitHub asset"
   include_role:

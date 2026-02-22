@@ -4,7 +4,7 @@ github_asset_name: ""
 github_release_tag: "latest"
 
 app_name: ""
-install_dir: "/opt"
+install_dir: ""
 binary_path_within_archive: ""
 symlink_path: "/usr/local/bin"
 

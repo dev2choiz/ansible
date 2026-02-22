@@ -11,6 +11,8 @@ return {
         typescriptreact = { "prettier" },
         vue = { "prettier" },
         json = { "prettier" },
+        python = { "ruff_format" },
+        sh = { "shfmt" },
       },
     },
   },

@@ -1,6 +1,3 @@
----@class CoreKeymaps
-local keymaps = require("core.keymaps")
-
 return {
   {
     "leoluz/nvim-dap-go",
@@ -12,7 +9,10 @@ return {
   },
   {
     "mfussenegger/nvim-dap",
-    keys = keymaps.dap,
+    -- keys = keymaps.dap,
+    keys = function()
+      return require("core.keymaps").dap
+    end,
     dependencies = {
       {
         "igorlfs/nvim-dap-view",
