@@ -33,13 +33,6 @@ M.which_key = {
     unpack(tui_tools_group),
   },
   keys = {
-    {
-      "<Leader>ut",
-      function()
-        require("user.transparency").toggle()
-      end,
-      desc = "Toggle transparency",
-    },
     { "p", '"_dP', desc = "Paste without overwriting register", mode = { "x" } },
 
     -- delete without touching the default register
@@ -320,5 +313,21 @@ M.auto_session = {
     { "<leader>wSa", "<cmd>AutoSession toggle<CR>", desc = "Toggle autosave" },
   },
 }
+
+function M.config_keymaps()
+  Snacks.toggle({
+    name = "transparency",
+    get = function()
+      return require("user.transparency").enabled
+    end,
+    set = function()
+      require("user.transparency").toggle()
+    end,
+    wk_desc = {
+      enabled = "Disable ",
+      disabled = "Enable ",
+    },
+  }):map("<leader>ut")
+end
 
 return M

@@ -1,5 +1,3 @@
-local logger = require("core.utils.logger")
-
 local M = {}
 
 M.enabled = false -- default value
@@ -102,8 +100,6 @@ function M.apply()
   end
   vim.o.pumblend = M.floatLvl
   vim.o.winblend = M.floatLvl
-
-  logger.info("Transparency ON", true)
 end
 
 function M.toggle()
@@ -114,8 +110,6 @@ function M.toggle()
     vim.cmd.colorscheme(vim.g.colors_name)
     vim.o.pumblend = 0
     vim.o.winblend = 0
-
-    logger.info("Transparency OFF", true)
   end
 end
 
