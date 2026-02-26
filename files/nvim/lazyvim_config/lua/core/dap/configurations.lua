@@ -10,6 +10,7 @@ function M.setup(dap)
       type = "go_launch",
       request = "launch",
       program = "${workspaceFolder}/main.go",
+      outputMode = "remote",
     },
     {
       name = "Attach Go (remote dlv)",
