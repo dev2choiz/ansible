@@ -1,0 +1,14 @@
+---
+- name: "Check if {{ check_binary }} binary exists"
+  command: "which {{ check_binary }}"
+  register: check_binary_result
+  changed_when: false
+  failed_when: false
+
+- name: "Compute `need_install` flag for {{ target_role }}"
+  set_fact:
+    need_install: >
+      {{
+        check_binary_result.rc != 0
+        or (' ' ~ target_role ~ ' ' in (force_roles | default('')))
+      }}

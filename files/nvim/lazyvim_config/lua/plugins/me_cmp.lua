@@ -1,5 +1,3 @@
--- local transparency = require("user.transparency")
-
 return {
   "Saghen/blink.cmp",
   version = "*",

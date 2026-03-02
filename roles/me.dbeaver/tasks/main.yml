@@ -1,25 +1,27 @@
 ---
 - name: Test if dbeaver is installed
-  command: which dbeaver-ce
-  register: test_dbeaver
-  changed_when: false
-  failed_when: false
+  include_role:
+    name: me.utils/common_checks
+  vars:
+    check_binary: dbeaver-ce
+    target_role: dbeaver
 
 - name: Download dbeaver.deb
-  when: test_dbeaver.rc != 0
+  when: need_install
   get_url:
     url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
     dest: /tmp/dbeaver-ce_latest_amd64.deb
     mode: '0644'
 
 - name: Install dbeaver
-  when: test_dbeaver.rc != 0
+  when: need_install
   become: true
   apt:
     deb: /tmp/dbeaver-ce_latest_amd64.deb
     state: present
 
 - name: Delete /tmp/dbeaver.deb
+  when: need_install
   file:
     path: /tmp/dbeaver-ce_latest_amd64.deb
     state: absent
