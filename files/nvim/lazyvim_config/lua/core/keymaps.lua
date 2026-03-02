@@ -314,6 +314,21 @@ M.auto_session = {
   },
 }
 
+M.vim_dadbod = {
+  {
+    "<leader>S",
+    "<Plug>(DBUI_ExecuteQuery)",
+    mode = "n",
+    desc = "Execute SQL file",
+  },
+  {
+    "<leader>S",
+    "<Plug>(DBUI_ExecuteQuery)",
+    mode = "v",
+    desc = "Execute SQL selection",
+  },
+}
+
 function M.config_keymaps()
   Snacks.toggle({
     name = "transparency",
@@ -328,6 +343,14 @@ function M.config_keymaps()
       disabled = "Enable ",
     },
   }):map("<leader>ut")
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "sql",
+    callback = function()
+      vim.keymap.del("i", "<left>", { buffer = true })
+      vim.keymap.del("i", "<right>", { buffer = true })
+    end,
+  })
 end
 
 return M

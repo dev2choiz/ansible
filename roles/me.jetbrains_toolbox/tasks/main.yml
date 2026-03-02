@@ -1,18 +1,19 @@
 ---
 - name: Test if jetbrains-toolbox is installed
-  shell: test -x /opt/jetbrains-toolbox/bin/jetbrains-toolbox && echo "found" || true
+  stat:
+    path: /opt/jetbrains-toolbox/bin/jetbrains-toolbox
   register: test_jbtoolbox
   changed_when: false
 
 - name: Download jetbrains-toolbox.tar.gz
-  when: test_jbtoolbox.rc != 0
+  when: not test_jbtoolbox.stat.exists
   get_url:
     url: https://data.services.jetbrains.com/products/download?platform=linux&code=TBA
     dest: /tmp/jetbrains-toolbox.tar.gz
     mode: '0644'
 
 - name: Create /opt/jetbrains-toolbox directory
-  when: test_jbtoolbox.rc != 0
+  when: not test_jbtoolbox.stat.exists
   become: true
   file:
     path: /opt/jetbrains-toolbox
@@ -22,7 +23,7 @@
     mode: '0755'
 
 - name: Unarchive jetbrains-toolbox
-  when: test_jbtoolbox.rc != 0
+  when: not test_jbtoolbox.stat.exists
   become: true
   unarchive:
     src: /tmp/jetbrains-toolbox.tar.gz
@@ -31,7 +32,7 @@
     extra_opts: [--strip-components=1]
 
 - name: Ensure jetbrains-toolbox binary is executable
-  when: test_jbtoolbox.rc != 0
+  when: not test_jbtoolbox.stat.exists
   become: true
   file:
     path: /opt/jetbrains-toolbox/bin/jetbrains-toolbox
@@ -39,7 +40,7 @@
     state: file
 
 - name: Create corrected .desktop for menu
-  when: test_jbtoolbox.rc != 0
+  when: not test_jbtoolbox.stat.exists
   become: true
   copy:
     dest: /usr/share/applications/jetbrains-toolbox.desktop
@@ -58,7 +59,7 @@
     mode: '0644'
 
 - name: Delete temporary tar.gz
-  when: test_jbtoolbox.rc != 0
+  when: not test_jbtoolbox.stat.exists
   become: true
   file:
     path: /tmp/jetbrains-toolbox.tar.gz

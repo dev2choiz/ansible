@@ -33,6 +33,7 @@
 - name: Install tmux plugins
   command: "{{ tpm_directory }}/bin/install_plugins"
   changed_when: false
+  failed_when: false
 
 - name: Clean tmux plugins
   command: "{{ tpm_directory }}/bin/clean_plugins"
