@@ -1,7 +1,7 @@
 ---
 - name: Test if dbeaver is installed
   include_role:
-    name: me.utils/common_checks
+    name: me.utils/check_install
   vars:
     check_binary: dbeaver-ce
     target_role: dbeaver
