@@ -1,7 +1,18 @@
+local state = require("core.state").get_transparency()
+
 local M = {}
 
-M.enabled = false -- default value
-M.floatLvl = 20
+function M.is_enabled()
+  return state.get("enabled", false)
+end
+
+function M.set_enabled(v)
+  state.set("enabled", v)
+end
+
+function M.get_float_lvl()
+  return state.get("float_lvl", 20)
+end
 
 M.highlights = {
   -- Normal
@@ -98,13 +109,17 @@ function M.apply()
   for group, opts in pairs(M.highlights) do
     vim.api.nvim_set_hl(0, group, opts)
   end
-  vim.o.pumblend = M.floatLvl
-  vim.o.winblend = M.floatLvl
+  local float_lvl = M.get_float_lvl()
+  vim.o.pumblend = float_lvl
+  vim.o.winblend = float_lvl
 end
 
 function M.toggle()
-  M.enabled = not M.enabled
-  if M.enabled then
+  local enabled = not M.is_enabled()
+
+  M.set_enabled(enabled)
+
+  if enabled then
     M.apply()
   else
     vim.cmd.colorscheme(vim.g.colors_name)
@@ -114,7 +129,7 @@ function M.toggle()
 end
 
 function M.init()
-  if M.enabled then
+  if M.is_enabled() then
     M.apply()
   end
 end
