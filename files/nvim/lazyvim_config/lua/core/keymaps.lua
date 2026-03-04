@@ -120,6 +120,14 @@ M.dap = {
     end,
     desc = "DAP Conditional Breakpoint",
   },
+  {
+    "<leader>dv",
+    function()
+      local used_plugin = require("core.dap.state").toggle_ui_plugin()
+      vim.notify("DAP UI: " .. used_plugin, vim.log.levels.INFO)
+    end,
+    desc = "Toggle DAP View UI",
+  },
 }
 
 M.diffview = {
