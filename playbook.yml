@@ -90,6 +90,8 @@
       tags: jetbrains_toolbox
     - role: me.terraform
       tags: terraform
+    - role: me.rust
+      tags: rust
     - role: me.devtoys
       tags: devtoys
     - role: me.postman

@@ -1,0 +1,21 @@
+---
+- name: Test if rustc is installed
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: rustc
+    target_role: rust
+
+- name: Download rustup install script
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/rustup.sh
+    mode: '0755'
+  when: need_install
+
+- name: Install Rust and Cargo via rustup
+  shell: |
+    /tmp/rustup.sh -y
+  args:
+    executable: /bin/bash
+  when: need_install
