@@ -30,6 +30,7 @@ M.which_key = {
     { "<leader>sr", group = "search & replace", mode = { "n", "x" } },
     { "<leader>ft", group = "terminal", mode = { "n", "x" } },
     { "<leader>wS", group = "session", mode = { "n", "x" } },
+    { "<leader>m", group = "misc", mode = { "n", "x" } },
     unpack(tui_tools_group),
   },
   keys = {
@@ -351,6 +352,23 @@ function M.config_keymaps()
       disabled = "Enable ",
     },
   }):map("<leader>ut")
+
+  Snacks.toggle({
+    name = "multicursor",
+    get = function()
+      return require("core.multicursor.state").is_vim_visual_multi()
+    end,
+    set = function()
+      local next_plugin = require("core.multicursor.state").toggle_plugin()
+
+      vim.notify("Multicursor: " .. next_plugin)
+    end,
+    wk_desc = {
+      enabled = "Use multicursor.nvim ",
+      disabled = "Use vim-visual-multi ",
+    },
+    notify = false,
+  }):map("<leader>mv")
 
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "sql",

@@ -1,3 +1,5 @@
+local state = require("core.multicursor.state")
+
 local multicursor = {
   {
     "jake-stewart/multicursor.nvim",
@@ -120,7 +122,8 @@ local visual_multi = {
   end,
 }
 
-return {
-  visual_multi,
-  -- multicursor,
-}
+if state.is_vim_visual_multi() then
+  return { visual_multi }
+else
+  return { multicursor }
+end
