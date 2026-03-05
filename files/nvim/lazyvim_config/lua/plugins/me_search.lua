@@ -9,7 +9,7 @@ return {
       },
     },
     keys = function()
-      return require("core.keymaps").grug_far
+      return require("core.keymaps.grug_far")
     end,
   },
 }

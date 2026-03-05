@@ -22,7 +22,7 @@ return {
   {
     "mfussenegger/nvim-dap",
     keys = function()
-      return require("core.keymaps").dap
+      return require("core.keymaps.dap")
     end,
     dependencies = {
       unpack(dap_dependencies),

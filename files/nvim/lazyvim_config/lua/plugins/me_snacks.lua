@@ -41,6 +41,6 @@ return {
     },
   },
   keys = function()
-    return require("core.keymaps").snacks
+    return require("core.keymaps.snacks").keys
   end,
 }

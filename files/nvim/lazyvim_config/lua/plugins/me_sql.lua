@@ -3,7 +3,7 @@ return {
   {
     "tpope/vim-dadbod",
     keys = function()
-      return require("core.keymaps").vim_dadbod
+      return require("core.keymaps.vim_dadbod")
     end,
   },
 }

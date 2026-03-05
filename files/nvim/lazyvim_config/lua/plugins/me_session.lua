@@ -3,7 +3,7 @@ return {
     "rmagatti/auto-session",
     lazy = false,
     keys = function()
-      return require("core.keymaps").auto_session.keys
+      return require("core.keymaps.auto_session").keys
     end,
 
     opts = {
