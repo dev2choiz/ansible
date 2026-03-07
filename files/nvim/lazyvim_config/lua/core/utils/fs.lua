@@ -18,6 +18,11 @@ function M.get_global_config_dir()
   return os.getenv("MYNVIM_GLOBAL_CONFIG")
 end
 
+---@return string?
+function M.get_project_config_dir()
+  return vim.fs.joinpath(M.get_root(), ".nvim")
+end
+
 ---@return boolean
 function M.is_dir(path)
   local stat = uv.fs_stat(path)
