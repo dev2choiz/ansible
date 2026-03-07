@@ -21,7 +21,7 @@ WORKDIR /install_dir
 
 COPY . /install_dir/
 
-RUN EXTRA_TAGS=golang,nodejs,zsh,tmux ./scripts/install-nvim.sh
+RUN EXTRA_TAGS=golang,nodejs,rust,zsh,tmux ./scripts/install-nvim.sh
 
 
 ENV GOROOT=/usr/local/go \

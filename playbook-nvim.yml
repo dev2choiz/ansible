@@ -35,6 +35,8 @@
       tags: [golang]
     - role: me.nodejs
       tags: [nodejs]
+    - role: me.rust
+      tags: [rust]
 
 - import_playbook: playbook-tui.yml
   vars:
