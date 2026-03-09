@@ -6,10 +6,10 @@
 ---| "NONE"
 
 ---@class CoreLogger
----@field debug fun(msg: string, use_notify?: boolean)
----@field info fun(msg: string, use_notify?: boolean)
----@field warn fun(msg: string, use_notify?: boolean)
----@field error fun(msg: string, use_notify?: boolean)
+---@field debug fun(msg: string | table, use_notify?: boolean)
+---@field info fun(msg: string | table, use_notify?: boolean)
+---@field warn fun(msg: string | table, use_notify?: boolean)
+---@field error fun(msg: string | table, use_notify?: boolean)
 
 ---@class CoreUtilsLog : CoreLogger
 ---@field log fun(level: CoreLogLevel, msg: string, use_notify?: boolean)
@@ -30,7 +30,7 @@ local function should_log(level)
 end
 
 ---@param level CoreLogLevel
----@param msg string
+---@param msg string | table
 ---@param use_notify? boolean
 local function emit(level, msg, use_notify)
   if not should_log(level) then
@@ -38,6 +38,10 @@ local function emit(level, msg, use_notify)
   end
 
   local prefix = "[" .. level .. "] "
+
+  if type(msg) == "table" then
+    msg = vim.inspect(msg)
+  end
 
   if use_notify then
     vim.notify(prefix .. msg, vim.log.levels[level] or vim.log.levels.INFO)
@@ -83,7 +87,7 @@ function M.with_source(source)
 end
 
 ---@param level CoreLogLevel
----@param msg string
+---@param msg string | table
 ---@param use_notify? boolean
 function M.log(level, msg, use_notify)
   emit(level, msg, use_notify)

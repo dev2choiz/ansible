@@ -14,7 +14,9 @@ local dap_dependencies = {
 return {
   {
     "leoluz/nvim-dap-go",
-    enabled = false,
+    config = function()
+      -- just to disable the setup of the plugin
+    end,
   },
   {
     "rcarriga/nvim-dap-ui",
@@ -38,12 +40,10 @@ return {
       automatic_installation = true,
       ensure_installed = {
         "delve",
-        "python",
       },
     },
 
-    config = function(_, opts)
-      require("mason-nvim-dap").setup(opts)
+    config = function()
       require("core.dap").setup()
     end,
   },

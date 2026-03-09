@@ -1,10 +1,11 @@
 local M = {}
 
-function M.setup(dap)
+function M.get_configurations()
+  local configurations = {}
   ------------------------------------------------------------------
   -- GO
   ------------------------------------------------------------------
-  dap.configurations.go = {
+  configurations.go = {
     {
       name = "Launch main.go",
       type = "go_launch",
@@ -13,10 +14,24 @@ function M.setup(dap)
       outputMode = "remote",
     },
     {
-      name = "Attach Go (remote dlv)",
+      name = "Attach Go (attack to dlv running locally)",
       type = "go",
       request = "attach",
       mode = "remote",
+    },
+    {
+      name = "Attach Go (in docker)",
+      type = "go",
+      request = "attach",
+      mode = "remote",
+      substitutePath = {
+        {
+          from = "${workspaceFolder}",
+          to = function()
+            return vim.fn.input("Remote path: ", "/app")
+          end,
+        },
+      },
     },
     {
       name = "Attach Go (local process)",
@@ -25,11 +40,26 @@ function M.setup(dap)
       processId = require("dap.utils").pick_process,
     },
     {
-      name = "Debug Go test (current file)",
+      name = "Debug Go test (current package)",
       type = "go_launch",
       request = "launch",
       mode = "test",
-      program = "${file}",
+      program = "./${relativeFileDirname}",
+      -- list of available placeholders
+      -- https://github.com/mfussenegger/nvim-dap/blob/master/doc/dap.txt#L310
+    },
+    {
+      type = "go_launch",
+      name = "Debug Go the nearest test",
+      request = "launch",
+      mode = "test",
+      program = "./${relativeFileDirname}",
+      args = function()
+        local test = require("dap-go-ts").closest_test()
+
+        return { "-test.run", "^" .. test.name .. "$" }
+      end,
+      outputMode = "remote",
     },
   }
 
@@ -57,8 +87,10 @@ function M.setup(dap)
     "vue",
     "svelte",
   }) do
-    dap.configurations[ft] = vim.deepcopy(js_config)
+    configurations[ft] = vim.deepcopy(js_config)
   end
+
+  return configurations
 end
 
 return M

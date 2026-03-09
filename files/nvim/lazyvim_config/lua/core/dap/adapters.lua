@@ -1,10 +1,12 @@
 local M = {}
 
-function M.setup(dap)
+function M.get_adapters()
+  local adapters = {}
+
   ------------------------------------------------------------------
   -- GO
   ------------------------------------------------------------------
-  dap.adapters.go_launch = {
+  adapters.go_launch = {
     type = "server",
     port = "${port}",
     executable = {
@@ -13,7 +15,7 @@ function M.setup(dap)
     },
   }
 
-  dap.adapters.go = function(callback)
+  adapters.go = function(callback)
     local port = tonumber(vim.fn.input("Delve Port: ", "2345"))
     callback({
       type = "server",
@@ -28,7 +30,7 @@ function M.setup(dap)
   local mason = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter"
   local cmd = vim.fn.has("win32") == 1 and mason .. "/js-debug-adapter.cmd" or mason .. "/js-debug-adapter"
 
-  dap.adapters["pwa-node"] = {
+  adapters["pwa-node"] = {
     type = "server",
     host = "localhost",
     port = "${port}",
@@ -37,6 +39,8 @@ function M.setup(dap)
       args = { "${port}" },
     },
   }
+
+  return adapters
 end
 
 return M
