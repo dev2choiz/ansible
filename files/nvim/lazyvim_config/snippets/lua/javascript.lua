@@ -15,7 +15,7 @@ local snippets = {
     { trig = "logg", dscr = "console.log snippet" },
     fmta("console.log('<>', <>)", {
       i(1, "name"),
-      i(2, "var"),
+      i(2, "data"),
     })
   ),
 }

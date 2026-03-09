@@ -11,7 +11,7 @@ local s, t, i, c, r, f, sn, fmt =
   require("luasnip.extras.fmt").fmt
 
 local snippets = {
-  s({ trig = "pre" }, fmt("<pre>{{JSON.stringify({}, null, 2)}}</pre>", { i(0, "var") })),
+  s({ trig = "pre" }, fmt("<pre>{{JSON.stringify({}, null, 2)}}</pre>", { i(0, "data") })),
 }
 
 ls.add_snippets("javascriptreact", snippets)
