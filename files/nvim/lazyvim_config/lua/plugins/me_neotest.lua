@@ -27,8 +27,15 @@ return {
           -- isTestFile = require("neotest-jest.jest-util").defaultIsTestFile,
         },
         ["neotest-golang"] = {
-          go_test_args = { "-v", "-race", "-count=1", "-timeout=60s" },
+          go_test_args = {
+            "-v",
+            "-race",
+            "-count=1",
+            "-timeout=60s",
+            -- "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+          },
           dap_go_enabled = true,
+          testify_enabled = true,
         },
       },
       output = { open_on_run = true },
@@ -45,6 +52,20 @@ return {
     },
     config = function(_, opts)
       require("core.neotest").setup(opts)
+    end,
+  },
+  {
+    "andythigpen/nvim-coverage",
+    version = "*",
+    config = function()
+      require("coverage").setup({
+        auto_reload = true,
+        lang = {
+          go = {
+            coverage_file = vim.fn.getcwd() .. "/coverage.out",
+          },
+        },
+      })
     end,
   },
 }
