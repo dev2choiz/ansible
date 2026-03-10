@@ -4,15 +4,26 @@
   #window_state = normal
   borderless = True
 [keybindings]
+  cycle_next = ""
+  cycle_prev = ""
+  go_next = ""
+  go_prev = ""
+  go_up = ""
+  go_down = ""
+  go_left = ""
+  go_right = ""
   full_screen = <Super>F11
   hide_window = <Super>a
+  help = ""
 [profiles]
   [[default]]
     background_darkness = 0.7
     background_type = transparent
-    font = JetBrainsMono Nerd Font Mono Medium 10
+    font = JetBrainsMono Nerd Font Mono Medium 11
     show_titlebar = False
     scrollbar_position = hidden
+    use_custom_command = True
+    custom_command = zsh
     use_system_font = False
 [layouts]
   [[default]]
