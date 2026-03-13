@@ -7,8 +7,13 @@
 
 - name: "Compute `need_install` flag for {{ target_role }}"
   set_fact:
-    need_install: >
+    need_install: >-
       {{
         check_binary_result.rc != 0
-        or (' ' ~ target_role ~ ' ' in (force_roles | default('')))
+        or
+        (
+          target_roles
+          | intersect(force_roles | default('') | split(','))
+          | length > 0
+        )
       }}

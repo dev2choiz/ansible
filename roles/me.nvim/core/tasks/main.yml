@@ -16,20 +16,21 @@
       - fontconfig
 
 - name: Test if nvim is installed
-  command: which nvim
-  register: test_nvim
-  changed_when: false
-  failed_when: false
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: nvim
+    target_roles: [nvim_core, nvim]
 
 - name: Delete previous nvim
-  when: test_nvim.rc != 0
+  when: need_install
   become: true
   file:
     path: /opt/nvim
     state: absent
 
 - name: Install Neovim
-  when: test_nvim.rc != 0
+  when: need_install
   include_role:
     name: me.utils/install_github_archive_app
   vars:

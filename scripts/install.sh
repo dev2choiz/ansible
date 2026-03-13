@@ -22,15 +22,11 @@ for arg in "$@"; do
   case "$arg" in
   --tags=*)
     IFS=',' read -ra ADDR <<<"${arg#--tags=}"
-    for t in "${ADDR[@]}"; do
-      TAGS_LIST+=("$t")
-    done
+    TAGS_LIST+=("${ADDR[@]}")
     ;;
   --force=*)
     IFS=',' read -ra ADDR <<<"${arg#--force=}"
-    for f in "${ADDR[@]}"; do
-      FORCE_LIST+=("$f")
-    done
+    FORCE_LIST+=("${ADDR[@]}")
     ;;
   esac
 done
@@ -58,10 +54,15 @@ fi
 # Passing forced roles to Ansible
 EXTRA_ARGS=""
 if [ ${#FORCE_LIST[@]} -gt 0 ]; then
-  EXTRA_ARGS="-e force_roles=\" ${FORCE_LIST[*]} \""
+  FORCE_STR=$(
+    IFS=,
+    echo "${FORCE_LIST[*]}"
+  )
+  EXTRA_ARGS="-e force_roles=\"$FORCE_STR\""
 fi
 
-ansible-playbook playbook.yml $TAGS_ARG "${EXTRA_ARGS}"
+echo "ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS"
+ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS
 
 [ -z "$TAGS_ARG" ] && [ -f ./custom/install.sh ] && ./custom/install.sh
 

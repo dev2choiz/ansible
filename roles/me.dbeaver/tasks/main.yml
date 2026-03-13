@@ -4,7 +4,7 @@
     name: me.utils/check_install
   vars:
     check_binary: dbeaver-ce
-    target_role: dbeaver
+    target_roles: [dbeaver]
 
 - name: Download dbeaver.deb
   when: need_install

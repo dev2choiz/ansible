@@ -1,5 +1,5 @@
 local fs = require("core.utils.fs")
-local logger = require("core.utils.logger")
+local logger = require("core.utils.logger").with_source("snippets")
 
 local M = {}
 

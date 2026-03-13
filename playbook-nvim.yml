@@ -13,7 +13,7 @@
 
   roles:
     - role: me.nvim/core
-      tags: [nvim]
+      tags: [nvim_core, nvim]
     - role: me.nvim/astronvim
       tags: [astronvim]
     - role: me.nvim/lazyvim

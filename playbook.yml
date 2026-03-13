@@ -69,7 +69,7 @@
     - role: me.terminator
       tags: terminator
     - role: me.nvim/core
-      tags: [nvim]
+      tags: [nvim_core, nvim]
     - role: me.nvim/lazyvim
       tags: [nvim]
     - role: me.font

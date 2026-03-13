@@ -3,7 +3,7 @@ local M = {}
 local uv = vim.uv or vim.loop
 
 local fs = require("core.utils.fs")
-local logger = require("core.utils.logger")
+local logger = require("core.utils.logger").with_source("loader")
 
 -- Get config directories
 local function get_config_dirs()

@@ -4,7 +4,7 @@
     name: me.utils/check_install
   vars:
     check_binary: rustc
-    target_role: rust
+    target_roles: [rust]
 
 - name: Download rustup install script
   get_url:
