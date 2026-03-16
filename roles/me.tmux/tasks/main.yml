@@ -1,4 +1,24 @@
 ---
+- name: Test if tmux need insstallation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: tmux
+    target_roles: [tmux]
+
+- name: Install tmux
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "tmux/tmux-builds"
+    github_asset_name: "tmux-3.6a-linux-x86_64.tar.gz"
+    binary_src_name: "tmux"
+    binary_dest_name: "tmux"
+    tmp_dir: "/tmp/tmux"
+    delete_tmp_dir: true
+    extract_archive: true
+  when: need_install
+
 - name: Set tpm directory
   set_fact:
     tpm_directory: "{{ ansible_env.HOME }}/.config/tmux/plugins/tpm"
@@ -8,8 +28,8 @@
   apt:
     name:
       - cmake
-      - tmux
     state: present
+  when: need_install
 
 - name: Install Tmux Plugin Manager
   git:
@@ -17,30 +37,36 @@
     dest: "{{ tpm_directory }}"
     update: true
     version: master
+  when: need_install
 
 - name: Ensure {{ ansible_env.HOME }}/.config/tmux/ exists
   file:
     path: "{{ ansible_env.HOME }}/.config/tmux"
     state: directory
     mode: '0755'
+  when: need_install
 
 - name: Copy tmux configuration
   synchronize:
     src: ./files/tmux/
     dest: "{{ ansible_env.HOME }}/.config/tmux/"
     recursive: true
+  when: need_install
 
 - name: Install tmux plugins
   command: "{{ tpm_directory }}/bin/install_plugins"
   changed_when: false
   failed_when: false
+  when: need_install
 
 - name: Clean tmux plugins
   command: "{{ tpm_directory }}/bin/clean_plugins"
   changed_when: false
+  when: need_install
 
 - name: Copy setup folder in ~/
   synchronize:
     src: ./files/setup
     dest: "{{ ansible_env.HOME }}"
     recursive: true
+  when: need_install
