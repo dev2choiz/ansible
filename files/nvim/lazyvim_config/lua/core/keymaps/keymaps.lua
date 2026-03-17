@@ -32,14 +32,6 @@ function M.config_keymaps()
     },
     notify = false,
   }):map("<leader>mv")
-
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "sql",
-    callback = function()
-      vim.keymap.del("i", "<left>", { buffer = true })
-      vim.keymap.del("i", "<right>", { buffer = true })
-    end,
-  })
 end
 
 return M
