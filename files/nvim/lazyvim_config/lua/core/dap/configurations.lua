@@ -77,6 +77,15 @@ function M.get_configurations()
       protocol = "inspector",
       skipFiles = { "<node_internals>/**" },
     },
+    {
+      type = "chrome",
+      request = "launch",
+      name = "Launch Chrome",
+      url = function()
+        return vim.fn.input("URL: ", "http://localhost:3000")
+      end,
+      webRoot = "${workspaceFolder}/src",
+    },
   }
 
   for _, ft in ipairs({

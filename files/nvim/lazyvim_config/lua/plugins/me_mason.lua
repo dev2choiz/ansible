@@ -5,6 +5,7 @@ return {
       ensure_installed = {
         "prettier",
         "biome",
+        "emmet-ls",
         -- "vue-language-server",
       },
     },
