@@ -9,7 +9,7 @@
   get_url:
     url: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip
     dest: /tmp/jetbrains-mono-nerd.zip
-    mode: '0644'
+    mode: "0644"
 
 - name: Create /tmp/jetbrains-mono-nerd/
   when: not stat_fontdir.stat.exists
@@ -17,7 +17,7 @@
   file:
     path: /tmp/jetbrains-mono-nerd/
     state: directory
-    mode: '0644'
+    mode: "0755"
 
 - name: Unarchive /tmp/jetbrains-mono-nerd.zip
   when: not stat_fontdir.stat.exists
@@ -33,7 +33,8 @@
     src: /tmp/jetbrains-mono-nerd
     dest: /usr/local/share/fonts/
     recursive: true
-
+    rsync_opts:
+      - "--chmod=F644,D755"
 
 - name: Delete /tmp/jetbrains-mono-nerd.zip
   become: true
