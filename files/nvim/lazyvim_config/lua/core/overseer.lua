@@ -18,19 +18,15 @@ local function loadTemplates()
   table.insert(paths, fs.get_root() .. "/.nvim/overseer.lua")
 
   for _, file in ipairs(paths) do
-    if not fs.file_exists(file) then
-      goto continue
-    end
-
-    local ok, conf = fs.safe_dotfile(file, true)
-    if ok and conf then
-      for _, tpl in ipairs(conf) do
-        table.insert(templates, tpl)
+    if fs.file_exists(file) then
+      local ok, conf = fs.safe_dotfile(file, true)
+      if ok and conf then
+        for _, tpl in ipairs(conf) do
+          table.insert(templates, tpl)
+        end
+        logger.debug("config loaded: " .. file)
       end
-      logger.debug("config loaded: " .. file)
     end
-
-    ::continue::
   end
 
   return templates

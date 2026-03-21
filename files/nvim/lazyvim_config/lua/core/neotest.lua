@@ -18,17 +18,13 @@ local function load_user_configs()
   table.insert(paths, fs.get_root() .. "/.nvim/neotest.lua")
 
   for _, file in ipairs(paths) do
-    if not fs.file_exists(file) then
-      goto continue
+    if fs.file_exists(file) then
+      local ok, conf = fs.safe_dotfile(file, true)
+      if ok and conf then
+        logger.debug("config loaded: " .. file)
+        table.insert(configs, conf)
+      end
     end
-
-    local ok, conf = fs.safe_dotfile(file, true)
-    if ok and conf then
-      logger.debug("config loaded: " .. file)
-      table.insert(configs, conf)
-    end
-
-    ::continue::
   end
 
   return configs

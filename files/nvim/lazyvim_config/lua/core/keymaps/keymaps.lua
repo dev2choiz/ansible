@@ -4,12 +4,8 @@ local M = {}
 function M.config_keymaps()
   Snacks.toggle({
     name = "transparency",
-    get = function()
-      return require("user.transparency").enabled
-    end,
-    set = function()
-      require("user.transparency").toggle()
-    end,
+    get = function() return require("user.transparency").enabled end,
+    set = function() require("user.transparency").toggle() end,
     wk_desc = {
       enabled = "Disable ",
       disabled = "Enable ",
@@ -18,9 +14,7 @@ function M.config_keymaps()
 
   Snacks.toggle({
     name = "multicursor",
-    get = function()
-      return require("core.multicursor.state").is_vim_visual_multi()
-    end,
+    get = function() return require("core.multicursor.state").is_vim_visual_multi() end,
     set = function()
       local next_plugin = require("core.multicursor.state").toggle_plugin()
 

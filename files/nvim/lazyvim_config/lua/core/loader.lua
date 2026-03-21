@@ -27,16 +27,12 @@ end
 function M.run_init()
   for _, dir in ipairs(get_config_dirs()) do
     local init_file = dir .. "/init.lua"
-    if not fs.file_exists(init_file) then
-      goto continue
+    if fs.file_exists(init_file) then
+      local ok, _ = fs.safe_dotfile(init_file, false)
+      if ok then
+        logger.debug(init_file .. " loaded")
+      end
     end
-
-    local ok, _ = fs.safe_dotfile(init_file, false)
-    if ok then
-      logger.debug(init_file .. " loaded")
-    end
-
-    ::continue::
   end
 end
 
@@ -77,19 +73,15 @@ function M.extras()
 
   for _, dir in ipairs(get_config_dirs()) do
     local file = dir .. "/extras.lua"
-    if not fs.file_exists(file) then
-      goto continue
-    end
-
-    local ok, data = fs.safe_dotfile(file, true)
-    if ok and data then
-      logger.debug(file .. " loaded")
-      for _, entry in ipairs(data) do
-        table.insert(extras, entry)
+    if fs.file_exists(file) then
+      local ok, data = fs.safe_dotfile(file, true)
+      if ok and data then
+        logger.debug(file .. " loaded")
+        for _, entry in ipairs(data) do
+          table.insert(extras, entry)
+        end
       end
     end
-
-    ::continue::
   end
 
   return extras

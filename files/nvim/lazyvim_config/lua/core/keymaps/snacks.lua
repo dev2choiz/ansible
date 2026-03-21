@@ -16,53 +16,41 @@ local tui_tools_prefix = { "<leader>T", "<M-a>" }
 
 local M = {}
 
-M.keys= {
+M.keys = {
   -- snacks.terminal
   {
     "<leader>ftT",
-    function()
-      Snacks.terminal(nil, { esc_esc = true, ctrl_hjkl = true })
-    end,
+    function() Snacks.terminal(nil, { esc_esc = true, ctrl_hjkl = true }) end,
     desc = "Terminal (cwd)",
     mode = { "n", "t" },
   },
   {
     "<leader>ftt",
-    function()
-      Snacks.terminal(nil, { cwd = LazyVim.root(), esc_esc = true, ctrl_hjkl = true })
-    end,
+    function() Snacks.terminal(nil, { cwd = LazyVim.root(), esc_esc = true, ctrl_hjkl = true }) end,
     desc = "Terminal (Root Dir)",
     mode = { "n", "t" },
   },
   {
     "<leader>ftF",
-    function()
-      Snacks.terminal(nil, { win = { position = "float" } })
-    end,
+    function() Snacks.terminal(nil, { win = { position = "float" } }) end,
     desc = "floatting terminal",
     mode = { "n" },
   },
   {
     "<leader>ftf",
-    function()
-      Snacks.terminal(nil, { win = { position = "float" }, cwd = LazyVim.root() })
-    end,
+    function() Snacks.terminal(nil, { win = { position = "float" }, cwd = LazyVim.root() }) end,
     desc = "floatting terminal (Root Dir)",
     mode = { "n" },
   },
   {
     "<leader>E",
-    function()
-      explorer_open({ root = true })
-    end,
+    function() explorer_open({ root = true }) end,
     desc = "Explorer Snacks (root dir)",
     mode = { "n", "x" },
   },
   {
     "<leader>e",
-    function()
-      explorer_open({ root = false })
-    end,
+    function() explorer_open({ root = false }) end,
     desc = "Explorer Snacks (cwd dir)",
     mode = { "n", "x" },
   },
