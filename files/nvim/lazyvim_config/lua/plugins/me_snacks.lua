@@ -39,6 +39,9 @@ return {
         },
       },
     },
+    image = {
+      enabled = true,
+    },
   },
   keys = function()
     return require("core.keymaps.snacks").keys
