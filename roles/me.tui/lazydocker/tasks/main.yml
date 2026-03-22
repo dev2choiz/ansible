@@ -1,8 +1,15 @@
 ---
+- name: Test if lazydocker need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: lazydocker
+    target_roles: [lazydocker]
+
 - name: Install lazydocker
+  when: need_install
   shell: |
     set -o pipefail
     curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
   args:
     executable: /bin/bash
-    creates: "{{ ansible_env.HOME }}/.local/bin/lazydocker"

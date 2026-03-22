@@ -14,6 +14,8 @@
       - sqlite3
       - xclip
       - fontconfig
+      - imagemagick
+      - texlive-latex-base
 
 - name: Test if nvim is installed
   include_role:

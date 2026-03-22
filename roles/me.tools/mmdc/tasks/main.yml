@@ -1,0 +1,20 @@
+---
+- name: Check if npm is installed
+  command: "which npm"
+  register: npm_check
+  ignore_errors: true
+
+- name: Test if mmdc need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: mmdc
+    target_roles: [mmdc]
+
+- name: Install mermaid-cli globally via npm
+  become: true
+  npm:
+    name: "@mermaid-js/mermaid-cli"
+    global: true
+    state: present
+  when: npm_check.rc == 0 and need_install

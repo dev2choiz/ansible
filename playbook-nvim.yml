@@ -26,6 +26,10 @@
       tags: [nvim]
     - role: me.treesitter
       tags: [nvim]
+    - role: me.tools/tectonic
+      tags: [nvim]
+    - role: me.tools/mmdc
+      tags: [nvim]
 
     - role: me.zsh
       tags: [zsh]

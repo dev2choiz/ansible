@@ -1,4 +1,11 @@
 ---
+- name: Test if yazi need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: yazi
+    target_roles: [yazi]
+
 - name: Install yazi
   include_role:
     name: me.utils/install_github_binary
@@ -10,9 +17,12 @@
     tmp_dir: "/tmp/yazi"
     delete_tmp_dir: true
     extract_archive: true
+  when: need_install
+
 - name: Copy yazy config files
   synchronize:
     src: files/
     dest: ~/.config/yazi/
     recursive: true
+  when: need_install
 # todo: yazi completion

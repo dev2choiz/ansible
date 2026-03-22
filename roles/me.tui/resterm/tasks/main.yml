@@ -1,7 +1,15 @@
 ---
+- name: Test if resterm need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: resterm
+    target_roles: [resterm]
+
 - name: Install resterm
   include_role:
     name: me.utils/install_github_binary
+  when: need_install
   vars:
     github_repo: "unkn0wn-root/resterm"
     github_asset_name: "resterm_Linux_{{ github_arch }}"

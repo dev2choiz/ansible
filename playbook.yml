@@ -84,6 +84,10 @@
       tags: tmux
     - role: me.zsh
       tags: zsh
+    - role: me.tools/tectonic
+      tags: tectonic
+    - role: me.tools/mmdc
+      tags: mmdc
     - role: me.chrome
       tags: chrome
     - role: me.jetbrains_toolbox

@@ -1,17 +1,27 @@
 ---
+- name: Test if tree-sitter need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: tree-sitter
+    target_roles: [tree-sitter]
+
 - name: Download tree-sitter
   get_url:
     url: https://github.com/tree-sitter/tree-sitter/releases/download/v0.23.1/tree-sitter-linux-x64.gz
     dest: /tmp/tree-sitter.gz
-    mode: '0644'
+    mode: "0644"
+  when: need_install
 
 - name: Gunzip tree-sitter
   command: gunzip -f /tmp/tree-sitter.gz
+  when: need_install
 
 - name: Install tree-sitter binary
   become: true
   copy:
     src: /tmp/tree-sitter
     dest: /usr/local/bin/tree-sitter
-    mode: '0755'
+    mode: "0755"
     remote_src: true
+  when: need_install

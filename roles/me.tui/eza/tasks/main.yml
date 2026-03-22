@@ -1,7 +1,15 @@
 ---
+- name: Test if eza need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: eza
+    target_roles: [eza]
+
 - name: Install eza
   include_role:
     name: me.utils/install_github_binary
+  when: need_install
   vars:
     github_repo: "eza-community/eza"
     github_asset_name: "eza_{{ github_arch }}-unknown-linux-gnu.tar.gz"

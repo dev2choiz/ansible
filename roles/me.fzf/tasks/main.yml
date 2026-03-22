@@ -1,19 +1,20 @@
 ---
-- name: Test if golang is installed
-  command: which fzf
-  register: test_fzf
-  changed_when: false
-  failed_when: false
+- name: Test if fzf need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: fzf
+    target_roles: [fzf]
 
 - name: Download fzf binary
-  when: test_fzf.rc != 0
+  when: need_install
   get_url:
     url: https://github.com/junegunn/fzf/releases/download/v0.66.1/fzf-0.66.1-linux_amd64.tar.gz
     dest: /tmp/fzf.tar.gz
-    mode: '0644'
+    mode: "0644"
 
 - name: Unarchive /tmp/fzf.tar.gz
-  when: test_fzf.rc != 0
+  when: need_install
   become: true
   unarchive:
     src: /tmp/fzf.tar.gz

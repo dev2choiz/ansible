@@ -1,5 +1,5 @@
 ---
-- name: Test if tmux need insstallation
+- name: Test if tmux need installation
   include_role:
     name: me.utils/check_install
   vars:

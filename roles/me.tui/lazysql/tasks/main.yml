@@ -1,7 +1,15 @@
 ---
+- name: Test if lazysql need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: lazysql
+    target_roles: [lazysql]
+
 - name: Install LazySql
   include_role:
     name: me.utils/install_github_binary
+  when: need_install
   vars:
     github_repo: "jorgerojas26/lazysql"
     github_asset_name: "lazysql_Linux_x86_64.tar.gz"

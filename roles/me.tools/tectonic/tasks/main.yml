@@ -1,0 +1,20 @@
+---
+- name: Test if tectonic need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: tectonic
+    target_roles: [tectonic]
+
+- name: Install tectonic
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "tectonic-typesetting/tectonic"
+    github_asset_name: "tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz"
+    binary_src_name: "tectonic"
+    binary_dest_name: "tectonic"
+    tmp_dir: "/tmp/tmux"
+    delete_tmp_dir: true
+    extract_archive: true
+  when: need_install
