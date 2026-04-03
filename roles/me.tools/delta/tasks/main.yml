@@ -1,0 +1,19 @@
+---
+- name: Test if delta need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: delta
+    target_roles: [delta]
+
+- name: Install delta
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "dandavison/delta"
+    github_release_tag: 0.19.2
+    github_asset_name: "delta-0.19.2-x86_64-unknown-linux-gnu.tar.gz"
+    binary_src_name: "delta-0.19.2-x86_64-unknown-linux-gnu/delta"
+    binary_dest_name: "delta"
+    extract_archive: true
+  when: need_install

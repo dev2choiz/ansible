@@ -2,3 +2,7 @@ gui:
   skipDiscardChangeWarning: true
   expandFocusedSidePanel: true
   expandedSidePanelWeight: 3
+
+git:
+  pagers:
+    - pager: delta --dark --paging=never

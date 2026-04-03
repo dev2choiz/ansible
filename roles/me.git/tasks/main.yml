@@ -1,36 +1,62 @@
 ---
 - name: Git global .gitignore
-  community.general.git_config:
+  git_config:
     name: core.excludesfile
     value: "{{ ansible_env.HOME }}/setup/.gitignore"
     scope: global
 
 - name: Git text editor
-  community.general.git_config:
+  git_config:
     name: core.editor
     scope: global
     value: vim
 
 - name: Git pull rebase
-  community.general.git_config:
+  git_config:
     name: pull.rebase
     scope: global
     value: true
 
 - name: Git configure email
   when: var_git_email is defined and var_git_email != ''
-  community.general.git_config:
+  git_config:
     name: user.email
     scope: global
     value: "{{ var_git_email }}"
 
 - name: Git configure username
   when: var_git_username is defined and var_git_username != ''
-  community.general.git_config:
+  git_config:
     name: user.name
     scope: global
     value: "{{ var_git_username }}"
 
+# Delta
+- name: Git delta pager
+  git_config:
+    name: core.pager
+    scope: global
+    value: delta
+
+- name: Git interactive diff filter using delta
+  git_config:
+    name: interactive.diffFilter
+    scope: global
+    value: "delta --color-only"
+
+- name: Git delta navigation
+  git_config:
+    name: delta.navigate
+    scope: global
+    value: true
+
+- name: Git merge conflict style
+  git_config:
+    name: merge.conflictStyle
+    scope: global
+    value: zdiff3
+
+    # git-lfs
 - name: Test if git-lfs is installed
   command: which git-lfs
   register: test_git_lsf

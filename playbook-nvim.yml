@@ -30,6 +30,8 @@
       tags: [nvim]
     - role: me.tools/mmdc
       tags: [nvim]
+    - role: me.tools/delta
+      tags: [nvim]
 
     - role: me.zsh
       tags: [zsh]

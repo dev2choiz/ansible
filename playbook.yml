@@ -88,6 +88,8 @@
       tags: tectonic
     - role: me.tools/mmdc
       tags: mmdc
+    - role: me.tools/delta
+      tags: delta
     - role: me.chrome
       tags: chrome
     # - role: me.jetbrains_toolbox
