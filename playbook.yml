@@ -90,8 +90,8 @@
       tags: mmdc
     - role: me.chrome
       tags: chrome
-    - role: me.jetbrains_toolbox
-      tags: jetbrains_toolbox
+    # - role: me.jetbrains_toolbox
+    #   tags: jetbrains_toolbox
     - role: me.terraform
       tags: terraform
     - role: me.rust

@@ -27,6 +27,7 @@ plugins=(
     ansible
     gcloud
     ollama
+    fzf-tab
 
     zsh-completions
     zsh-autosuggestions
