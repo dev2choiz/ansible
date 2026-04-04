@@ -1,13 +1,4 @@
 ---
-- name: Ensure curl and tar are installed
-  become: true
-  apt:
-    name:
-      - curl
-      - tar
-    state: present
-    update_cache: true
-
 - name: Test if lazygit need installation
   include_role:
     name: me.utils/check_install
@@ -15,45 +6,24 @@
     check_binary: lazygit
     target_roles: [lazygit]
 
-- name: Check installed lazygit version
-  command: lazygit --version
-  register: lazygit_installed
-  failed_when: false
-  changed_when: false
-
-- name: Parse installed lazygit version
-  set_fact:
-    lazygit_installed_version: "{{ lazygit_installed.stdout | regex_search('version ([0-9.]+)', '\\1') }}"
+- name: Resolve the latest lazygit tag github_asset_name
+  include_role:
+    name: me.utils/github_release_resolver
+  vars:
+    github_repo: "jesseduffield/lazygit"
+    github_asset_name: "dummy"
+    github_release_tag: "latest"
   when: need_install
 
-- name: Download lazygit tar.gz
-  get_url:
-    url: >-
-      {{ "https://github.com/jesseduffield/lazygit/releases/download/v"
-      ~ lazygit_latest_version.stdout
-      ~ "/lazygit_"
-      ~ lazygit_latest_version.stdout
-      ~ "_Linux_x86_64.tar.gz" }}
-    dest: /tmp/lazygit.tar.gz
-    mode: "0644"
-  when: need_install
-
-- name: Extract lazygit binary
-  unarchive:
-    src: /tmp/lazygit.tar.gz
-    dest: /tmp
-    remote_src: true
-    include:
-      - lazygit
-  args:
-    creates: /tmp/lazygit
-  when: need_install
-
-- name: Install lazygit binary to /usr/local/bin
-  become: true
-  command: install /tmp/lazygit -D -t /usr/local/bin/
-  args:
-    creates: /usr/local/bin/lazygit
+- name: Install lazygit
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "jesseduffield/lazygit"
+    github_asset_name: "lazygit_{{ github_latest_tag | regex_replace('^v','') }}_linux_x86_64.tar.gz"
+    binary_src_name: "lazygit"
+    binary_dest_name: "lazygit"
+    extract_archive: true
   when: need_install
 
 - name: Copy config file
@@ -61,15 +31,3 @@
     src: ./files/config.yml
     dest: "{{ ansible_env.HOME }}/.config/lazygit/"
     mode: "0644"
-
-- name: Delete /tmp/lazygit.tar.gz
-  become: true
-  file:
-    path: /tmp/lazygit.tar.gz
-    state: absent
-
-- name: Delete /tmp/lazygit
-  become: true
-  file:
-    path: /tmp/lazygit
-    state: absent
