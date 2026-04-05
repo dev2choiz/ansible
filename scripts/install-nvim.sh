@@ -3,6 +3,7 @@ set -e
 
 STARTTIME=$(date +%s)
 
+USER=${USER:-$(whoami)}
 if [ "$USER" = "root" ]; then
   echo "This script should not be run as root."
   exit 1

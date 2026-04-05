@@ -1,9 +1,13 @@
 - hosts: localhost
   vars_files:
-    - vars/main.yml
     - vars/vars.yml
 
   pre_tasks:
+    - name: Load vars/main.yml if exists
+      include_vars:
+        file: vars/main.yml
+        ignore_errors: true
+
     - name: Install base packages
       become: true
       apt:
@@ -115,6 +119,4 @@
     - role: me.libreoffice
       tags: libreoffice
 
-- import_playbook: playbook-tui.yml
-  vars:
-    github_arch: "{{ arch_map[ansible_architecture] }}"
+- import_playbook: playbook-nvim.yml

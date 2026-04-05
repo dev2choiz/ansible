@@ -14,8 +14,8 @@
   roles:
     - role: me.nvim/core
       tags: [nvim_core, nvim]
-    - role: me.nvim/astronvim
-      tags: [astronvim]
+    # - role: me.nvim/astronvim
+    #   tags: [astronvim]
     - role: me.nvim/lazyvim
       tags: [lazyvim]
     - role: me.font
@@ -32,17 +32,6 @@
       tags: [nvim]
     - role: me.tools/delta
       tags: [nvim]
-
-    - role: me.zsh
-      tags: [zsh]
-    - role: me.tmux
-      tags: [tmux]
-    - role: me.golang
-      tags: [golang]
-    - role: me.nodejs
-      tags: [nodejs]
-    - role: me.rust
-      tags: [rust]
 
 - import_playbook: playbook-tui.yml
   vars:
