@@ -1,7 +1,11 @@
+-- This change (`https://github.com/LazyVim/LazyVim/commit/954d8746e5cf1266d93cf4210c00c1506f20423b`) fixes the Biome import issue,
+-- but Prettier and Biome formatters can still be active at the same time for the same buffer, which may lead to conflicts.
+-- For now, we keep this custom formatter setup.
+-- Supported files: https://biomejs.dev/internals/language-support/
 local function js_formatter()
   local root = require("core.utils.fs").get_root()
 
-  if vim.fn.filereadable(root .. "/biome.json") == 1 then
+  if vim.fn.filereadable(root .. "/biome.jsonc") == 1 or vim.fn.filereadable(root .. "/biome.json") == 1 then
     return { "biome-check" } -- runs formatting, linting and import sorting
   end
 
@@ -22,6 +26,7 @@ return {
         typescriptreact = js_formatter,
         vue = js_formatter,
         json = js_formatter,
+        jsonc = js_formatter,
         python = { "ruff_format" },
         sh = { "shfmt" },
       },
