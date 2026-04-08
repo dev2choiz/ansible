@@ -19,19 +19,19 @@
     - role: me.nvim/lazyvim
       tags: [lazyvim]
     - role: me.font
-      tags: [nvim]
+      tags: [nvim, font]
     - role: me.fzf
-      tags: [nvim]
+      tags: [nvim, fzf]
     - role: me.dbclient
-      tags: [nvim]
+      tags: [nvim, dbclient]
     - role: me.treesitter
-      tags: [nvim]
+      tags: [nvim, treesitter]
     - role: me.tools/tectonic
-      tags: [nvim]
+      tags: [nvim, tectonic]
     - role: me.tools/mmdc
-      tags: [nvim]
+      tags: [nvim, mmdc]
     - role: me.tools/delta
-      tags: [nvim]
+      tags: [nvim, delta]
 
 - import_playbook: playbook-tui.yml
   vars:
