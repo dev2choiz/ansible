@@ -1,38 +1,35 @@
 ---
-# tasks file for me.helm
+- name: Test if helm need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: helm
+    target_roles: [helm]
+
+- name: Resolve the latest helm tag github_asset_name
+  include_role:
+    name: me.utils/github_release_resolver
+  vars:
+    github_repo: "helm/helm"
+    github_asset_name: "dummy"
+    github_release_tag: "latest"
+  when: need_install
 
 - name: Download Helm archive
-  ansible.builtin.get_url:
-    url: "{{ helm_download_url }}"
-    dest: "{{ helm_archive_path }}"
-    mode: '0644'
-  register: helm_download
-
-- name: Check if Helm binary already extracted
-  ansible.builtin.stat:
-    path: /tmp/linux-amd64/helm
-  register: helm_file_stat
+  get_url:
+    url: "https://get.helm.sh/helm-{{ github_latest_tag }}-linux-amd64.tar.gz"
+    dest: "/tmp/helm.tar.gz"
+    mode: "0644"
+  when: need_install
 
 - name: Extract Helm binary
-  ansible.builtin.unarchive:
-    src: "{{ helm_archive_path }}"
+  unarchive:
+    src: "/tmp/helm.tar.gz"
     dest: /tmp/
     remote_src: true
-  when: helm_download.changed or not helm_file_stat.stat.exists
+  when: need_install
 
 - name: Move Helm binary to /usr/local/bin
-  ansible.builtin.command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
+  command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
   become: true
-  args:
-    creates: /usr/local/bin/helm
-
-- name: Ensure Helm binary is executable
-  ansible.builtin.file:
-    path: /usr/local/bin/helm
-    mode: '0755'
-    state: file
-
-- name: Clean extracted directory
-  ansible.builtin.file:
-    path: /tmp/linux-amd64
-    state: absent
+  when: need_install

@@ -1,19 +1,20 @@
 ---
-- name: Test if gcloud is installed
-  command: which gcloud
-  register: test_gcloud
-  changed_when: false
-  failed_when: false
+- name: Test if gcloud need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: gcloud
+    target_roles: [gcloud]
 
 - name: Create a tmp path
-  when: test_gcloud.rc != 0
+  when: need_install
   file:
     path: "/tmp/install_gcloud"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Install gcloud
-  when: test_gcloud.rc != 0
+  when: need_install
   include_role:
     name: ansible.install-gcloud
   vars:

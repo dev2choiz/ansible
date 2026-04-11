@@ -102,6 +102,8 @@
       tags: terraform
     - role: me.rust
       tags: rust
+    - role: me.helm
+      tags: helm
     - role: me.devtoys
       tags: devtoys
     - role: me.postman

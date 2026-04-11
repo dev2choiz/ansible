@@ -1,12 +1,13 @@
 ---
-- name: Test if terraform is installed
-  command: which terraform
-  register: test_terraform
-  changed_when: false
-  failed_when: false
+- name: Test if terraform need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: terraform
+    target_roles: [terraform]
 
 - name: Install the HashiCorp GPG key
-  when: test_terraform.rc != 0
+  when: need_install
   shell: |
     set -o pipefail
     wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
@@ -14,7 +15,7 @@
     executable: /bin/bash
 
 - name: Add the official HashiCorp repository to your system
-  when: test_terraform.rc != 0
+  when: need_install
   shell: |
     set -o pipefail
     echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ansible_lsb.codename | lower}} main" \
@@ -24,7 +25,7 @@
 
 - name: Install terraform
   become: true
-  when: test_terraform.rc != 0
+  when: need_install
   apt:
     name:
       - terraform

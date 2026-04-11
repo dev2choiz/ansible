@@ -2,14 +2,15 @@
 - name: Install huggingface-cli
   shell: pip install -U "huggingface_hub[cli]" --break-system-packages
 
-- name: Test if ollama is installed
-  command: which ollama
-  register: test_ollama
-  changed_when: false
-  failed_when: false
+- name: Test if ollama need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: ollama
+    target_roles: [ollama]
 
 - name: Install ollama
-  when: test_ollama.rc != 0
+  when: need_install
   shell: |
     set -o pipefail
     curl -fsSL https://ollama.com/install.sh | sh
@@ -21,11 +22,11 @@
   file:
     path: /etc/systemd/system/ollama.service.d
     state: directory
-    mode: '0644'
+    mode: "0644"
 
 - name: Configure ollama
   become: true
   copy:
     src: ollama/config.conf
     dest: /etc/systemd/system/ollama.service.d/config.conf
-    mode: '0644'
+    mode: "0644"

@@ -1,19 +1,20 @@
 ---
-- name: Test if chrome installed
-  command: which google-chrome
-  register: test_chrome
-  changed_when: false
-  failed_when: false
+- name: Test if chrome need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: google-chrome
+    target_roles: [chrome]
 
 - name: Download google-chrome-stable_current_amd64.deb
-  when: test_chrome.rc != 0
+  when: need_install
   get_url:
     url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     dest: /tmp/google-chrome-stable_current_amd64.deb
-    mode: '0644'
+    mode: "0644"
 
 - name: Install google chrome
-  when: test_chrome.rc != 0
+  when: need_install
   become: true
   apt:
     deb: /tmp/google-chrome-stable_current_amd64.deb
