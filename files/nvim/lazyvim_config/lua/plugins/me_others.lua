@@ -33,7 +33,7 @@ return {
     end,
   },
   {
-    "numToStr/Comment.nvim",
-    opts = {},
+    "Isrothy/neominimap.nvim",
+    enabled = false,
   },
 }

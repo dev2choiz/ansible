@@ -1,8 +1,7 @@
 return {
   "Saghen/blink.cmp",
-  version = "*",
-  opts = function(_, opts)
-    opts.keymap = vim.tbl_extend("force", opts.keymap or {}, {
+  opts = {
+    keymap = {
       ["<Tab>"] = {
         function(cmp)
           if cmp.snippet_active() then
@@ -13,6 +12,13 @@ return {
         "snippet_forward",
         "fallback",
       },
-    })
-  end,
+    },
+
+    completion = {
+      ghost_text = {
+        -- enabled = vim.g.ai_cmp,
+        enabled = false,
+      },
+    },
+  },
 }
