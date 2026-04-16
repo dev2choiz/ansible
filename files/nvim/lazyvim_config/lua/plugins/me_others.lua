@@ -34,6 +34,19 @@ return {
   },
   {
     "Isrothy/neominimap.nvim",
-    enabled = false,
+    lazy = false,
+    init = function()
+      ---@module 'neominimap'
+      ---@type Neominimap.UserConfig
+      vim.g.neominimap = {
+        auto_enable = false,
+        float = {
+          minimap_width = 15,
+        },
+        click = {
+          enabled = true,
+        },
+      }
+    end,
   },
 }

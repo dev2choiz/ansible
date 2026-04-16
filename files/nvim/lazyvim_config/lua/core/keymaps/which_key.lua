@@ -71,5 +71,8 @@ return {
     { "<leader><space>", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
     { "<leader>ff", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
     { "<leader>fF", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+
+    -- minimap
+    { "<leader>um", "<cmd>Neominimap Toggle<cr>", desc = "Toggle minimap" },
   },
 }
