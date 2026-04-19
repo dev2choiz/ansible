@@ -3,13 +3,18 @@
     - vars/vars.yml
 
   pre_tasks:
+    - name: Check if vars/main.yml exists
+      stat:
+        path: vars/main.yml
+      register: vars_main_file
+    - name: Load vars/main.yml if exists
+      include_vars:
+        file: vars/main.yml
+      when: vars_main_file.stat.exists
+
     - name: Gather service facts
       service_facts:
       tags: always
-    - name: Set facts
-      tags: always
-      set_fact:
-        github_arch: "{{ arch_map[ansible_architecture] }}"
 
   roles:
     - role: me.nvim/core

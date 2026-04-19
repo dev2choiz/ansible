@@ -1,6 +1,5 @@
 ---
 roles:
-  - name: ansible.install-gcloud
   - name: xanmanning.k3s
     src: https://github.com/PyratLabs/ansible-role-k3s
 

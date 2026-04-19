@@ -6,22 +6,32 @@
     check_binary: gcloud
     target_roles: [gcloud]
 
-- name: Create a tmp path
+- name: Download gcloud
+  get_url:
+    url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+    dest: /tmp/gcloud.tar.gz
+    mode: "0644"
   when: need_install
-  file:
-    path: "/tmp/install_gcloud"
-    state: directory
-    mode: "0755"
 
-- name: Install gcloud
-  when: need_install
-  include_role:
-    name: ansible.install-gcloud
-  vars:
-    gcloud_tmp_path: /tmp/install_gcloud
-    gcloud_archive_name: google-cloud-cli-linux-x86_64.tar.gz
-
-- name: Remove the tmp path
+- name: Remove previous gcloud install
+  become: true
   file:
-    path: "/tmp/install_gcloud"
+    path: /opt/google-cloud-sdk
     state: absent
+  when: need_install
+
+- name: Extract
+  become: true
+  unarchive:
+    src: /tmp/gcloud.tar.gz
+    dest: /opt
+    remote_src: true
+  when: need_install
+
+- name: Symlink gcloud
+  become: true
+  file:
+    src: /opt/google-cloud-sdk/bin/gcloud
+    dest: /usr/local/bin/gcloud
+    state: link
+  when: need_install
