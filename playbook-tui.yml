@@ -1,6 +1,18 @@
-- hosts: localhost
-  vars_files:
-    - vars/vars.yml
+- name: "Install TUIs"
+  hosts: localhost
+
+  pre_tasks:
+    - name: Check if vars/main.yml exists
+      ansible.builtin.stat:
+        path: vars/main.yml
+      register: vars_main_file
+      tags: always
+    - name: Load vars/main.yml if exists
+      ansible.builtin.include_vars:
+        file: vars/main.yml
+      when: vars_main_file.stat.exists
+      tags: always
+
   roles:
     - role: me.tui/lazygit
       tags: [tui, nvim, lazygit]

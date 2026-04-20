@@ -1,19 +1,20 @@
-- hosts: localhost
-  vars_files:
-    - vars/vars.yml
+- name: "Install neovim"
+  hosts: localhost
 
   pre_tasks:
     - name: Check if vars/main.yml exists
-      stat:
+      ansible.builtin.stat:
         path: vars/main.yml
       register: vars_main_file
+      tags: always
     - name: Load vars/main.yml if exists
-      include_vars:
+      ansible.builtin.include_vars:
         file: vars/main.yml
       when: vars_main_file.stat.exists
+      tags: always
 
     - name: Gather service facts
-      service_facts:
+      ansible.builtin.service_facts:
       tags: always
 
   roles:
@@ -36,6 +37,5 @@
     - role: me.tools/delta
       tags: [nvim, delta]
 
-- import_playbook: playbook-tui.yml
-  vars:
-    github_arch: "{{ arch_map[ansible_architecture] }}"
+- name: "Install TUIs"
+  import_playbook: playbook-tui.yml

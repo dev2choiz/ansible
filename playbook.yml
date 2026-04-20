@@ -1,16 +1,24 @@
-- hosts: localhost
-  vars_files:
-    - vars/vars.yml
+- name: "Install neovim"
+  import_playbook: playbook-nvim.yml
+
+- name: "Install OS tools"
+  hosts: localhost
 
   pre_tasks:
+    - name: Check if vars/main.yml exists
+      ansible.builtin.stat:
+        path: vars/main.yml
+      register: vars_main_file
+      tags: always
     - name: Load vars/main.yml if exists
-      include_vars:
+      ansible.builtin.include_vars:
         file: vars/main.yml
-        ignore_errors: true
+      when: vars_main_file.stat.exists
+      tags: always
 
     - name: Install base packages
       become: true
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         state: present
         name:
@@ -36,15 +44,11 @@
       when: ansible_run_tags | difference(['all']) | length == 0
 
     - name: Gather service facts
-      service_facts:
-      tags: always
-    - name: Set facts
-      set_fact:
-        github_arch: "{{ arch_map[ansible_architecture] }}"
+      ansible.builtin.service_facts:
       tags: always
     - name: Enable and start SSH service
       become: true
-      systemd:
+      ansible.builtin.systemd:
         name: ssh
         enabled: true
         state: started
@@ -52,9 +56,9 @@
         - ansible_run_tags | difference(['all']) | length == 0
         - "'ssh.service' in ansible_facts.services"
 
-    - name: "Create {{ ansible_env.HOME }}/sources"
-      file:
-        path: "{{ ansible_env.HOME }}/sources"
+    - name: "Create {{ ansible_facts['env']['HOME'] }}/sources"
+      ansible.builtin.file:
+        path: "{{ ansible_facts['env']['HOME'] }}/sources"
         state: directory
         mode: "0755"
       when: ansible_run_tags | difference(['all']) | length == 0
@@ -74,26 +78,10 @@
       tags: terminator
     - role: me.nvim/core
       tags: [nvim_core, nvim]
-    - role: me.nvim/lazyvim
-      tags: [nvim]
-    - role: me.font
-      tags: [font, nvim]
-    - role: me.fzf
-      tags: [fzf, nvim]
-    - role: me.treesitter
-      tags: [treesitter, nvim]
-    - role: me.dbclient
-      tags: dbclient
     - role: me.tmux
       tags: tmux
     - role: me.zsh
       tags: zsh
-    - role: me.tools/tectonic
-      tags: tectonic
-    - role: me.tools/mmdc
-      tags: mmdc
-    - role: me.tools/delta
-      tags: delta
     - role: me.chrome
       tags: chrome
     # - role: me.jetbrains_toolbox
@@ -120,5 +108,3 @@
       tags: vscode
     - role: me.libreoffice
       tags: libreoffice
-
-- import_playbook: playbook-nvim.yml

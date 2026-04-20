@@ -9,8 +9,10 @@ if [ "$USER" = "root" ]; then
   exit 1
 fi
 
-sudo apt install -y make ansible
-ansible-galaxy install -r requirements.yml
+sudo apt install -y pipx
+pipx install --include-deps ansible
+
+$HOME/.local/bin/ansible-galaxy install -r requirements.yml
 
 TAGS_LIST=()
 FORCE_LIST=()
@@ -62,8 +64,13 @@ if [ ${#FORCE_LIST[@]} -gt 0 ]; then
   EXTRA_ARGS="-e force_roles=\"$FORCE_STR\""
 fi
 
-echo "ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS"
-ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS
+# Ask the password if not provided in vars/main.yml
+if [ ! -f "./vars/main.yml" ] || ! grep -Eq "^ *ansible_become_password:" "./vars/main.yml"; then
+  EXTRA_ARGS="${EXTRA_ARGS} --ask-become-pass"
+fi
+
+echo "$HOME/.local/bin/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS"
+$HOME/.local/bin/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS
 
 [ -z "$TAGS_ARG" ] && [ -f ./custom/install.sh ] && ./custom/install.sh
 

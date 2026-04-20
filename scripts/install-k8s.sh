@@ -8,10 +8,11 @@ if [ "$USER" = "root" ]; then
   exit 1
 fi
 
-sudo apt install -y ansible
+sudo apt install -y pipx
+pipx install --include-deps ansible
 sudo apt install -y python3-kubernetes
-ansible-galaxy install -r requirements.yml
-ansible-playbook playbook-k8s.yml --ask-become-pass
+$HOME/.local/bin/ansible-galaxy install -r requirements.yml
+$HOME/.local/bin/ansible-playbook playbook-k8s.yml --ask-become-pass
 
 ENDTIME=$(date +%s)
 DURATION=$((ENDTIME - STARTTIME))
