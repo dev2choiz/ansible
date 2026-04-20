@@ -12,6 +12,6 @@
   when: need_install
   vars:
     github_repo: "unkn0wn-root/resterm"
-    github_asset_name: "resterm_Linux_{{ github_arch }}"
-    binary_src_name: "resterm_Linux_{{ github_arch }}"
+    github_asset_name: "resterm_Linux_x86_64"
+    binary_src_name: "resterm_Linux_x86_64"
     binary_dest_name: "resterm"

@@ -12,7 +12,7 @@
   when: need_install
   vars:
     github_repo: "eza-community/eza"
-    github_asset_name: "eza_{{ github_arch }}-unknown-linux-gnu.tar.gz"
+    github_asset_name: "eza_x86_64-unknown-linux-gnu.tar.gz"
     binary_src_name: eza
     binary_dest_name: eza
     extract_archive: true

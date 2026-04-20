@@ -18,20 +18,20 @@
 # Customize the kitty.desktop file
 - name: Ensure local applications dir exists
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.local/share/applications"
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/share/applications"
     state: directory
     mode: '0755'
 
 - name: Copy kitty.desktop to user space
   ansible.builtin.copy:
     src: /usr/share/applications/kitty.desktop
-    dest: "{{ ansible_env.HOME }}/.local/share/applications/kitty.desktop"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.local/share/applications/kitty.desktop"
     remote_src: true
     mode: '0644'
 
 - name: Override kitty.desktop to set drop-down class
   ansible.builtin.replace:
-    path: "{{ ansible_env.HOME }}/.local/share/applications/kitty.desktop"
+    path: "{{ ansible_facts['env']['HOME'] }}/.local/share/applications/kitty.desktop"
     regexp: '^Exec=.*'
     # if we are in a vm, add `LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe` to disable gpu rendering
     replace: 'Exec={% if is_vm %}env LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe {% endif %}/usr/bin/kitty --class kitty-dropdown --start-as=maximized'
@@ -39,14 +39,14 @@
 # Kitty config
 - name: Ensure kitty config directory exists
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config/kitty"
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/kitty"
     state: directory
     mode: '0755'
 
 - name: Install kitty themes
   ansible.builtin.git:
     repo: https://github.com/dexpota/kitty-themes.git
-    dest: "{{ ansible_env.HOME }}/.config/kitty/kitty-themes"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty-themes"
     version: master
     depth: 1
     update: true
@@ -54,7 +54,7 @@
 - name: Install kitty config
   ansible.builtin.template:
     src: kitty.conf.j2
-    dest: "{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty.conf"
     mode: '0644'
 
 # Setup a shortcut to toggle kitty
@@ -66,12 +66,12 @@
 
 - name: Ensure ~/bin exists
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/bin"
+    path: "{{ ansible_facts['env']['HOME'] }}/bin"
     state: directory
     mode: '0755'
 
 - name: Copy toggle-kitty.sh to ~/bin
   ansible.builtin.copy:
     src: files/toggle-kitty.sh
-    dest: "{{ ansible_env.HOME }}/bin/toggle-kitty.sh"
+    dest: "{{ ansible_facts['env']['HOME'] }}/bin/toggle-kitty.sh"
     mode: '0755'

@@ -1,1 +1,1 @@
-var_golang_gopath: "{{ ansible_env.HOME }}/go"
+var_golang_gopath: "{{ ansible_facts['env']['HOME'] }}/go"

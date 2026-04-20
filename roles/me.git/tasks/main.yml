@@ -2,7 +2,7 @@
 - name: Git global .gitignore
   git_config:
     name: core.excludesfile
-    value: "{{ ansible_env.HOME }}/setup/.gitignore"
+    value: "{{ ansible_facts['env']['HOME'] }}/setup/.gitignore"
     scope: global
 
 - name: Git text editor

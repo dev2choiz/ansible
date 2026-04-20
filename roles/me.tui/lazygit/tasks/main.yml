@@ -29,5 +29,5 @@
 - name: Copy config file
   copy:
     src: ./files/config.yml
-    dest: "{{ ansible_env.HOME }}/.config/lazygit/"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/lazygit/"
     mode: "0644"

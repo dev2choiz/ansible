@@ -21,7 +21,7 @@
 
 - name: Set tpm directory
   set_fact:
-    tpm_directory: "{{ ansible_env.HOME }}/.config/tmux/plugins/tpm"
+    tpm_directory: "{{ ansible_facts['env']['HOME'] }}/.config/tmux/plugins/tpm"
 
 - name: Install tmux and dependencies
   become: true
@@ -39,9 +39,9 @@
     version: master
   when: need_install
 
-- name: Ensure {{ ansible_env.HOME }}/.config/tmux/ exists
+- name: Ensure {{ ansible_facts['env']['HOME'] }}/.config/tmux/ exists
   file:
-    path: "{{ ansible_env.HOME }}/.config/tmux"
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/tmux"
     state: directory
     mode: '0755'
   when: need_install
@@ -49,7 +49,7 @@
 - name: Copy tmux configuration
   synchronize:
     src: ./files/tmux/
-    dest: "{{ ansible_env.HOME }}/.config/tmux/"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/tmux/"
     recursive: true
   when: need_install
 
@@ -67,6 +67,6 @@
 - name: Copy setup folder in ~/
   synchronize:
     src: ./files/setup
-    dest: "{{ ansible_env.HOME }}"
+    dest: "{{ ansible_facts['env']['HOME'] }}"
     recursive: true
   when: need_install
