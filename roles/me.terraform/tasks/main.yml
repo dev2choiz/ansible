@@ -7,6 +7,7 @@
     target_roles: [terraform]
 
 - name: Install the HashiCorp GPG key
+  become: true
   when: need_install
   shell: |
     set -o pipefail
@@ -15,6 +16,7 @@
     executable: /bin/bash
 
 - name: Add the official HashiCorp repository to your system
+  become: true
   when: need_install
   shell: |
     set -o pipefail

@@ -11,6 +11,7 @@
 
 - name: Install ollama
   when: need_install
+  become: true
   shell: |
     set -o pipefail
     curl -fsSL https://ollama.com/install.sh | sh
