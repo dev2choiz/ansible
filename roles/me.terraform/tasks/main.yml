@@ -6,30 +6,29 @@
     check_binary: terraform
     target_roles: [terraform]
 
-- name: Install the HashiCorp GPG key
-  become: true
+- name: Resolve the latest terraform tag github_asset_name
+  include_role:
+    name: me.utils/github_release_resolver
+  vars:
+    github_repo: "hashicorp/terraform"
+    github_asset_name: "dummy"
+    github_release_tag: "latest"
   when: need_install
-  shell: |
-    set -o pipefail
-    wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
-  args:
-    executable: /bin/bash
 
-- name: Add the official HashiCorp repository to your system
-  become: true
+- name: "[terraform] Download and Extract"
   when: need_install
-  shell: |
-    set -o pipefail
-    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_lsb.codename | lower }} main" \
-    | sudo tee /etc/apt/sources.list.d/hashicorp.list
-  args:
-    executable: /bin/bash
+  include_role:
+    name: me.utils/download_file
+  vars:
+    download_dir: "/tmp/terraform"
+    download_url: "https://releases.hashicorp.com/terraform/{{ github_latest_tag | regex_replace('^v', '') }}/terraform_{{ github_latest_tag | regex_replace('^v', '') }}_linux_amd64.zip"
+    filename: "terraform.zip"
+    extract_archive: true
 
-- name: Install terraform
+- name: Install terraform binary
   become: true
+  copy:
+    src: "/tmp/terraform/terraform"
+    dest: "/usr/local/bin/terraform"
+    mode: "0755"
   when: need_install
-  apt:
-    name:
-      - terraform
-    update_cache: true
-    state: present

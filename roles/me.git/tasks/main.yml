@@ -56,30 +56,35 @@
     scope: global
     value: zdiff3
 
-    # git-lfs
+  # git-lfs
 - name: Test if git-lfs is installed
   command: which git-lfs
   register: test_git_lsf
   changed_when: false
   failed_when: false
 
-- name: Install git-lfs repository
-  become: true
+- name: Resolve the latest lazygit tag github_asset_name
+  include_role:
+    name: me.utils/github_release_resolver
+  vars:
+    github_repo: "git-lfs/git-lfs"
+    github_asset_name: "dummy"
+    github_release_tag: "latest"
   when: test_git_lsf.rc != 0
-  shell: |
-    set -o pipefail
-    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-  args:
-    executable: /bin/bash
+
+- name: "[git-lfs] Fetch GitHub asset"
+  include_role:
+    name: me.utils/fetch_github_asset
+  when: test_git_lsf.rc != 0
+  vars:
+    github_repo: "git-lfs/git-lfs"
+    github_asset_name: "git-lfs-linux-amd64-{{ github_latest_tag }}.tar.gz"
+    extract_archive: true
+    tmp_dir: /tmp/git-lfs
 
 - name: Install git-lfs
   become: true
   when: test_git_lsf.rc != 0
-  apt:
-    name:
-      - git-lfs
-    update_cache: true
-    state: present
-
-- name: Install git lfs
-  command: git lfs install
+  command: /tmp/git-lfs/git-lfs-{{ github_latest_tag | regex_replace('^v', '') }}/install.sh
+  args:
+    chdir: /tmp/git-lfs/git-lfs-{{ github_latest_tag | regex_replace('^v', '') }}
