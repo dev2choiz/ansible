@@ -1,0 +1,15 @@
+---
+- name: Test if onlyoffice need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: onlyoffice-desktopeditors
+    target_roles: [onlyoffice]
+
+- name: Install lazymake
+  include_role:
+    name: me.utils/install_github_deb
+  when: need_install
+  vars:
+    github_repo: "ONLYOFFICE/DesktopEditors"
+    github_asset_name: "onlyoffice-desktopeditors_amd64.deb"

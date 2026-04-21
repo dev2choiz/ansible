@@ -108,3 +108,5 @@
       tags: vscode
     - role: me.libreoffice
       tags: libreoffice
+    - role: me.onlyoffice
+      tags: onlyoffice
