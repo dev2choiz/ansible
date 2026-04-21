@@ -6,7 +6,7 @@
 # Delete nvim config
 - name: Delete previous nvim config ({{ nvim_appname }})
   file:
-    path: "{{item}}"
+    path: "{{ item }}"
     state: absent
   loop:
     - "~/.config/{{ nvim_appname }}"
@@ -15,7 +15,7 @@
     - "~/.cache/{{ nvim_appname }}"
 
 # Install LazyVim
-- name: clone LazyVim
+- name: Clone LazyVim
   git:
     repo: https://github.com/LazyVim/starter.git
     dest: "~/.config/{{ nvim_appname }}"
@@ -27,6 +27,6 @@
     state: absent
 
 - name: Copy Lazyvim confing
-  synchronize:
+  ansible.posix.synchronize:
     src: ./files/nvim/lazyvim_config/
     dest: "~/.config/{{ nvim_appname }}/"

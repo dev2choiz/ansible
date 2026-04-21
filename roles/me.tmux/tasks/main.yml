@@ -43,11 +43,11 @@
   file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/tmux"
     state: directory
-    mode: '0755'
+    mode: "0755"
   when: need_install
 
 - name: Copy tmux configuration
-  synchronize:
+  ansible.posix.synchronize:
     src: ./files/tmux/
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/tmux/"
     recursive: true
@@ -65,7 +65,7 @@
   when: need_install
 
 - name: Copy setup folder in ~/
-  synchronize:
+  ansible.posix.synchronize:
     src: ./files/setup
     dest: "{{ ansible_facts['env']['HOME'] }}"
     recursive: true

@@ -20,7 +20,7 @@
     name: me.utils/install_github_binary
   vars:
     github_repo: "jesseduffield/lazygit"
-    github_asset_name: "lazygit_{{ github_latest_tag | regex_replace('^v','') }}_linux_x86_64.tar.gz"
+    github_asset_name: "lazygit_{{ github_latest_tag | regex_replace('^v', '') }}_linux_x86_64.tar.gz"
     binary_src_name: "lazygit"
     binary_dest_name: "lazygit"
     extract_archive: true

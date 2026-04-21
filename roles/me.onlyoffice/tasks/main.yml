@@ -6,7 +6,7 @@
     check_binary: onlyoffice-desktopeditors
     target_roles: [onlyoffice]
 
-- name: Install lazymake
+- name: Install onlyoffice
   include_role:
     name: me.utils/install_github_deb
   when: need_install

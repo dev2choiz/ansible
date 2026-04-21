@@ -13,7 +13,7 @@
 
 - name: Install mermaid-cli globally via npm
   become: true
-  npm:
+  community.general.npm:
     name: "@mermaid-js/mermaid-cli"
     global: true
     state: present

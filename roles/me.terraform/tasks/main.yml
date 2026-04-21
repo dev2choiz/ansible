@@ -20,7 +20,7 @@
   when: need_install
   shell: |
     set -o pipefail
-    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ansible_lsb.codename | lower}} main" \
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_lsb.codename | lower }} main" \
     | sudo tee /etc/apt/sources.list.d/hashicorp.list
   args:
     executable: /bin/bash

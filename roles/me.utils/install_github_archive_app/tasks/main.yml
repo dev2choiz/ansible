@@ -8,13 +8,13 @@
       - app_name | length > 0
       - install_dir | length > 0
 
-- name: "Fetch GitHub asset"
+- name: "[{{ github_repo }}] Fetch GitHub asset"
   include_role:
     name: me.utils/fetch_github_asset
   vars:
     extract_archive: true
 
-- name: Determine source path for installation
+- name: "[{{ github_repo }}] Determine source path for installation"
   set_fact:
     source_path: >-
       {%- if archive_root_dir | length > 0 -%}
@@ -23,17 +23,17 @@
         {{ tmp_dir }}
       {%- endif -%}
 
-- name: Delete install directory before moving new files
+- name: "[{{ github_repo }}] Delete install directory before moving new files"
   become: true
   file:
     state: absent
     path: install_dir
 
-- name: "Move application to {{ install_dir }}"
+- name: "[{{ github_repo }}] Move application to {{ install_dir }}"
   become: "{{ install_become }}"
   command: mv "{{ source_path }}" "{{ install_dir }}"
 
-- name: Create symlink for binary
+- name: "[{{ github_repo }}] Create symlink for binary"
   become: "{{ install_become }}"
   file:
     src: "{{ install_dir }}/{{ binary_path_within_archive }}"
@@ -41,7 +41,7 @@
     state: link
     force: true
 
-- name: Cleanup temporary directory
+- name: "[{{ github_repo }}] Cleanup temporary directory"
   file:
     path: "{{ tmp_dir }}"
     state: absent

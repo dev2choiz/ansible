@@ -4,6 +4,7 @@ roles:
     src: https://github.com/PyratLabs/ansible-role-k3s
 
 collections:
+  - name: ansible.posix
   - name: community.general
   - name: kubernetes.core
     version: ">=6.1.0"

@@ -9,10 +9,11 @@ if [ "$USER" = "root" ]; then
   exit 1
 fi
 
-sudo apt install -y pipx
-pipx install --include-deps ansible
+./scripts/install-ansible.sh
 
-$HOME/.local/bin/ansible-galaxy install -r requirements.yml
+ANSIBLE_PATH="$HOME/.local/bin/"
+
+$ANSIBLE_PATH/ansible-galaxy install -r requirements.yml
 
 TAGS_LIST=()
 FORCE_LIST=()
@@ -69,8 +70,8 @@ if [ ! -f "./vars/main.yml" ] || ! grep -Eq "^ *ansible_become_password:" "./var
   EXTRA_ARGS="${EXTRA_ARGS} --ask-become-pass"
 fi
 
-echo "$HOME/.local/bin/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS"
-$HOME/.local/bin/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS
+echo "$ANSIBLE_PATH/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS"
+$ANSIBLE_PATH/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS
 
 [ -z "$TAGS_ARG" ] && [ -f ./custom/install.sh ] && ./custom/install.sh
 

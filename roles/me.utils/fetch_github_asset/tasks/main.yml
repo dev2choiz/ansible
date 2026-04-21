@@ -5,14 +5,14 @@
       - github_repo | length > 0
       - github_asset_name | length > 0
 
-- name: Resolve latest GitHub release url
+- name: "[{{ github_repo }}] Resolve latest GitHub release url"
   include_role:
     name: me.utils/github_release_resolver
 
-- name: Download and Extract
+- name: "[{{ github_repo }}] Download and Extract"
   include_role:
     name: me.utils/download_file
   vars:
-    download_dir: "{{tmp_dir}}"
-    download_url: "{{github_download_url}}"
-    filename: "{{github_asset_name}}"
+    download_dir: "{{ tmp_dir }}"
+    download_url: "{{ github_download_url }}"
+    filename: "{{ github_asset_name }}"

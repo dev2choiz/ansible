@@ -15,13 +15,12 @@
     github_release_tag: "latest"
   when: need_install
 
-
 - name: Install tectonic
   include_role:
     name: me.utils/install_github_binary
   vars:
     github_repo: "tectonic-typesetting/tectonic"
-    github_asset_name: "tectonic-{{ github_latest_tag | regex_replace('^tectonic@','') }}-x86_64-unknown-linux-gnu.tar.gz"
+    github_asset_name: "tectonic-{{ github_latest_tag | regex_replace('^tectonic@', '') }}-x86_64-unknown-linux-gnu.tar.gz"
     binary_src_name: "tectonic"
     binary_dest_name: "tectonic"
     tmp_dir: "/tmp/tmux"

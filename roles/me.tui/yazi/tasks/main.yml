@@ -20,7 +20,7 @@
   when: need_install
 
 - name: Copy yazy config files
-  synchronize:
+  ansible.posix.synchronize:
     src: files/
     dest: ~/.config/yazi/
     recursive: true

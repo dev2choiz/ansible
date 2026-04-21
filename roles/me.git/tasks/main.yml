@@ -1,57 +1,57 @@
 ---
 - name: Git global .gitignore
-  git_config:
+  community.general.git_config:
     name: core.excludesfile
     value: "{{ ansible_facts['env']['HOME'] }}/setup/.gitignore"
     scope: global
 
 - name: Git text editor
-  git_config:
+  community.general.git_config:
     name: core.editor
     scope: global
     value: vim
 
 - name: Git pull rebase
-  git_config:
+  community.general.git_config:
     name: pull.rebase
     scope: global
     value: true
 
 - name: Git configure email
   when: var_git_email is defined and var_git_email != ''
-  git_config:
+  community.general.git_config:
     name: user.email
     scope: global
     value: "{{ var_git_email }}"
 
 - name: Git configure username
   when: var_git_username is defined and var_git_username != ''
-  git_config:
+  community.general.git_config:
     name: user.name
     scope: global
     value: "{{ var_git_username }}"
 
 # Delta
 - name: Git delta pager
-  git_config:
+  community.general.git_config:
     name: core.pager
     scope: global
     value: delta
 
 - name: Git interactive diff filter using delta
-  git_config:
+  community.general.git_config:
     name: interactive.diffFilter
     scope: global
     value: "delta --color-only"
 
 - name: Git delta navigation
-  git_config:
+  community.general.git_config:
     name: delta.navigate
     scope: global
     value: true
 
 - name: Git merge conflict style
-  git_config:
+  community.general.git_config:
     name: merge.conflictStyle
     scope: global
     value: zdiff3

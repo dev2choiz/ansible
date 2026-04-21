@@ -7,11 +7,11 @@
       - binary_dest_name | length > 0
       - github_asset_name | length > 0
 
-- name: Resolve github release and download
+- name: "[{{ github_repo }}] Resolve github release and download"
   include_role:
     name: me.utils/fetch_github_asset
 
-- name: "Install binary to: {{ install_dir }}/{{ binary_dest_name }}"
+- name: "[{{ github_repo }}] Install binary to: {{ install_dir }}/{{ binary_dest_name }}"
   copy:
     src: >-
       {%- if extract_archive -%}
@@ -20,12 +20,11 @@
         {{ tmp_dir }}/{{ github_asset_name }}
       {%- endif -%}
     dest: "{{ install_dir }}/{{ binary_dest_name }}"
-    mode: '0755'
+    mode: "0755"
     remote_src: true
   become: true
 
-
-- name: "Cleanup: {{ tmp_dir }}"
+- name: "[{{ github_repo }}] Cleanup: {{ tmp_dir }}"
   file:
     path: "{{ tmp_dir }}"
     state: absent

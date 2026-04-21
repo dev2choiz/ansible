@@ -13,7 +13,7 @@
     creates: "{{ ansible_facts['env']['HOME'] }}/.local/bin/posting"
 
 - name: Copy posting config files
-  synchronize:
+  ansible.posix.synchronize:
     src: files/
     dest: ~/.config/posting/
     recursive: true

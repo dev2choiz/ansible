@@ -5,6 +5,7 @@ return {
       ensure_installed = {
         "emmet-language-server",
       },
+      max_concurrent_installers = 12,
     },
   },
 }

@@ -1,6 +1,6 @@
 ---
 - name: Install insomnia with snap
   become: true
-  snap:
+  community.general.snap:
     name:
       - insomnia

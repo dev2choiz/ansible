@@ -29,7 +29,7 @@
 - name: Copy /tmp/jetbrains-mono-nerd to /usr/local/share/fonts/
   when: not stat_fontdir.stat.exists
   become: true
-  synchronize:
+  ansible.posix.synchronize:
     src: /tmp/jetbrains-mono-nerd
     dest: /usr/local/share/fonts/
     recursive: true

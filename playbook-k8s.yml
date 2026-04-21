@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: "Install k8s"
+  hosts: localhost
   gather_facts: true
   vars_files:
     - vars/main.yml
@@ -20,7 +21,7 @@
       file:
         path: /etc/rancher/k3s
         state: directory
-        mode: '0755'
+        mode: "0755"
     - name: Create registries.yaml for K3s
       become: true
       copy:
@@ -32,7 +33,7 @@
                 - "http://localregistry:5000"
         owner: root
         group: root
-        mode: '0644'
+        mode: "0644"
 
   roles:
 #    - role: me.helm
@@ -56,7 +57,7 @@
       ansible.builtin.get_url:
         url: "{{ k9s_deb_url }}"
         dest: "{{ k9s_deb_path }}"
-        mode: '0644'
+        mode: "0644"
 
     - name: Install k9s package
       ansible.builtin.apt:

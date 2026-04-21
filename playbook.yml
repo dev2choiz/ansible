@@ -106,6 +106,8 @@
       tags: gcloud
     - role: me.vscode
       tags: vscode
+    - role: me.devtools/ansible
+      tags: ["devtools", "ansible"]
     - role: me.libreoffice
       tags: libreoffice
     - role: me.onlyoffice

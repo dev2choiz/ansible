@@ -9,8 +9,9 @@ if [ "$USER" = "root" ]; then
   exit 1
 fi
 
-sudo apt install -y pipx
-pipx install --include-deps ansible
+./scripts/install-ansible.sh
+
+ANSIBLE_PATH="$HOME/.local/bin/"
 
 NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
 NVIM_CONFIG="${NVIM_CONFIG:-lazyvim}"
@@ -31,10 +32,10 @@ echo "NVIM_APPNAME is set to '${NVIM_APPNAME}'"
 echo "NVIM_CONFIG is set to '${NVIM_CONFIG}'"
 echo "EXTRA_TAGS is set to '${EXTRA_TAGS}'"
 echo "ANSIBLE_EXTRA is set to '${ANSIBLE_EXTRA}'"
-echo "$HOME/.local/bin/ansible-playbook playbook-nvim.yml --tags \"$TAGS\" $ANSIBLE_EXTRA"
+echo "$ANSIBLE_PATH/ansible-playbook playbook-nvim.yml --tags \"$TAGS\" $ANSIBLE_EXTRA"
 echo ""
 
-$HOME/.local/bin/ansible-playbook playbook-nvim.yml --tags "$TAGS" $ANSIBLE_EXTRA
+$ANSIBLE_PATH/ansible-playbook playbook-nvim.yml --tags "$TAGS" $ANSIBLE_EXTRA
 
 echo "Neovim has been installed with the configuration '${NVIM_APPNAME}'."
 echo "You can launch it with:"

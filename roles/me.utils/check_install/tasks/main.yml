@@ -1,11 +1,11 @@
 ---
-- name: "Check if {{ check_binary }} binary exists"
+- name: "[{{ check_binary }}] Check if binary exists"
   command: "which {{ check_binary }}"
   register: check_binary_result
   changed_when: false
   failed_when: false
 
-- name: "Compute `need_install` flag {{ check_binary }}"
+- name: "[{{ check_binary }}] Compute `need_install` flag"
   set_fact:
     need_install: >-
       {{
