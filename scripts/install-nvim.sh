@@ -35,6 +35,8 @@ echo "ANSIBLE_EXTRA is set to '${ANSIBLE_EXTRA}'"
 echo "$ANSIBLE_PATH/ansible-playbook playbook-nvim.yml --tags \"$TAGS\" $ANSIBLE_EXTRA"
 echo ""
 
+source ./scripts/sudo-workaround.sh
+
 $ANSIBLE_PATH/ansible-playbook playbook-nvim.yml --tags "$TAGS" $ANSIBLE_EXTRA
 
 echo "Neovim has been installed with the configuration '${NVIM_APPNAME}'."

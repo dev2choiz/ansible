@@ -3,3 +3,6 @@ skip_list:
   - 'no-changed-when'
   - 'name[template]'
   - 'fqcn-builtins'
+
+exclude_paths:
+  - .ansible/
