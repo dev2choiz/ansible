@@ -32,3 +32,8 @@
     dest: "/usr/local/bin/terraform"
     mode: "0755"
   when: need_install
+
+- name: Delete /tmp/git-lfs
+  file:
+    path: /tmp/git-lfs
+    state: absent

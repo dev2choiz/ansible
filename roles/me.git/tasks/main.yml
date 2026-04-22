@@ -88,3 +88,8 @@
   command: /tmp/git-lfs/git-lfs-{{ github_latest_tag | regex_replace('^v', '') }}/install.sh
   args:
     chdir: /tmp/git-lfs/git-lfs-{{ github_latest_tag | regex_replace('^v', '') }}
+
+- name: delete /tmp/git-lfs
+  file:
+    path: /tmp/git-lfs
+    state: absent
