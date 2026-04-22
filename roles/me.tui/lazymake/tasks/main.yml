@@ -6,11 +6,20 @@
     check_binary: lazymake
     target_roles: [lazymake]
 
+- name: Resolve the latest lazymake tag github_asset_name
+  include_role:
+    name: me.utils/github_release_resolver
+  vars:
+    github_repo: "rshelekhov/lazymake"
+    github_asset_name: "dummy"
+    github_release_tag: "latest"
+  when: need_install
+
 - name: Install lazymake
   include_role:
     name: me.utils/install_github_deb
   when: need_install
   vars:
     github_repo: "rshelekhov/lazymake"
-    github_asset_name: "lazymake_0.3.0_linux_amd64.deb"
-    github_release_tag: "v0.3.0"
+    github_asset_name: "lazymake_{{ github_latest_tag | regex_replace('^v', '') }}_linux_amd64.deb"
+    github_release_tag: "latest"
