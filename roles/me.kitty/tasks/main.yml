@@ -1,49 +1,84 @@
 ---
+- name: Test if kitty need installation
+  include_role:
+    name: me.utils/check_install
+  vars:
+    check_binary: kitty
+    target_roles: [kitty]
+
 - name: Detect virtualization
+  when: need_install
   ansible.builtin.command: systemd-detect-virt
   register: virt_detect
   changed_when: false
   failed_when: false
 
 - name: Set is_vm fact
+  when: need_install
   ansible.builtin.set_fact:
     is_vm: "{{ virt_detect.stdout != 'none' }}"
 
+- name: Resolve the latest kitty tag github_asset_name
+  when: need_install
+  include_role:
+    name: me.utils/github_release_resolver
+  vars:
+    github_repo: "kovidgoyal/kitty"
+    github_asset_name: "dummy"
+    github_release_tag: "latest"
+
 - name: Install kitty
+  when: need_install
+  include_role:
+    name: me.utils/install_github_archive_app
+  vars:
+    github_repo: "kovidgoyal/kitty"
+    github_asset_name: "kitty-{{ github_latest_tag | regex_replace('^v', '') }}-x86_64.txz"
+    binary_path_within_archive: "bin/kitty"
+    install_dir: "/opt/kitty"
+    symlink_path: "/usr/local/bin"
+    tmp_dir: "/tmp/kitty"
+    app_name: "kitty"
+    delete_tmp_dir: false
+    extract_dir: "/tmp/kitty/kitty"
+    archive_root_dir: "kitty"
+
+- name: "[kitty] Create symlink for kitten"
+  when: need_install
   become: true
-  ansible.builtin.package:
-    name: kitty
-    state: present
+  file:
+    src: "/opt/kitty/bin/kitten"
+    dest: "/usr/local/bin/kitten"
+    state: link
+    force: true
 
 # Customize the kitty.desktop file
 - name: Ensure local applications dir exists
+  when: need_install
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.local/share/applications"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
-- name: Copy kitty.desktop to user space
-  ansible.builtin.copy:
-    src: /usr/share/applications/kitty.desktop
+- name: Create kitty.desktop
+  when: need_install
+  template:
+    src: templates/kitty.desktop.j2
     dest: "{{ ansible_facts['env']['HOME'] }}/.local/share/applications/kitty.desktop"
-    remote_src: true
-    mode: '0644'
-
-- name: Override kitty.desktop to set drop-down class
-  ansible.builtin.replace:
-    path: "{{ ansible_facts['env']['HOME'] }}/.local/share/applications/kitty.desktop"
-    regexp: '^Exec=.*'
-    # if we are in a vm, add `LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe` to disable gpu rendering
-    replace: 'Exec={% if is_vm %}env LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe {% endif %}/usr/bin/kitty --class kitty-dropdown --start-as=maximized'
+    mode: "0764"
+  vars:
+    is_vm: is_vm
 
 # Kitty config
 - name: Ensure kitty config directory exists
+  when: need_install
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.config/kitty"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Install kitty themes
+  when: need_install
   ansible.builtin.git:
     repo: https://github.com/dexpota/kitty-themes.git
     dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty-themes"
@@ -52,26 +87,37 @@
     update: true
 
 - name: Install kitty config
-  ansible.builtin.template:
-    src: kitty.conf.j2
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty.conf"
-    mode: '0644'
+  when: need_install
+  ansible.builtin.copy:
+    src: files/kitty.conf
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/"
+    mode: "0644"
+
+- name: Copy opacity_toggle.py to ~/.config/kitty/
+  when: need_install
+  ansible.builtin.copy:
+    src: files/toggle_opacity.py
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/"
+    mode: "0644"
 
 # Setup a shortcut to toggle kitty
 - name: Install xdotool
+  when: need_install
   become: true
   ansible.builtin.package:
     name: xdotool
     state: present
 
 - name: Ensure ~/bin exists
+  when: need_install
   ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/bin"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Copy toggle-kitty.sh to ~/bin
+  when: need_install
   ansible.builtin.copy:
     src: files/toggle-kitty.sh
     dest: "{{ ansible_facts['env']['HOME'] }}/bin/toggle-kitty.sh"
-    mode: '0755'
+    mode: "0644"

@@ -27,9 +27,9 @@
   become: true
   file:
     state: absent
-    path: install_dir
+    path: "{{ install_dir }}"
 
-- name: "[{{ github_repo }}] Move application to {{ install_dir }}"
+- name: "[{{ github_repo }}] Move {{ source_path }} to {{ install_dir }}"
   become: "{{ install_become }}"
   command: mv "{{ source_path }}" "{{ install_dir }}"
 
@@ -37,7 +37,7 @@
   become: "{{ install_become }}"
   file:
     src: "{{ install_dir }}/{{ binary_path_within_archive }}"
-    dest: "{{ symlink_path }}/nvim"
+    dest: "{{ symlink_path }}/{{ app_name }}"
     state: link
     force: true
 

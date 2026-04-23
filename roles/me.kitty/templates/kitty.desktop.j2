@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=kitty
+GenericName=Terminal emulator
+Comment=Fast, feature-rich, GPU based terminal
+TryExec=kitty
+# if we are in a vm, add `LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe` to disable gpu rendering
+Exec={% if is_vm %}env LIBGL_ALWAYS_SOFTWARE=1 GALLIUM_DRIVER=llvmpipe {% endif %}/usr/local/bin/kitty --class kitty-dropdown --start-as=maximized
+Icon=/opt/kitty/share/icons/hicolor/256x256/apps/kitty.png
+Categories=System;TerminalEmulator;

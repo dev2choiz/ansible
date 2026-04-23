@@ -3,3 +3,4 @@ download_dir: ""
 download_url: ""
 filename: ""
 extract_archive: false
+extract_dir: "" # relative from download_dir
