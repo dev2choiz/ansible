@@ -11,7 +11,7 @@ fi
 
 ./scripts/install-ansible.sh
 
-ANSIBLE_PATH="$HOME/.local/bin/"
+ANSIBLE_PATH="$HOME/.local/bin"
 
 NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
 NVIM_CONFIG="${NVIM_CONFIG:-lazyvim}"

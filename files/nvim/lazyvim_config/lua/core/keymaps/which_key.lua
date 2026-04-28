@@ -40,6 +40,12 @@ return {
     { "x", '"_x', mode = { "n", "x" }, desc = "Delete char (blackhole)" },
     { "X", '"_X', mode = { "n" }, desc = "Delete char before cursor (blackhole)" },
 
+    -- disable arrows
+    { "<Up>", "<Nop>", mode = { "n", "i", "x" }, desc = "Disable Up arrow" },
+    { "<Down>", "<Nop>", mode = { "n", "i", "x" }, desc = "Disable Down arrow" },
+    { "<Left>", "<Nop>", mode = { "n", "i", "x" }, desc = "Disable Left arrow" },
+    { "<Right>", "<Nop>", mode = { "n", "i", "x" }, desc = "Disable Right arrow" },
+
     -- workspace diagnostics
     {
       "<leader>xp",

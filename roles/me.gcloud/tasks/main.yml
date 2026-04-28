@@ -28,10 +28,7 @@
     remote_src: true
   when: need_install
 
-- name: Symlink gcloud
+- name: Install kubectl via gcloud
   become: true
-  file:
-    src: /opt/google-cloud-sdk/bin/gcloud
-    dest: /usr/local/bin/gcloud
-    state: link
   when: need_install
+  ansible.builtin.command: /opt/google-cloud-sdk/bin/gcloud components install kubectl --quiet

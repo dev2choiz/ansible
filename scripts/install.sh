@@ -11,7 +11,7 @@ fi
 
 ./scripts/install-ansible.sh
 
-ANSIBLE_PATH="$HOME/.local/bin/"
+ANSIBLE_PATH="$HOME/.local/bin"
 
 $ANSIBLE_PATH/ansible-galaxy install -r requirements.yml
 
