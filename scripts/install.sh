@@ -70,8 +70,6 @@ if [ ! -f "./vars/main.yml" ] || ! grep -Eq "^ *ansible_become_password:" "./var
   EXTRA_ARGS="${EXTRA_ARGS} --ask-become-pass"
 fi
 
-source ./scripts/sudo-workaround.sh
-
 echo "$ANSIBLE_PATH/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS"
 $ANSIBLE_PATH/ansible-playbook playbook.yml $TAGS_ARG $EXTRA_ARGS
 
