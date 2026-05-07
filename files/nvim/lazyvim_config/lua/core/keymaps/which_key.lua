@@ -46,6 +46,9 @@ return {
     { "<Left>", "<Nop>", mode = { "n", "i", "x" }, desc = "Disable Left arrow" },
     { "<Right>", "<Nop>", mode = { "n", "i", "x" }, desc = "Disable Right arrow" },
 
+    -- return to normal mode from insert mode
+    { "jk", "<Esc>", mode = "i", desc = "Exit insert mode with jk" },
+
     -- workspace diagnostics
     {
       "<leader>xp",
