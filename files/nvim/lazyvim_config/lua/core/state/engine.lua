@@ -55,7 +55,7 @@ function M.create_state(name)
     set = function(key, value)
       data[key] = value
       dirty = true
-      -- flush()
+      flush()
     end,
 
     raw = function()
