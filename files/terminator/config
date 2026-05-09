@@ -14,6 +14,7 @@
   go_right = ""
   full_screen = <Super>F11
   hide_window = <Super>a
+  next_profile = <Primary><Shift>F1
   help = ""
 [profiles]
   [[default]]
