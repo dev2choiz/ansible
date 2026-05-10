@@ -13,15 +13,15 @@
     depth: 1
     version: master
 
-- name: Create ~/.zshrc
-  template:
-    src: templates/.zshrc
-    dest: ~/.zshrc
-    mode: "0644"
-
-- name: Copy zshrc.d/*
+- name: Copy zsh/.zshrc
   ansible.posix.synchronize:
-    src: ./files/zshrc.d/
+    src: ./files/zsh/.zshrc
+    dest: ~/
+    recursive: true
+
+- name: Copy zsh/zshrc.d/*
+  ansible.posix.synchronize:
+    src: ./files/zsh/zshrc.d/
     dest: ~/.zshrc.d/
     recursive: true
 
