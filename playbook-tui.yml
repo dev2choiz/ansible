@@ -30,5 +30,3 @@
       tags: [tui, nvim, resterm]
     - role: me.tui/yazi
       tags: [tui, nvim, yazi]
-    - role: me.tui/tools
-      tags: [tui, nvim, tuitools]

@@ -1,43 +1,38 @@
 #!/bin/bash
-set -e
+
+source ./scripts/lib/helpers.sh
 
 STARTTIME=$(date +%s)
 
-USER=${USER:-$(whoami)}
-if [ "$USER" = "root" ]; then
-  echo "This script should not be run as root."
-  exit 1
-fi
-
-./scripts/install-ansible.sh
+ensure_not_root
+install_ansible
 
 ANSIBLE_PATH="$HOME/.local/bin"
 
 NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
 NVIM_CONFIG="${NVIM_CONFIG:-lazyvim}"
-EXTRA_TAGS="${EXTRA_TAGS:-}"
-ANSIBLE_EXTRA=""
 
-TAGS="nvim,$NVIM_CONFIG"
-if [ -n "$EXTRA_TAGS" ]; then
-  TAGS="$TAGS,$EXTRA_TAGS"
-fi
+parse_common_args "$@"
 
-if [ ! -f "./vars/main.yml" ] || ! grep -Eq "^ *ansible_become_password:" "./vars/main.yml"; then
-  ANSIBLE_EXTRA="--ask-become-pass"
-fi
+TAGS_LIST=("nvim" "$NVIM_CONFIG" "${TAGS_LIST[@]}")
+
+ALL_TAGS=($(merge_tags_and_forced_roles))
+
+TAGS_ARG=$(build_tags_arg "${ALL_TAGS[@]}")
+FORCE_ARGS=$(build_force_extra_args)
+BECOME_ARG=$(build_become_arg)
+
+CMD="$ANSIBLE_PATH/ansible-playbook playbook-nvim.yml $TAGS_ARG $FORCE_ARGS $BECOME_ARG"
 
 echo ""
-echo "NVIM_APPNAME is set to '${NVIM_APPNAME}'"
-echo "NVIM_CONFIG is set to '${NVIM_CONFIG}'"
-echo "EXTRA_TAGS is set to '${EXTRA_TAGS}'"
-echo "ANSIBLE_EXTRA is set to '${ANSIBLE_EXTRA}'"
-echo "$ANSIBLE_PATH/ansible-playbook playbook-nvim.yml --tags \"$TAGS\" $ANSIBLE_EXTRA"
+echo "NVIM_APPNAME='${NVIM_APPNAME}'"
+echo "NVIM_CONFIG='${NVIM_CONFIG}'"
+echo "$CMD"
 echo ""
 
-$ANSIBLE_PATH/ansible-playbook playbook-nvim.yml --tags "$TAGS" $ANSIBLE_EXTRA
+eval "$CMD"
 
-echo "Neovim has been installed with the configuration '${NVIM_APPNAME}'."
+echo "Neovim has been installed with configuration '${NVIM_APPNAME}'."
 echo "You can launch it with:"
 if [ "$NVIM_APPNAME" = "nvim" ]; then
   echo "  nvim ."
@@ -47,5 +42,4 @@ fi
 echo ""
 
 ENDTIME=$(date +%s)
-DURATION=$((ENDTIME - STARTTIME))
-echo "Execution duration: ${DURATION}s"
+echo "Execution duration: $((ENDTIME - STARTTIME))s"
