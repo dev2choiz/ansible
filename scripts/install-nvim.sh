@@ -9,6 +9,8 @@ install_ansible
 
 ANSIBLE_PATH="$HOME/.local/bin"
 
+$ANSIBLE_PATH/ansible-galaxy install -r requirements.yml
+
 NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
 NVIM_CONFIG="${NVIM_CONFIG:-lazyvim}"
 

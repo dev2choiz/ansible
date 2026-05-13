@@ -15,7 +15,24 @@ ensure_not_root() {
 }
 
 install_ansible() {
-  ./scripts/install-ansible.sh
+  if [[ -x "$HOME/.local/bin/pipx" && -x "$HOME/.local/bin/ansible" ]]; then
+    echo "pipx and ansible already installed, skip"
+    exit 0
+  fi
+
+  sudo apt install -y pipx
+
+  # Install pipx inside pipx itself to have the latest version
+  pipx install pipx
+
+  # remove the pipx installed by apt
+  sudo apt remove --purge -y pipx
+
+  $HOME/.local/bin/pipx ensurepath
+
+  # Install ansible using pipx for the latest version
+  $HOME/.local/bin/pipx install --force --include-deps ansible
+  # $HOME/.local/bin/pipx install --force --include-deps "git+https://github.com/ansible/ansible.git@v2.20.6rc1"
 }
 
 parse_common_args() {
