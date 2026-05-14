@@ -17,7 +17,7 @@ ensure_not_root() {
 install_ansible() {
   if [[ -x "$HOME/.local/bin/pipx" && -x "$HOME/.local/bin/ansible" ]]; then
     echo "pipx and ansible already installed, skip"
-    exit 0
+    return
   fi
 
   sudo apt install -y pipx
