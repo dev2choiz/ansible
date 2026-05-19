@@ -1,6 +1,7 @@
 return {
   {
     "leoluz/nvim-dap-go",
+    lazy = true,
     config = function()
       -- just to disable the setup of the plugin
     end,
@@ -50,6 +51,8 @@ return {
   },
   {
     "igorlfs/nvim-dap-view",
+    lazy = true,
+
     ---@module 'dap-view'
     ---@type dapview.Config
     opts = {
