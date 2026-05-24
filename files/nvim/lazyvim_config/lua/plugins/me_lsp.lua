@@ -26,6 +26,14 @@ return {
               },
             },
           },
+
+          -- FIXME: workaround for
+          -- https://github.com/LazyVim/LazyVim/issues/7176
+          -- https://github.com/golang/go/issues/79524
+          init_options = {
+            semanticTokens = true,
+          },
+          -- end workaround
         },
         yamlls = {
           settings = {
