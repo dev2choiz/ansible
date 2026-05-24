@@ -1,18 +1,15 @@
 return {
   "Saghen/blink.cmp",
   version = "1.*",
+
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
   opts = {
     keymap = {
-      ["<Tab>"] = {
-        function(cmp)
-          if cmp.snippet_active() then
-            return false
-          end
-          return cmp.select_and_accept()
-        end,
-        "snippet_forward",
-        "fallback",
-      },
+      -- https://github.com/saghen/blink.cmp/blob/main/doc/configuration/keymap.md#enter
+      preset = "enter",
+      ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
     },
 
     completion = {
@@ -20,6 +17,7 @@ return {
         -- enabled = vim.g.ai_cmp,
         enabled = false,
       },
+      list = { selection = { preselect = false } },
     },
   },
 }
