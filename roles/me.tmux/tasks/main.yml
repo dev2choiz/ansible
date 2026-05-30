@@ -6,12 +6,21 @@
     check_binary: tmux
     target_roles: [tmux]
 
+- name: Resolve the latest tmux tag github_asset_name
+  include_role:
+    name: me.utils/github_release_resolver
+  vars:
+    github_repo: "tmux/tmux-builds"
+    github_asset_name: "dummy"
+    github_release_tag: "latest"
+  when: need_install
+
 - name: Install tmux
   include_role:
     name: me.utils/install_github_binary
   vars:
     github_repo: "tmux/tmux-builds"
-    github_asset_name: "tmux-3.6a-linux-x86_64.tar.gz"
+    github_asset_name: "tmux-{{ github_latest_tag | regex_replace('^v', '') }}-linux-x86_64.tar.gz"
     binary_src_name: "tmux"
     binary_dest_name: "tmux"
     tmp_dir: "/tmp/tmux"
