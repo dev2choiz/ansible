@@ -7,17 +7,17 @@ function M.get_configurations()
   ------------------------------------------------------------------
   configurations.go = {
     {
+      name = "Attach Go (attach to dlv running locally)",
+      type = "go",
+      request = "attach",
+      mode = "remote",
+    },
+    {
       name = "Launch main.go",
       type = "go_launch",
       request = "launch",
       program = "${workspaceFolder}/main.go",
       outputMode = "remote",
-    },
-    {
-      name = "Attach Go (attack to dlv running locally)",
-      type = "go",
-      request = "attach",
-      mode = "remote",
     },
     {
       name = "Attach Go (in docker)",

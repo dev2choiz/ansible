@@ -8,4 +8,13 @@ return {
       max_concurrent_installers = 12,
     },
   },
+  {
+    "zapling/mason-lock.nvim",
+    enabled = false,
+    init = function()
+      require("mason-lock").setup({
+        lockfile_path = vim.fn.stdpath("config") .. "/mason-lock.json",
+      })
+    end,
+  },
 }
