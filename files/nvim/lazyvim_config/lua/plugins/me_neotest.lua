@@ -53,6 +53,7 @@ return {
     config = function(_, opts)
       require("core.neotest").setup(opts)
     end,
+    keys = require("core.keymaps.neotest"),
   },
   {
     "andythigpen/nvim-coverage",
