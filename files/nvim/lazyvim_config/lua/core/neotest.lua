@@ -30,9 +30,30 @@ local function load_user_configs()
   return configs
 end
 
-function M.setup(opts)
+function M.get_opts(opts)
   opts = opts or {}
   opts.adapters = opts.adapters or {}
+
+  opts.excludeAdapters = opts.excludeAdapters or {}
+
+  opts.adapters["neotest-jest"] = {
+    jestCommand = "npm test --",
+    jestArguments = function(defaultArguments)
+      return defaultArguments
+    end,
+    env = { CI = true },
+  }
+
+  opts.adapters["neotest-golang"] = {
+    go_test_args = {
+      "-v",
+      "-race",
+      "-count=1",
+      "-timeout=60s",
+    },
+    dap_go_enabled = true,
+    testify_enabled = true,
+  }
 
   local user_configs = load_user_configs()
 
@@ -41,15 +62,7 @@ function M.setup(opts)
     -- adapters
     ----------------------------------------------------------------
     if conf.adapters then
-      for name, adapter_opts in pairs(conf.adapters) do
-        local ok, adapter = pcall(require, name)
-        if ok then
-          logger.debug("load neotest adapter: " .. name)
-          table.insert(opts.adapters, adapter(adapter_opts or {}))
-        else
-          logger.warn("adapter not found: " .. name)
-        end
-      end
+      opts.adapters = vim.tbl_deep_extend("force", opts.adapters, conf.adapters)
     end
 
     ----------------------------------------------------------------
@@ -60,22 +73,26 @@ function M.setup(opts)
     end
 
     ----------------------------------------------------------------
-    -- exclude adapters
+    -- collect excluded adapters
     ----------------------------------------------------------------
     if conf.excludeAdapters then
-      for _, excluded in ipairs(conf.excludeAdapters) do
-        for i = #opts.adapters, 1, -1 do
-          local adapter = opts.adapters[i]
-          if adapter.name == excluded then
-            logger.debug("exclude adapter: " .. excluded)
-            table.remove(opts.adapters, i)
-          end
-        end
-      end
+      vim.list_extend(opts.excludeAdapters, conf.excludeAdapters)
     end
   end
 
-  require("neotest").setup(opts)
+  ----------------------------------------------------------------
+  -- exclude adapters
+  ----------------------------------------------------------------
+  for _, excluded in ipairs(opts.excludeAdapters) do
+    if opts.adapters[excluded] ~= nil then
+      logger.debug("exclude adapter: " .. excluded)
+      opts.adapters[excluded] = nil
+    end
+  end
+
+  opts.excludeAdapters = nil
+
+  return opts
 end
 
 return M
