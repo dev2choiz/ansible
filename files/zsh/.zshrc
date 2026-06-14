@@ -54,7 +54,10 @@ export PATH=$GOPATH/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export CGO_ENABLED=1
 
-export DOTFILES_THEME=gruvbox
+# export DOTFILES_THEME=tokyonight
+# export DOTFILES_THEME=kanagawa
+# export DOTFILES_THEME=gruvbox
+export DOTFILES_THEME=catppuccin
 
 ############ ALIAS ##################
 alias ws="cd ~/sources"
