@@ -70,35 +70,30 @@
     is_vm: is_vm
 
 # Kitty config
-- name: Ensure kitty config directory exists
+- name: Ensure kitty config directory and kitty-themes exists
   when: need_install
   ansible.builtin.file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/kitty"
+    path: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty-themes"
     state: directory
     mode: "0755"
 
-- name: Install kitty themes
+- name: Copy kitty config
+  when: need_install
+  ansible.builtin.copy:
+    src: files/
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/"
+    mode: "0644"
+    directory_mode: "0755"
+
+# themes
+- name: Install dexpota kitty-themes
   when: need_install
   ansible.builtin.git:
     repo: https://github.com/dexpota/kitty-themes.git
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty-themes"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/kitty-themes/dexpota-kitty-themes"
     version: master
     depth: 1
     update: true
-
-- name: Install kitty config
-  when: need_install
-  ansible.builtin.copy:
-    src: files/kitty.conf
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/"
-    mode: "0644"
-
-- name: Copy opacity_toggle.py to ~/.config/kitty/
-  when: need_install
-  ansible.builtin.copy:
-    src: files/toggle_opacity.py
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/"
-    mode: "0644"
 
 # Setup a shortcut to toggle kitty
 - name: Install xdotool
