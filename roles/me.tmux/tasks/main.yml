@@ -28,10 +28,6 @@
     extract_archive: true
   when: need_install
 
-- name: Set tpm directory
-  set_fact:
-    tpm_directory: "{{ ansible_facts['env']['HOME'] }}/.config/tmux/plugins/tpm"
-
 - name: Install tmux and dependencies
   become: true
   apt:
@@ -40,26 +36,23 @@
     state: present
   when: need_install
 
+- name: Create symlink for config/tmux directory
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/files/tmux"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/tmux"
+    state: link
+    force: true
+
+- name: Set tpm directory
+  set_fact:
+    tpm_directory: "{{ ansible_facts['env']['HOME'] }}/.config/tmux/plugins/tpm"
+
 - name: Install Tmux Plugin Manager
   git:
     repo: https://github.com/tmux-plugins/tpm
     dest: "{{ tpm_directory }}"
     update: true
     version: master
-  when: need_install
-
-- name: Ensure {{ ansible_facts['env']['HOME'] }}/.config/tmux/ exists
-  file:
-    path: "{{ ansible_facts['env']['HOME'] }}/.config/tmux"
-    state: directory
-    mode: "0755"
-  when: need_install
-
-- name: Copy tmux configuration
-  ansible.posix.synchronize:
-    src: ./files/tmux/
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/tmux/"
-    recursive: true
   when: need_install
 
 - name: Install tmux plugins

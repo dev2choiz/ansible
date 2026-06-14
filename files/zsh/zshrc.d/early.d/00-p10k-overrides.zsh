@@ -46,7 +46,7 @@ if [[ "$theme" == "catppuccin" ]]; then
   if [[ "${RUNNING_IN_DOCKER}" == "true" ]]; then
     POWERLEVEL9K_DIR_BACKGROUND='#89b4fa' # Blue
   else
-    POWERLEVEL9K_DIR_BACKGROUND='#1e1e2e' # Base
+    POWERLEVEL9K_DIR_BACKGROUND='#313244'
   fi
 
   POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#f9e2af'
