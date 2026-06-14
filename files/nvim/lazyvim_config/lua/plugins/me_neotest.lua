@@ -25,7 +25,7 @@ return {
         auto_reload = true,
         lang = {
           go = {
-            coverage_file = vim.fn.getcwd() .. "/coverage.out",
+            coverage_file = require("core.neotest").get_go_coverage_path(),
           },
         },
       })

@@ -32,6 +32,9 @@ M.list = {
   { import = "lazyvim.plugins.extras.util.rest" },
   { import = "lazyvim.plugins.extras.util.dot" },
   { import = "lazyvim.plugins.extras.coding.yanky" },
+  { import = "lazyvim.plugins.extras.editor.harpoon2" },
+  { import = "lazyvim.plugins.extras.editor.illuminate" },
+  { import = "lazyvim.plugins.extras.editor.aerial" },
 }
 
 ---@param extras1 table|nil

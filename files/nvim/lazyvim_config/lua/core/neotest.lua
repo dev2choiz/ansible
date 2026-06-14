@@ -30,6 +30,10 @@ local function load_user_configs()
   return configs
 end
 
+function M.get_go_coverage_path()
+  return os.getenv("GO_COVERAGE_FILEPATH") or vim.fn.getcwd() .. "/coverage.out"
+end
+
 function M.get_opts(opts)
   opts = opts or {}
   opts.adapters = opts.adapters or {}
@@ -50,9 +54,14 @@ function M.get_opts(opts)
       "-race",
       "-count=1",
       "-timeout=60s",
+      "-coverprofile=" .. M.get_go_coverage_path(),
     },
+    runner = "gotestsum",
+    gotestsum_args = { "--format", "pkgname" },
     dap_go_enabled = true,
     testify_enabled = true,
+    warn_test_name_dupes = false,
+    -- log_level = vim.log.levels.DEBUG,
   }
 
   local user_configs = load_user_configs()

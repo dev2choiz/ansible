@@ -4,6 +4,7 @@ return {
     opts = {
       ensure_installed = {
         "emmet-language-server",
+        "gotestsum",
       },
       max_concurrent_installers = 12,
     },
