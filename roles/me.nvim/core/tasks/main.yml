@@ -13,7 +13,7 @@
       - ripgrep
       - fd-find
       - sqlite3
-      - xclip
+      - wl-clipboard
       - fontconfig
       - imagemagick
       - texlive-latex-base

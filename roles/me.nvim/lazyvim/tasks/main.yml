@@ -26,7 +26,23 @@
     path: "~/.config/{{ nvim_appname }}/.git"
     state: absent
 
-- name: Copy Lazyvim config
-  ansible.posix.synchronize:
-    src: ./files/nvim/lazyvim_config/
-    dest: "~/.config/{{ nvim_appname }}/"
+- name: Define LazyVim custom files
+  set_fact:
+    lazyvim_custom_files:
+      - lua
+      - snippets
+      - mason-lock.json
+      - stylua.toml
+
+- name: Remove existing config entries
+  file:
+    path: "~/.config/{{ nvim_appname }}/{{ item }}"
+    state: absent
+  loop: "{{ lazyvim_custom_files }}"
+
+- name: Create symlinks
+  file:
+    src: "{{ playbook_dir }}/files/nvim/lazyvim_config/{{ item }}"
+    dest: "~/.config/{{ nvim_appname }}/{{ item }}"
+    state: link
+  loop: "{{ lazyvim_custom_files }}"

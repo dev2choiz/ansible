@@ -141,6 +141,11 @@ local function apply_theme()
     config.transparent = enabled
 
     require("tokyonight").setup(config)
+  elseif theme == "kanagawa" then
+    local config = require("kanagawa").config or {}
+    config.transparent = enabled
+
+    require("kanagawa").setup(config)
   end
 
   vim.cmd.colorscheme(vim.g.colors_name)

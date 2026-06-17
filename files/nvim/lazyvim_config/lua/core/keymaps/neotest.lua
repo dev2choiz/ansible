@@ -19,7 +19,7 @@ return {
     desc = "Debug the nearest",
   },
   {
-    "<leader>tr",
+    "<leader>tR",
     function()
       close_output_and_summary()
       require("neotest").run.run()
@@ -27,7 +27,7 @@ return {
     desc = "Run Nearest (Neotest)",
   },
   {
-    "<leader>tR",
+    "<leader>tr",
     function()
       open_output_and_summary()
       require("neotest").run.run()
@@ -43,7 +43,7 @@ return {
     desc = "Run File with Output Panel (Neotest)",
   },
   {
-    "<leader>tl",
+    "<leader>tL",
     function()
       close_output_and_summary()
       require("neotest").run.run_last()
@@ -51,11 +51,19 @@ return {
     desc = "Run Last (Neotest)",
   },
   {
-    "<leader>tL",
+    "<leader>tl",
     function()
       open_output_and_summary()
       require("neotest").run.run_last()
     end,
     desc = "Run Last with Output Panel (Neotest)",
+  },
+  {
+    "<leader>tT",
+    function()
+      open_output_and_summary()
+      require("neotest").run.run(vim.uv.cwd())
+    end,
+    desc = "Run All Test Files (Neotest)",
   },
 }
