@@ -1,7 +1,6 @@
 return {
   {
     "Bekaboo/dropbar.nvim",
-    enabled = false, -- FIXME: disabled. Not works with neovim 0.13: https://github.com/Bekaboo/dropbar.nvim/issues/279
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "BufReadPost",
     opts = {
