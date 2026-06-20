@@ -26,6 +26,7 @@ return {
     { "<leader>sr", group = "search & replace", mode = { "n", "x" } },
     { "<leader>ft", group = "terminal", mode = { "n", "x" } },
     { "<leader>wS", group = "session", mode = { "n", "x" } },
+    { "<leader>fy", group = "yazi", mode = { "n", "x" } },
     { "<leader>m", group = "misc", mode = { "n", "x" } },
     unpack(tui_tools_group),
   },
