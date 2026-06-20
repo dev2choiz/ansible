@@ -19,6 +19,19 @@
     extract_archive: true
   when: need_install
 
+- name: Install ya
+  include_role:
+    name: me.utils/install_github_binary
+  vars:
+    github_repo: "sxyazi/yazi"
+    github_asset_name: "yazi-x86_64-unknown-linux-gnu.zip"
+    binary_src_name: "yazi-x86_64-unknown-linux-gnu/ya"
+    binary_dest_name: "ya"
+    tmp_dir: "/tmp/ya"
+    delete_tmp_dir: true
+    extract_archive: true
+  when: need_install
+
 - name: Copy yazy config files
   ansible.posix.synchronize:
     src: files/
