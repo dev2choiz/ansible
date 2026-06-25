@@ -1,4 +1,5 @@
 local state = require("core.state").get_transparency()
+local logger = require("core.utils.logger")
 
 local M = {}
 
@@ -118,6 +119,8 @@ local supported = {
   "gruvbox",
   "tokyonight",
   "catppuccin",
+  "kanagawa",
+  "rose-pine",
 }
 
 local function apply_theme()
@@ -139,13 +142,23 @@ local function apply_theme()
   elseif theme == "tokyonight" then
     local config = require("tokyonight").config or {}
     config.transparent = enabled
+    config.styles = config.styles or {}
+    config.styles.sidebars = enabled and "transparent" or "dark"
+    config.styles.float = enabled and "transparent" or "dark"
 
     require("tokyonight").setup(config)
   elseif theme == "kanagawa" then
     local config = require("kanagawa").config or {}
     config.transparent = enabled
+    config.dimInactive = false
 
     require("kanagawa").setup(config)
+  elseif theme == "rose-pine" then
+    local config = require("rose-pine").config or {}
+    config.styles = config.styles or {}
+    config.styles.transparency = enabled
+
+    require("rose-pine").setup(config)
   end
 
   vim.cmd.colorscheme(vim.g.colors_name)

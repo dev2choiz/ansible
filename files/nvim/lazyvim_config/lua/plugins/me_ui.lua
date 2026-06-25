@@ -12,10 +12,10 @@ return {
     "folke/tokyonight.nvim",
     lazy = true,
     opts = {
-      --transparent = true,
+      -- transparent = true,
       styles = {
-        --sidebars = "transparent",
-        --floats = "transparent",
+        -- sidebars = "transparent",
+        -- floats = "transparent",
       },
     },
   },
@@ -32,6 +32,15 @@ return {
     lazy = true,
     opts = {
       theme = "dragon",
+      -- transparent = true,
+      dimInactive = false,
+    },
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opts = {
+      variant = "moon",
     },
   },
   {
