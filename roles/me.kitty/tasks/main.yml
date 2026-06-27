@@ -77,13 +77,17 @@
     state: directory
     mode: "0755"
 
-- name: Copy kitty config
+- name: Symlink kitty config files
   when: need_install
-  ansible.builtin.copy:
-    src: files/
-    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/"
-    mode: "0644"
-    directory_mode: "0755"
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/files/kitty/{{ item }}"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.config/kitty/{{ item }}"
+    state: link
+  loop:
+    - kitty.conf
+    - toggle-kitty.sh
+    - toggle_opacity.py
+    - custom-themes
 
 # themes
 - name: Install dexpota kitty-themes
@@ -113,6 +117,6 @@
 - name: Copy toggle-kitty.sh to ~/bin
   when: need_install
   ansible.builtin.copy:
-    src: files/toggle-kitty.sh
+    src: files/kitty/toggle-kitty.sh
     dest: "{{ ansible_facts['env']['HOME'] }}/bin/toggle-kitty.sh"
     mode: "0644"
