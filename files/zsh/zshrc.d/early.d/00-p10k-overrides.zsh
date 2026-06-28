@@ -6,7 +6,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Customize the prompt by running `p10k configure` or editing `~/.p10k.zsh`
-[[ -r ~/.p10k.zsh ]] && source ~/.p10k.zsh
+p10k_config="${DOTFILES_P10K_PATH:-$HOME/.p10k.zsh}"
+[[ -r "$p10k_config" ]] && source "$p10k_config"
 
 theme="${DOTFILES_THEME:-gruvbox}"
 
