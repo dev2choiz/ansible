@@ -7,7 +7,7 @@ local function setup_internal()
   vim.api.nvim_create_autocmd("User", {
     pattern = "LazyVimStarted",
     callback = function()
-      require("user.transparency").init()
+      require("core.transparency.transparency").init()
     end,
   })
 

@@ -4,8 +4,8 @@ local M = {}
 function M.config_keymaps()
   Snacks.toggle({
     name = "transparency",
-    get = function() return require("user.transparency").enabled end,
-    set = function() require("user.transparency").toggle() end,
+    get = function() return require("core.transparency.transparency").enabled end,
+    set = function() require("core.transparency.transparency").toggle() end,
     wk_desc = {
       enabled = "Disable ",
       disabled = "Enable ",

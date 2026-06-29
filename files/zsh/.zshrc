@@ -14,17 +14,12 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
     git
     docker
-    docker-compose
     kubectl
-    helm
     kube-ps1
     npm
     tmux
     golang
-    terraform
-    aws
     ansible
-    gcloud
     ollama
     # fzf-tab
 
