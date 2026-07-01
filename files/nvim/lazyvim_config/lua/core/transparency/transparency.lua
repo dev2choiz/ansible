@@ -14,7 +14,7 @@ function M.get_float_lvl()
   return state.get("float_lvl", 20)
 end
 
-M.highlights = require("core.transparency.highlights")
+M.highlights = require("core.transparency.highlights").transparent_highlights
 
 local function apply()
   for group, opts in pairs(M.highlights) do

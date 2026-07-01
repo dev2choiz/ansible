@@ -34,6 +34,9 @@ return {
       theme = "dragon",
       -- transparent = true,
       dimInactive = false,
+      overrides = function(colors)
+        return require("core.transparency.highlights").get_kanagawa(colors)
+      end,
     },
   },
   {
