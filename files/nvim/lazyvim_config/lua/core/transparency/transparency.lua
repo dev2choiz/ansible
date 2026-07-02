@@ -54,7 +54,7 @@ local function apply_theme()
     config.transparent = enabled
     config.styles = config.styles or {}
     config.styles.sidebars = enabled and "transparent" or "dark"
-    config.styles.float = enabled and "transparent" or "dark"
+    config.styles.floats = enabled and "transparent" or "dark"
 
     require("tokyonight").setup(config)
   elseif theme == "kanagawa" then

@@ -13,6 +13,11 @@ case "$theme" in
   tmux set -g @powerkit_custom_theme_path "$HOME/.config/tmux/themes/powerkit/catppuccin.sh"
   tmux set -g @powerkit_plugin_group_colors "session-copy-bg,statusbar-fg,error-base-darker"
   ;;
+"tokyonight")
+  tmux set -g @powerkit_theme "custom"
+  tmux set -g @powerkit_custom_theme_path "$HOME/.config/tmux/themes/powerkit/tokyonight.sh"
+  tmux set -g @powerkit_plugin_group_colors "session-copy-bg,statusbar-fg,error-base-darker"
+  ;;
 *)
   tmux set -g @powerkit_theme "custom"
   tmux set -g @powerkit_custom_theme_path "$HOME/.config/tmux/themes/powerkit/custom.sh"
