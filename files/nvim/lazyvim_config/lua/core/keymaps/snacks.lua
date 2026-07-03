@@ -54,6 +54,10 @@ M.keys = {
     desc = "Explorer Snacks (cwd dir)",
     mode = { "n", "x" },
   },
+  -- search
+  { "<leader>sb", function() Snacks.picker.buffers() end, desc = "Buffers", mode = { "n", "x" } },
+  { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks", mode = { "n", "x" } },
+  { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics", mode = { "n", "x" } },
 }
 
 if vim.fn.executable("lazydocker") == 1 then

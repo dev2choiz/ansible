@@ -1,6 +1,6 @@
 local common_exclude = { ".git", ".idea", ".vscode" }
 
-local grep_exclude = vim.list_extend(vim.deepcopy(common_exclude), { "node_modules", "dist", "build" })
+local all_exclude = vim.list_extend(vim.deepcopy(common_exclude), { "node_modules", "dist", "build" })
 
 local tmux = require("core.utils.tmux")
 
@@ -8,6 +8,7 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  ---@module 'snacks'
   ---@type snacks.Config
   opts = {
     explorer = {
@@ -18,11 +19,11 @@ return {
       ignored = true,
       exclude = common_exclude,
       sources = {
-        files = { hidden = true, ignored = true },
+        files = { hidden = true, ignored = true, exclude = all_exclude },
         grep = {
           hidden = true,
           ignored = true,
-          exclude = grep_exclude,
+          exclude = all_exclude,
         },
         explorer = {
           win = {
