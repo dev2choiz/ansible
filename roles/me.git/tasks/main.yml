@@ -9,7 +9,7 @@
   community.general.git_config:
     name: core.editor
     scope: global
-    value: vim
+    value: nvim
 
 - name: Git pull rebase
   community.general.git_config:
@@ -63,7 +63,7 @@
   changed_when: false
   failed_when: false
 
-- name: Resolve the latest lazygit tag github_asset_name
+- name: Resolve the latest git-lfs tag github_asset_name
   include_role:
     name: me.utils/github_release_resolver
   vars:
@@ -89,7 +89,7 @@
   args:
     chdir: /tmp/git-lfs/git-lfs-{{ github_latest_tag | regex_replace('^v', '') }}
 
-- name: delete /tmp/git-lfs
+- name: Delete /tmp/git-lfs
   file:
     path: /tmp/git-lfs
     state: absent

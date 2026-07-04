@@ -1,2 +1,2 @@
-aliases.sh
-exports.sh
+00-aliases.sh
+10-exports.sh
