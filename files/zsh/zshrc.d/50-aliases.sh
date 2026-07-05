@@ -1,5 +1,7 @@
 theme() {
-  local target="$DOTFILES_ZSHRC_D_DIR/misc/theme/$1.sh"
+  local theme="$1"
+
+  local target="$DOTFILES_ZSHRC_D_DIR/misc/theme/$theme.sh"
   local link="$DOTFILES_ZSHRC_D_DIR/early.d/05-current-theme.sh"
 
   if [[ ! -f "$target" ]]; then
@@ -8,7 +10,11 @@ theme() {
   fi
 
   ln -sf "$target" "$link"
-  echo "Theme enabled: $1"
+
+  # Kitty theme
+  ln -sf "$HOME/.config/kitty/custom-themes/${theme}.conf" "$HOME/.config/kitty/current-theme.conf"
+
+  echo "Theme enabled: $theme"
 }
 
 _theme() {

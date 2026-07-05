@@ -4,7 +4,7 @@ return {
     opts = {
       engines = {
         ripgrep = {
-          extraArgs = "--glob '!**/node_modules/**' --glob '!**/dist/**'",
+          extraArgs = " --glob=!**/.node_modules/*" .. " --glob=!**/dist/*",
         },
       },
     },

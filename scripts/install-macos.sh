@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 set -euo pipefail
 
@@ -11,8 +11,10 @@ LAZYVIM_REPO="https://github.com/LazyVim/starter.git"
 ANSIBLE_DIR="$HOME/System/ansible"
 NVIM_DIR="$HOME/.config/nvim"
 
+export DOTFILES_THEME="${DOTFILES_THEME:-gruvbox}"
 DOTFILES_P10K_PATH=$HOME/System/zsh/.p10k.zsh
 DOTFILES_ZSH_COMMON_DIR=$HOME/System/zsh/common
+export DOTFILES_ZSHRC_D_DIR=$DOTFILES_ZSH_COMMON_DIR/zshrc.d
 
 cd "$ANSIBLE_DIR"
 
@@ -43,6 +45,10 @@ git clone --depth=1 "$LAZYVIM_REPO" "$NVIM_DIR"
 
 echo "Installing LazyVim configuration..."
 cp -R "$ANSIBLE_DIR/files/nvim/lazyvim_config/." "$NVIM_DIR/"
+
+source "$DOTFILES_ZSHRC_D_DIR/50-aliases.sh"
+
+theme "$DOTFILES_THEME"
 
 echo
 echo "Done."
