@@ -1,6 +1,6 @@
 theme() {
-  local target="$ZSHRC_D_DIR/misc/theme/$1.sh"
-  local link="$ZSHRC_D_DIR/early.d/05-current-theme.sh"
+  local target="$DOTFILES_ZSHRC_D_DIR/misc/theme/$1.sh"
+  local link="$DOTFILES_ZSHRC_D_DIR/early.d/05-current-theme.sh"
 
   if [[ ! -f "$target" ]]; then
     echo "Theme not found: $target"
@@ -14,7 +14,7 @@ theme() {
 _theme() {
   local files themes
 
-  files=("$ZSHRC_D_DIR/misc/theme/"*.sh)
+  files=("$DOTFILES_ZSHRC_D_DIR/misc/theme/"*.sh)
 
   themes=(${files:t})
   themes=(${themes%.sh})

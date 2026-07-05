@@ -2,9 +2,17 @@
 
 set -euo pipefail
 
+if [[ "$(uname)" != "Darwin" ]]; then
+  echo "This script can only be run on macOS."
+  exit 1
+fi
+
 LAZYVIM_REPO="https://github.com/LazyVim/starter.git"
 ANSIBLE_DIR="$HOME/System/ansible"
 NVIM_DIR="$HOME/.config/nvim"
+
+DOTFILES_P10K_PATH=$HOME/System/zsh/.p10k.zsh
+DOTFILES_ZSH_COMMON_DIR=$HOME/System/zsh/common
 
 cd "$ANSIBLE_DIR"
 
@@ -20,12 +28,12 @@ cp -f ./files/tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
 
 echo "Installing Powerlevel10k configuration..."
 mkdir -p "$HOME/System/zsh"
-cp -f ./files/zsh/.p10k.zsh "$HOME/System/zsh/.p10k.zsh"
+cp -f ./files/zsh/.p10k.zsh "$DOTFILES_P10K_PATH"
 
-echo "Installing p10k overrides..."
-mkdir -p "$HOME/System/zsh/zshrc.d"
-cp -f ./files/zsh/zshrc.d/early.d/00-p10k-overrides.zsh \
-  "$HOME/System/zsh/zshrc.d/20-p10k-overrides.sh"
+echo "Installing zshrc.d ..."
+rm -rf "$DOTFILES_ZSH_COMMON_DIR"
+mkdir -p "$DOTFILES_ZSH_COMMON_DIR"
+cp -R ./files/zsh/zshrc.d "$DOTFILES_ZSH_COMMON_DIR/"
 
 echo "Removing existing Neovim configuration..."
 rm -rf "$NVIM_DIR"
