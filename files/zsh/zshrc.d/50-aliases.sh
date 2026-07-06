@@ -27,4 +27,6 @@ _theme() {
   compadd "${themes[@]}"
 }
 
-compdef _theme theme
+if whence -w compdef >/dev/null 2>&1; then
+  compdef _theme theme
+fi
