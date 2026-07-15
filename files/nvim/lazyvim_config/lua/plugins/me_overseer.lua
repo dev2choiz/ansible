@@ -7,6 +7,9 @@ return {
           min_height = { 12, 0.3 },
         },
       }))
+      require("overseer").add_template_hook({ name = ".*" }, function()
+        vim.cmd("OverseerOpen")
+      end)
     end,
   },
 }
