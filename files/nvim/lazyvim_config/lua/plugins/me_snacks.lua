@@ -1,3 +1,5 @@
+local constants = require("core.constants")
+
 local common_exclude = { ".git", ".idea", ".vscode" }
 
 local all_exclude = vim.list_extend(vim.deepcopy(common_exclude), { "node_modules", "dist", "build" })
@@ -11,6 +13,10 @@ return {
   ---@module 'snacks'
   ---@type snacks.Config
   opts = {
+    bigfile = {
+      notify = true,
+      size = 8 * constants.maxFileSize,
+    },
     explorer = {
       trash = true,
     },

@@ -1,3 +1,5 @@
+local constants = require("core.constants")
+
 -- This change (`https://github.com/LazyVim/LazyVim/commit/954d8746e5cf1266d93cf4210c00c1506f20423b`) fixes the Biome import issue,
 -- but Prettier and Biome formatters can still be active at the same time for the same buffer, which may lead to conflicts.
 -- For now, we keep this custom formatter setup.
@@ -16,7 +18,8 @@ return {
   {
     "stevearc/conform.nvim",
     opts = {
-      default_format_opts = { lsp_format = "fallback" },
+      log_level = vim.log.levels.DEBUG,
+      default_format_opts = { timeout_ms = 60000, lsp_format = "fallback" },
       formatters_by_ft = {
         lua = { "stylua" },
         go = { "golangci-lint" },
@@ -29,6 +32,14 @@ return {
         jsonc = js_formatter,
         python = { "ruff_format" },
         sh = { "shfmt" },
+      },
+      formatters = {
+        ["biome-check"] = {
+          append_args = {
+            "--files-max-size=" .. constants.maxFileSize,
+          },
+          env = {},
+        },
       },
     },
   },
