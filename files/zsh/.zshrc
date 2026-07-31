@@ -47,6 +47,7 @@ command -v fzf >/dev/null && source <(fzf --zsh)
 #export TERM=xterm-256color
 
 ############ PATH ##################
+export PATH="/opt/google-cloud-sdk/bin:$PATH"
 ## GOLANG
 export GOPATH="$HOME/go"
 export GOROOT='/usr/local/go'
