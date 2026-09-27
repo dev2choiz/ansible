@@ -1,5 +1,5 @@
 ansible_become_password: "secret"                          # Optional: sudo password. If not provided, Ansible will prompt interactively when needed.
-var_golang_version: "1.26.5"                               # Optional: Go version to install. Defaults to the latest if omitted.
+var_golang_version: "1.27.1"                               # Optional: Go version to install. Defaults to the latest if omitted.
 var_golang_gopath: '{{ ansible_facts['env']['HOME'] }}/go' # Optional: GOPATH. Default is '{{ ansible_facts['env']['HOME'] }}/go'.
 var_nodejs_version: '25'                                   # Optional: Node.js version to install. Defaults to the latest if omitted.
 
