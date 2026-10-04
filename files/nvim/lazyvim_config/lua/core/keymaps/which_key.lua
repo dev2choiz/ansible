@@ -84,5 +84,16 @@ return {
 
     -- minimap
     { "<leader>um", "<cmd>Neominimap Toggle<cr>", desc = "Toggle minimap" },
+
+    -- multicursor
+    {
+      "<leader>mc",
+      function()
+        local mc = vim.api.nvim_create_namespace("nvim.multicursor")
+        vim.api.nvim_buf_clear_namespace(0, mc, 0, -1)
+      end,
+      mode = { "n" },
+      desc = "Clear multicursors",
+    },
   },
 }

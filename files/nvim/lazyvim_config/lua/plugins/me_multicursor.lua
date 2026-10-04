@@ -1,3 +1,8 @@
+-- Disable multicursor plugins
+if true then
+  return {}
+end
+
 local state = require("core.multicursor.state")
 
 local multicursor = {
