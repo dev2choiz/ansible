@@ -87,7 +87,7 @@ return {
 
     -- multicursor
     {
-      "<leader>mc",
+      "<M-l>",
       function()
         local mc = vim.api.nvim_create_namespace("nvim.multicursor")
         vim.api.nvim_buf_clear_namespace(0, mc, 0, -1)

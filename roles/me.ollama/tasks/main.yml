@@ -9,6 +9,14 @@
     check_binary: ollama
     target_roles: [ollama]
 
+- name: Install Ollama dependencies
+  become: true
+  ansible.builtin.apt:
+    name:
+      - zstd
+    state: present
+    update_cache: true
+
 - name: Install ollama
   when: need_install
   become: true
